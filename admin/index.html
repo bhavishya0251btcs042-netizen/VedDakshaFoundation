@@ -185,6 +185,8 @@
     <div class="sb-item" onclick="showPage('donations')"><i class="ti ti-coin"></i><span><span class="lang-en">Donations</span><span class="lang-hi">दान</span></span></div>
     <div class="sb-section"><span class="lang-en">Communication</span><span class="lang-hi">संचार</span></div>
     <div class="sb-item" onclick="showPage('messages')"><i class="ti ti-message"></i><span><span class="lang-en">Messages</span><span class="lang-hi">संदेश</span> <span id="unread-badge" style="background:var(--red);color:#fff;font-size:10px;font-weight:600;padding:2px 6px;border-radius:10px;display:none">0</span></span></div>
+    <div class="sb-section"><span class="lang-en">People</span><span class="lang-hi">लोग</span></div>
+    <div class="sb-item" onclick="showPage('volunteers')"><i class="ti ti-users"></i><span><span class="lang-en">Volunteers</span><span class="lang-hi">स्वयंसेवक</span></span></div>
     <div class="sb-section"><span class="lang-en">Settings</span><span class="lang-hi">सेटिंग</span></div>
     <div class="sb-item" onclick="showPage('settings')"><i class="ti ti-settings"></i><span><span class="lang-en">Settings</span><span class="lang-hi">सेटिंग</span></span></div>
     <div style="height:2rem"></div>
@@ -357,6 +359,76 @@
       </div>
     </div>
 
+    <!-- VOLUNTEERS -->
+    <div id="page-volunteers" class="page" style="display:none">
+      <div class="topbar">
+        <div class="page-title"><span class="lang-en">Volunteers</span><span class="lang-hi">स्वयंसेवक</span></div>
+      </div>
+      <div class="tab-bar" id="vol-tab-bar">
+        <button class="tab on" onclick="switchVolTab('applications',this)"><i class="ti ti-list"></i> <span class="lang-en">Applications</span><span class="lang-hi">आवेदन</span></button>
+        <button class="tab" onclick="switchVolTab('form-settings',this)"><i class="ti ti-settings-2"></i> <span class="lang-en">Form Settings</span><span class="lang-hi">फ़ॉर्म सेटिंग</span></button>
+      </div>
+
+      <!-- Applications sub-view -->
+      <div id="vol-applications">
+        <div class="panel">
+          <div class="panel-head">
+            <h3><span class="lang-en">Volunteer Applications</span><span class="lang-hi">स्वयंसेवक आवेदन</span></h3>
+            <button class="btn-sm btn-ghost" onclick="loadVolunteers()"><i class="ti ti-refresh"></i> <span class="lang-en">Refresh</span><span class="lang-hi">नवीनीकरण</span></button>
+          </div>
+          <table>
+            <thead><tr>
+              <th><span class="lang-en">Name</span><span class="lang-hi">नाम</span></th>
+              <th><span class="lang-en">Contact</span><span class="lang-hi">संपर्क</span></th>
+              <th><span class="lang-en">Field of Interest</span><span class="lang-hi">रुचि क्षेत्र</span></th>
+              <th><span class="lang-en">Date</span><span class="lang-hi">तारीख</span></th>
+              <th><span class="lang-en">Status</span><span class="lang-hi">स्थिति</span></th>
+              <th><span class="lang-en">Actions</span><span class="lang-hi">क्रियाएं</span></th>
+            </tr></thead>
+            <tbody id="vol-table"><tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)"><span class="lang-en">Loading...</span><span class="lang-hi">लोड हो रहा है...</span></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Form Settings sub-view -->
+      <div id="vol-form-settings" style="display:none">
+        <div class="panel">
+          <div class="panel-head">
+            <h3><span class="lang-en">Volunteer Form Builder</span><span class="lang-hi">फ़ॉर्म बिल्डर</span></h3>
+            <button class="btn-sm btn-green" onclick="saveVolConfig()"><i class="ti ti-device-floppy"></i> <span class="lang-en">Save Settings</span><span class="lang-hi">सेटिंग सहेजें</span></button>
+          </div>
+          <div id="vol-config-alert" class="alert" style="margin:1rem 1.2rem 0"></div>
+          <div id="vol-config-fields" style="padding:1.2rem"><!-- rendered by JS --></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EMAIL MODAL (Volunteer) -->
+    <div id="vol-email-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(4px)">
+      <div style="background:var(--card);border-radius:14px;width:100%;max-width:500px;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 20px 14px;border-bottom:1px solid var(--bd)">
+          <h3 style="font-size:15px;font-weight:600;color:var(--dark)"><i class="ti ti-mail" style="color:var(--g)"></i> <span class="lang-en">Send Email to Volunteer</span><span class="lang-hi">स्वयंसेवक को ईमेल भेजें</span></h3>
+          <button onclick="closeVolEmail()" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--mid)">×</button>
+        </div>
+        <div style="padding:18px 20px 20px">
+          <div id="vol-email-alert" class="alert" style="margin-bottom:1rem"></div>
+          <p style="font-size:12px;color:var(--mid);margin-bottom:12px"><span class="lang-en">To:</span><span class="lang-hi">प्रापकर्ता:</span> <strong id="vol-email-to" style="color:var(--dark)"></strong></p>
+          <div class="form-g" style="margin-bottom:12px">
+            <label><span class="lang-en">Subject</span><span class="lang-hi">विषय</span></label>
+            <input type="text" id="vol-email-subject" placeholder="e.g. Volunteer Application Update" />
+          </div>
+          <div class="form-g" style="margin-bottom:14px">
+            <label><span class="lang-en">Message</span><span class="lang-hi">संदेश</span></label>
+            <textarea id="vol-email-body" rows="6" placeholder="Write your message here..."></textarea>
+          </div>
+          <div style="display:flex;gap:.6rem;justify-content:flex-end">
+            <button class="btn-sm btn-ghost" onclick="closeVolEmail()"><span class="lang-en">Cancel</span><span class="lang-hi">रद्द करें</span></button>
+            <button class="btn-sm btn-green" id="vol-email-send-btn" onclick="sendVolEmail()"><i class="ti ti-send"></i> <span class="lang-en">Send Email</span><span class="lang-hi">ईमेल भेजें</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- SETTINGS -->
     <div id="page-settings" class="page" style="display:none">
       <div class="topbar"><div class="page-title"><span class="lang-en">Settings</span><span class="lang-hi">सेटिंग</span></div></div>
@@ -451,7 +523,7 @@ function showPage(id){
   document.getElementById('page-'+id).style.display='block';
   document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
   document.querySelector(`[onclick="showPage('${id}')"]`)?.classList.add('active');
-  ({events:loadEvents,donations:loadDonations,messages:loadMessages,gallery:loadGallery,blog:loadBlog})[id]?.();
+  ({events:loadEvents,donations:loadDonations,messages:loadMessages,gallery:loadGallery,blog:loadBlog,volunteers:loadVolunteers})[id]?.();
 }
 
 // ── DASHBOARD ──
@@ -630,6 +702,198 @@ async function changePwd(){
   al.className=r.ok?'alert alert-g':'alert alert-r';
   al.textContent=r.ok?'✅ Password changed!':d.detail||d.error||'Error';
   al.style.display='block';
+}
+</script>
+
+<!-- ─── VOLUNTEER ADMIN JS ─── -->
+<script>
+// ── VOLUNTEER STATE ──
+let volApps = [];
+let volConfig = [];
+let currentVolEmailId = null;
+
+// ── TAB SWITCHING ──
+function switchVolTab(tabId, btn) {
+  document.getElementById('vol-applications').style.display = tabId === 'applications' ? 'block' : 'none';
+  document.getElementById('vol-form-settings').style.display = tabId === 'form-settings' ? 'block' : 'none';
+  document.querySelectorAll('#vol-tab-bar .tab').forEach(t => t.classList.remove('on'));
+  btn.classList.add('on');
+  if (tabId === 'form-settings' && volConfig.length === 0) loadVolConfig();
+}
+
+// ── LOAD APPLICATIONS ──
+async function loadVolunteers() {
+  const tbody = document.getElementById('vol-table');
+  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)">Loading...</td></tr>';
+  try {
+    const r = await fetch(`${API}/volunteer/applications`, { headers: authH() });
+    if (!r.ok) throw new Error('Failed to fetch');
+    volApps = await r.json();
+    renderVolTable();
+  } catch (e) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--red)">❌ Error loading applications</td></tr>';
+  }
+}
+
+function renderVolTable() {
+  const tbody = document.getElementById('vol-table');
+  if (!volApps.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)">No applications yet</td></tr>';
+    return;
+  }
+  const statusColors = { pending: 's-p', contacted: 's-c', approved: 's-c', rejected: 's-f' };
+  tbody.innerHTML = volApps.map(app => {
+    const date = app.createdAt ? new Date(app.createdAt).toLocaleDateString('en-IN') : '—';
+    const resumeBtn = app.resumeUrl
+      ? `<a href="${API.replace('/api','')}${app.resumeUrl}" target="_blank" class="btn-sm btn-ghost" title="Download Resume"><i class="ti ti-download"></i></a>`
+      : '';
+    const statusBadge = `<span class="status ${statusColors[app.status] || 's-p'}">${app.status || 'pending'}</span>`;
+    const statusSelect = `<select style="font-size:11px;border:1px solid var(--bd);border-radius:6px;padding:3px 6px;background:var(--input-bg);color:var(--dark);cursor:pointer" onchange="updateVolStatus('${app._id}',this.value)">
+      <option value="pending" ${app.status==='pending'?'selected':''}>Pending</option>
+      <option value="contacted" ${app.status==='contacted'?'selected':''}>Contacted</option>
+      <option value="approved" ${app.status==='approved'?'selected':''}>Approved</option>
+      <option value="rejected" ${app.status==='rejected'?'selected':''}>Rejected</option>
+    </select>`;
+    return `<tr>
+      <td><strong style="color:var(--dark)">${app.name || '—'}</strong><br><span style="font-size:11px;color:var(--mid)">${app.occupation || ''}</span></td>
+      <td><div style="font-size:12px">${app.email || '—'}</div><div style="font-size:11px;color:var(--mid)">${app.phone || '—'}</div></td>
+      <td style="font-size:12px">${app.field_of_interest || '—'}</td>
+      <td style="font-size:12px">${date}</td>
+      <td>${statusSelect}</td>
+      <td style="white-space:nowrap">
+        ${resumeBtn}
+        <button class="btn-sm btn-green" onclick="openVolEmail('${app._id}')" title="Send Email" style="margin-left:4px"><i class="ti ti-mail"></i></button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+async function updateVolStatus(id, status) {
+  try {
+    await fetch(`${API}/volunteer/applications/${id}/status?status=${status}`, { method: 'PATCH', headers: authH() });
+  } catch (e) {}
+}
+
+// ── EMAIL MODAL ──
+function openVolEmail(id) {
+  currentVolEmailId = id;
+  const app = volApps.find(a => a._id === id);
+  document.getElementById('vol-email-to').textContent = app ? app.email : '';
+  document.getElementById('vol-email-subject').value = 'Regarding Your Volunteer Application — Ved Daksha Foundation';
+  document.getElementById('vol-email-body').value = app
+    ? `Dear ${app.name || 'Applicant'},\n\nThank you for your interest in volunteering with Ved Daksha Foundation.\n\nWe have reviewed your application and would like to connect with you.\n\nPlease reach out at your earliest convenience.\n\nWarm regards,\nVed Daksha Foundation Team`
+    : '';
+  const al = document.getElementById('vol-email-alert');
+  al.style.display = 'none';
+  const modal = document.getElementById('vol-email-modal');
+  modal.style.display = 'flex';
+}
+function closeVolEmail() {
+  document.getElementById('vol-email-modal').style.display = 'none';
+  currentVolEmailId = null;
+}
+async function sendVolEmail() {
+  if (!currentVolEmailId) return;
+  const btn = document.getElementById('vol-email-send-btn');
+  const al = document.getElementById('vol-email-alert');
+  const subject = document.getElementById('vol-email-subject').value.trim();
+  const body = document.getElementById('vol-email-body').value.trim();
+  if (!subject || !body) { al.className='alert alert-r'; al.textContent='Subject and message are required.'; al.style.display='block'; return; }
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  try {
+    const r = await fetch(`${API}/volunteer/applications/${currentVolEmailId}/email`, {
+      method: 'POST', headers: authH(),
+      body: JSON.stringify({ subject, body })
+    });
+    const d = await r.json();
+    al.className = r.ok ? 'alert alert-g' : 'alert alert-r';
+    al.textContent = r.ok ? '✅ ' + (d.message || 'Email sent!') : '❌ ' + (d.detail || 'Failed to send email.');
+    al.style.display = 'block';
+    if (r.ok) setTimeout(closeVolEmail, 2500);
+  } catch (e) {
+    al.className = 'alert alert-r'; al.textContent = '❌ Network error.'; al.style.display = 'block';
+  }
+  btn.disabled = false;
+  btn.innerHTML = '<i class="ti ti-send"></i> Send Email';
+}
+
+// ── FORM CONFIG / BUILDER ──
+async function loadVolConfig() {
+  const wrap = document.getElementById('vol-config-fields');
+  wrap.innerHTML = '<p style="color:var(--mid);font-size:13px">Loading form configuration...</p>';
+  try {
+    const r = await fetch(`${API}/volunteer/config`, { headers: authH() });
+    const d = await r.json();
+    volConfig = d.fields || [];
+    renderVolConfig();
+  } catch (e) {
+    wrap.innerHTML = '<p style="color:var(--red);font-size:13px">Failed to load config.</p>';
+  }
+}
+
+function renderVolConfig() {
+  const wrap = document.getElementById('vol-config-fields');
+  wrap.innerHTML = `
+    <p style="font-size:12px;color:var(--mid);margin-bottom:1.2rem">Toggle fields on/off, mark them required, and edit labels. Click <strong>Save Settings</strong> when done.</p>
+    <div style="display:flex;flex-direction:column;gap:.8rem" id="vol-config-list">
+      ${volConfig.map((f, i) => `
+        <div style="background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:14px 16px" data-idx="${i}">
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <div style="display:flex;align-items:center;gap:6px;min-width:120px">
+              <label style="position:relative;display:inline-block;width:38px;height:20px">
+                <input type="checkbox" ${f.enabled ? 'checked' : ''} onchange="volConfigChange(${i},'enabled',this.checked)" style="opacity:0;width:0;height:0">
+                <span style="position:absolute;cursor:pointer;inset:0;background:${f.enabled ? 'var(--g)' : 'var(--bd)'};border-radius:20px;transition:.2s;"></span>
+                <span style="position:absolute;content:'';height:14px;width:14px;left:${f.enabled ? '21px' : '3px'};bottom:3px;background:#fff;border-radius:50%;transition:.2s;"></span>
+              </label>
+              <span style="font-size:12px;color:${f.enabled ? 'var(--dark)' : 'var(--mid)'}">Enabled</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <input type="checkbox" id="req-${i}" ${f.required ? 'checked' : ''} onchange="volConfigChange(${i},'required',this.checked)">
+              <label for="req-${i}" style="font-size:12px;color:var(--mid)">Required</label>
+            </div>
+            <span style="background:var(--gl);color:var(--g);font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;text-transform:uppercase">${f.type}</span>
+            <span style="font-size:10px;color:var(--mid);margin-left:auto">ID: ${f.id}</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.8rem">
+            <div>
+              <label style="font-size:11px;color:var(--mid);display:block;margin-bottom:3px">Label (English)</label>
+              <input type="text" value="${f.label}" oninput="volConfigChange(${i},'label',this.value)" style="width:100%;border:1px solid var(--bd);border-radius:6px;padding:7px 10px;font-size:13px;background:var(--input-bg);color:var(--dark);outline:none">
+            </div>
+            <div>
+              <label style="font-size:11px;color:var(--mid);display:block;margin-bottom:3px">Label (Hindi)</label>
+              <input type="text" value="${f.labelHindi || ''}" oninput="volConfigChange(${i},'labelHindi',this.value)" style="width:100%;border:1px solid var(--bd);border-radius:6px;padding:7px 10px;font-size:13px;background:var(--input-bg);color:var(--dark);outline:none;font-family:'Noto Sans Devanagari',sans-serif">
+            </div>
+          </div>
+          ${f.type === 'select' ? `
+            <div style="margin-top:.8rem">
+              <label style="font-size:11px;color:var(--mid);display:block;margin-bottom:4px">Options (one per line)</label>
+              <textarea oninput="volConfigChange(${i},'options',this.value.split('\\n').filter(o=>o.trim()))" rows="4" style="width:100%;border:1px solid var(--bd);border-radius:6px;padding:7px 10px;font-size:12px;background:var(--input-bg);color:var(--dark);outline:none;resize:vertical">${(f.options || []).join('\n')}</textarea>
+            </div>` : ''}
+        </div>
+      `).join('')}
+    </div>`;
+}
+
+function volConfigChange(idx, key, value) {
+  volConfig[idx][key] = value;
+}
+
+async function saveVolConfig() {
+  const al = document.getElementById('vol-config-alert');
+  try {
+    const r = await fetch(`${API}/volunteer/config`, {
+      method: 'PUT', headers: authH(),
+      body: JSON.stringify({ fields: volConfig })
+    });
+    const d = await r.json();
+    al.className = r.ok ? 'alert alert-g' : 'alert alert-r';
+    al.textContent = r.ok ? '✅ ' + (d.message || 'Settings saved!') : '❌ ' + (d.detail || 'Save failed.');
+    al.style.display = 'block';
+    setTimeout(() => { al.style.display = 'none'; }, 3000);
+  } catch (e) {
+    al.className = 'alert alert-r'; al.textContent = '❌ Network error.'; al.style.display = 'block';
+  }
 }
 </script>
 </body>

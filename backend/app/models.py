@@ -63,3 +63,20 @@ class RazorpayPaymentVerify(BaseModel):
     email: Optional[str] = None
     amount: float
     purpose: Optional[str] = None
+
+# ── VOLUNTEER SCHEMAS ──
+class VolunteerField(BaseModel):
+    id: str
+    label: str
+    labelHindi: str
+    type: str
+    required: bool = False
+    enabled: bool = True
+    options: Optional[List[str]] = None
+
+class VolunteerConfigUpdate(BaseModel):
+    fields: List[VolunteerField]
+
+class VolunteerEmailSend(BaseModel):
+    subject: str
+    body: str

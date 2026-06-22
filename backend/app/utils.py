@@ -57,6 +57,24 @@ def send_confirmation_email(to_email: str, name: str, amount: float, donation_id
     except Exception as e:
         print(f"Error sending email: {e}")
 
+def send_custom_email(to_email: str, subject: str, body_html: str):
+    if not to_email or Config.EMAIL_PASS == 'your_gmail_app_password_here' or not Config.EMAIL_USER or not Config.EMAIL_PASS:
+        raise ValueError("SMTP email credentials are not fully configured in backend/.env")
+    try:
+        msg = MIMEMultipart("alternative")
+        msg["Subject"] = subject
+        msg["From"] = f'"Ved Daksha Foundation" <{Config.EMAIL_USER}>'
+        msg["To"] = to_email
+        msg.attach(MIMEText(body_html, "html"))
+        with smtplib.SMTP("smtp.gmail.com", 587) as server:
+            server.starttls()
+            server.login(Config.EMAIL_USER, Config.EMAIL_PASS)
+            server.sendmail(Config.EMAIL_USER, to_email, msg.as_string())
+        print(f"Custom email sent to {to_email}")
+    except Exception as e:
+        print(f"Error sending custom email: {e}")
+        raise e
+
 def serialize_doc(doc):
     if doc is None:
         return None

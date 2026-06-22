@@ -306,6 +306,32 @@
       .nav-links{display:none}.ham{display:block}
       .press-grid{grid-template-columns:1fr}
     }
+    /* ── VOLUNTEER MODAL ── */
+    .vol-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1000;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(4px)}
+    .vol-overlay.open{display:flex}
+    .vol-box{background:var(--card);border-radius:var(--rl);width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.25);animation:volIn .3s cubic-bezier(.34,1.56,.64,1)}
+    @keyframes volIn{from{opacity:0;transform:scale(.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+    .vol-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 16px;border-bottom:1px solid var(--bd);position:sticky;top:0;background:var(--card);z-index:2}
+    .vol-head h3{font-size:17px;font-weight:600;color:var(--dark)}
+    .vol-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--mid);line-height:1;padding:0 4px;transition:color .2s}
+    .vol-close:hover{color:var(--dark)}
+    .vol-body{padding:20px 24px 24px}
+    .vf-row{display:flex;flex-direction:column;gap:.3rem;margin-bottom:14px}
+    .vf-row label{font-size:12px;font-weight:500;color:var(--mid)}
+    .vf-row input,.vf-row select,.vf-row textarea{border:1px solid var(--bd);border-radius:8px;padding:10px 14px;font-size:14px;font-family:inherit;outline:none;background:var(--bg);color:var(--dark);transition:border-color .2s;width:100%}
+    .vf-row input:focus,.vf-row select:focus,.vf-row textarea:focus{border-color:var(--o)}
+    .vf-row textarea{resize:vertical;min-height:80px}
+    .vf-resume{border:2px dashed var(--bd);border-radius:8px;padding:16px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg)}
+    .vf-resume:hover{border-color:var(--o);background:var(--ol)}
+    .vf-resume i{font-size:28px;color:var(--mid);display:block;margin-bottom:4px}
+    .vf-resume-name{font-size:12px;color:var(--o);margin-top:4px;font-weight:500}
+    .vol-submit{width:100%;background:var(--o);color:#fff;border:none;border-radius:8px;padding:13px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:8px}
+    .vol-submit:hover{background:#c96b20;transform:translateY(-1px)}
+    .vol-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
+    .vol-msg{padding:10px 14px;border-radius:8px;font-size:13px;margin-top:10px;display:none}
+    .vol-msg.ok{background:var(--gl);color:var(--g)}
+    .vol-msg.err{background:#fee2e2;color:#dc2626}
+
     @media(max-width:560px){
       section{padding:56px 5vw}
       .grid3,.inv-grid,.tiers{grid-template-columns:1fr}
@@ -604,7 +630,7 @@
   </div>
   <div class="inv-grid fu">
     <div class="inv-card"><div class="inv-icon" style="color:var(--g)"><i class="ti ti-coin"></i></div><h3><span class="lang-en">Donate</span><span class="lang-hi">दान करें</span></h3><p><span class="lang-en">Fund stationery, school bags, yoga gear, or health camp supplies. Every rupee goes directly to the children.</span><span class="lang-hi">स्टेशनरी, स्कूल बैग, योग उपकरण या स्वास्थ्य शिविर की आपूर्ति के लिए धन दें।</span></p><a class="inv-link" href="#donate"><span class="lang-en">Donate now</span><span class="lang-hi">अभी दान करें</span> <i class="ti ti-arrow-right"></i></a></div>
-    <div class="inv-card"><div class="inv-icon" style="color:var(--o)"><i class="ti ti-hand-stop"></i></div><h3><span class="lang-en">Volunteer</span><span class="lang-hi">स्वयंसेवक बनें</span></h3><p><span class="lang-en">Teach a skill, run a workshop, assist at events, or mentor a child. Doctors, teachers, artists — all welcome.</span><span class="lang-hi">कोई कौशल सिखाएं, कार्यशाला चलाएं, कार्यक्रमों में सहायता करें या बच्चे को मार्गदर्शन दें।</span></p><a class="inv-link" href="#contact" style="color:var(--o)"><span class="lang-en">Get in touch</span><span class="lang-hi">संपर्क करें</span> <i class="ti ti-arrow-right"></i></a></div>
+    <div class="inv-card"><div class="inv-icon" style="color:var(--o)"><i class="ti ti-hand-stop"></i></div><h3><span class="lang-en">Volunteer</span><span class="lang-hi">स्वयंसेवक बनें</span></h3><p><span class="lang-en">Teach a skill, run a workshop, assist at events, or mentor a child. Doctors, teachers, artists — all welcome.</span><span class="lang-hi">कोई कौशल सिखाएं, कार्यशाला चलाएं, कार्यक्रमों में सहायता करें या बच्चे को मार्गदर्शन दें।</span></p><a class="inv-link" href="#" onclick="openVolunteerModal(event)" style="color:var(--o)"><span class="lang-en">Get in touch</span><span class="lang-hi">संपर्क करें</span> <i class="ti ti-arrow-right"></i></a></div>
     <div class="inv-card"><div class="inv-icon" style="color:#2563EB"><i class="ti ti-building"></i></div><h3><span class="lang-en">CSR / Partnership</span><span class="lang-hi">CSR / साझेदारी</span></h3><p><span class="lang-en">Partner for CSR initiatives, in-kind donations, or sponsored programs.</span><span class="lang-hi">CSR पहल, वस्तु दान या प्रायोजित कार्यक्रमों के लिए साझेदार बनें।</span></p><a class="inv-link" href="mailto:veddakshafoundation22@gmail.com" style="color:#2563EB"><span class="lang-en">Email us</span><span class="lang-hi">ईमेल करें</span> <i class="ti ti-arrow-right"></i></a></div>
   </div>
 </section>
@@ -740,6 +766,37 @@
   </div>
 </footer>
 
+<!-- ── VOLUNTEER MODAL ── -->
+<div id="vol-overlay" class="vol-overlay" onclick="if(event.target===this)closeVolunteerModal()">
+  <div class="vol-box">
+    <div class="vol-head">
+      <h3><i class="ti ti-hand-stop" style="color:var(--o);margin-right:8px"></i><span class="lang-en">Volunteer Application</span><span class="lang-hi">स्वयंसेवक आवेदन</span></h3>
+      <button class="vol-close" onclick="closeVolunteerModal()">&#x2715;</button>
+    </div>
+    <div class="vol-body">
+      <p style="font-size:13px;color:var(--mid);margin-bottom:16px"><span class="lang-en">Fill in the form below and we'll get back to you within 48 hours. Fields marked * are required.</span><span class="lang-hi">नीचे फ़ॉर्म भरें और हम 48 घंटों के भीतर आपसे संपर्क करेंगे। * से चिह्नित फ़ील्ड आवश्यक हैं।</span></p>
+      <form id="vol-form" onsubmit="event.preventDefault();submitVolunteer()">
+        <div id="vol-fields"><!-- Dynamic fields rendered by JS --></div>
+        <!-- Resume Upload -->
+        <div class="vf-row">
+          <label><span class="lang-en">Upload Resume / CV</span><span class="lang-hi">बायोडाटा / CV अपलोड करें</span></label>
+          <div class="vf-resume" onclick="document.getElementById('vol-resume-file').click()">
+            <i class="ti ti-file-cv"></i>
+            <span style="font-size:13px;color:var(--mid)"><span class="lang-en">Click to upload PDF or DOCX (max 5 MB)</span><span class="lang-hi">PDF या DOCX अपलोड करें (अधिकतम 5 MB)</span></span>
+            <div id="vol-resume-name" class="vf-resume-name"></div>
+          </div>
+          <input type="file" id="vol-resume-file" accept=".pdf,.doc,.docx" style="display:none" onchange="document.getElementById('vol-resume-name').textContent=this.files[0]?.name||''">
+        </div>
+        <div id="vol-msg" class="vol-msg"></div>
+        <button type="submit" id="vol-btn" class="vol-submit">
+          <i class="ti ti-send"></i>
+          <span class="lang-en">Submit Application</span><span class="lang-hi">आवेदन जमा करें</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
 <a id="wa" href="https://wa.me/918700785399?text=Hi%2C%20I%20want%20to%20know%20more%20about%20Ved%20Daksha%20Foundation" target="_blank"><i class="ti ti-brand-whatsapp"></i></a>
 
 <script>
@@ -865,6 +922,95 @@ fetch(`${API}/events?upcoming=true&limit=3`)
 // Initialize QR
 document.getElementById('da')?.addEventListener('input', updateQR);
 updateQR();
+
+// ── VOLUNTEER MODAL ──
+let volunteerFields = [];
+
+async function openVolunteerModal(e){
+  if(e) e.preventDefault();
+  document.getElementById('vol-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if(!volunteerFields.length) await loadVolConfig();
+  renderVolForm();
+}
+function closeVolunteerModal(){
+  document.getElementById('vol-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  document.getElementById('vol-form').reset();
+  document.getElementById('vol-resume-name').textContent = '';
+  const msg = document.getElementById('vol-msg');
+  msg.style.display = 'none';
+  msg.className = 'vol-msg';
+}
+async function loadVolConfig(){
+  try{
+    const r = await fetch(`${API}/volunteer/config`);
+    if(r.ok){
+      const d = await r.json();
+      volunteerFields = (d.fields||[]).filter(f=>f.enabled);
+    }
+  }catch(err){
+    // Fallback to default fields
+    volunteerFields = [
+      {id:'name',label:'Full Name',labelHindi:'पूरा नाम',type:'text',required:true},
+      {id:'email',label:'Email Address',labelHindi:'ईमेल',type:'email',required:true},
+      {id:'phone',label:'Phone Number',labelHindi:'फ़ोन नंबर',type:'tel',required:true},
+      {id:'occupation',label:'Occupation',labelHindi:'पेशा',type:'text',required:false},
+      {id:'organization',label:'School / College / Organization',labelHindi:'संस्था',type:'text',required:false},
+      {id:'field_of_interest',label:'Field of Interest',labelHindi:'रुचि का क्षेत्र',type:'select',required:true,options:['Education / शिक्षा','Yoga & Self-Defence / योग और आत्म-रक्षा','Art & Music / कला और संगीत','Health Camps / स्वास्थ्य शिविर','Management / प्रबंधन']},
+      {id:'message',label:'Why do you want to volunteer?',labelHindi:'आप स्वयंसेवक क्यों बनना चाहते हैं?',type:'textarea',required:false}
+    ];
+  }
+}
+function renderVolForm(){
+  const lang = document.documentElement.getAttribute('data-lang')||'en';
+  const wrap = document.getElementById('vol-fields');
+  wrap.innerHTML = volunteerFields.map(f=>{
+    const lbl = lang==='hi' && f.labelHindi ? f.labelHindi : f.label;
+    const req = f.required ? ' *' : '';
+    if(f.type==='select'){
+      const opts = (f.options||[]).map(o=>`<option value="${o}">${o}</option>`).join('');
+      return `<div class="vf-row"><label>${lbl}${req}</label><select name="${f.id}" ${f.required?'required':''}><option value="">— Select / चुनें —</option>${opts}</select></div>`;
+    }
+    if(f.type==='textarea'){
+      return `<div class="vf-row"><label>${lbl}${req}</label><textarea name="${f.id}" rows="3" ${f.required?'required':''}></textarea></div>`;
+    }
+    return `<div class="vf-row"><label>${lbl}${req}</label><input type="${f.type}" name="${f.id}" ${f.required?'required':''}></div>`;
+  }).join('');
+}
+async function submitVolunteer(){
+  const btn = document.getElementById('vol-btn');
+  const msg = document.getElementById('vol-msg');
+  const form = document.getElementById('vol-form');
+  if(!form.checkValidity()){form.reportValidity();return;}
+  btn.disabled = true;
+  btn.innerHTML = '<i class="ti ti-loader-2" style="animation:spin 1s linear infinite"></i> <span class="lang-en">Submitting...</span><span class="lang-hi">सबमिट हो रहा है...</span>';
+  try{
+    const fd = new FormData(form);
+    const resumeFile = document.getElementById('vol-resume-file').files[0];
+    if(resumeFile) fd.append('resume', resumeFile);
+    const r = await fetch(`${API}/volunteer/apply`,{method:'POST',body:fd});
+    const d = await r.json();
+    if(r.ok){
+      msg.className='vol-msg ok';
+      msg.innerHTML='✅ '+(d.message||'Application submitted successfully!');
+      msg.style.display='block';
+      form.reset();
+      document.getElementById('vol-resume-name').textContent='';
+      setTimeout(closeVolunteerModal, 3000);
+    } else {
+      msg.className='vol-msg err';
+      msg.innerHTML='❌ '+(d.detail||'Submission failed. Please try again.');
+      msg.style.display='block';
+    }
+  }catch(err){
+    msg.className='vol-msg err';
+    msg.innerHTML='❌ Network error. Please check your connection.';
+    msg.style.display='block';
+  }
+  btn.disabled = false;
+  btn.innerHTML='<i class="ti ti-send"></i> <span class="lang-en">Submit Application</span><span class="lang-hi">आवेदन जमा करें</span>';
+}
 </script>
 </body>
 </html>
