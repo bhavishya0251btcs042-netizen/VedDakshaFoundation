@@ -41,19 +41,55 @@
     ul{list-style:none}
 
     /* ── THEME/LANG TOGGLE CONTROLS ── */
-    .ctrl-bar {
-      position:fixed;top:16px;right:calc(5vw + 130px);z-index:200;
-      display:flex;align-items:center;gap:8px;
+    .nav-ctrls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: auto;
+    }
+    @media(min-width: 901px) {
+      .nav-links {
+        margin-left: auto;
+      }
+      .nav-ctrls {
+        margin-left: 0;
+      }
     }
     .ctrl-btn {
-      background:var(--card);border:1px solid var(--bd);border-radius:20px;
-      padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;
-      color:var(--dark);transition:all .2s;display:flex;align-items:center;gap:5px;
-      font-family:inherit;
+      background: var(--card);
+      border: 1px solid var(--bd);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--dark);
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: inherit;
+      height: 35px;
     }
-    .ctrl-btn:hover{background:var(--g);color:#fff;border-color:var(--g)}
-    .ctrl-btn i{font-size:14px}
-    .lang-toggle-active{background:var(--g);color:#fff;border-color:var(--g)}
+    .ctrl-btn:hover {
+      border-color: var(--g);
+      color: var(--g);
+    }
+    .ctrl-btn i {
+      font-size: 14px;
+    }
+    .lang-toggle-active {
+      border-color: var(--g);
+      color: var(--g);
+    }
+    @media(max-width: 600px) {
+      .ctrl-btn span {
+        display: none;
+      }
+      .ctrl-btn {
+        padding: 6px 10px;
+      }
+    }
 
     /* ── NAV ── */
     #nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav);background:var(--nav-bg);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 5vw;gap:1.5rem;transition:box-shadow .3s,background .3s}
@@ -269,7 +305,6 @@
       .foot-grid{grid-template-columns:1fr 1fr}
       .nav-links{display:none}.ham{display:block}
       .press-grid{grid-template-columns:1fr}
-      .ctrl-bar{top:80px;right:5vw}
     }
     @media(max-width:560px){
       section{padding:56px 5vw}
@@ -282,21 +317,9 @@
 </head>
 <body>
 
-<!-- ── THEME + LANG CONTROLS ── -->
-<div class="ctrl-bar">
-  <button class="ctrl-btn" id="theme-btn" onclick="toggleTheme()">
-    <i class="ti ti-moon" id="theme-icon"></i>
-    <span class="lang-en">Dark</span><span class="lang-hi">डार्क</span>
-  </button>
-  <button class="ctrl-btn" id="lang-btn" onclick="toggleLang()">
-    <i class="ti ti-language"></i>
-    <span id="lang-label">हिन्दी</span>
-  </button>
-</div>
-
 <!-- ── NAV ── -->
 <nav id="nav">
-  <div class="nav-brand">
+  <div class="nav-brand" onclick="goto('hero')" style="cursor:pointer">
     <div class="nav-logo">
       <img src="images/logo.png" alt="Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
       <i class="ti ti-heart-handshake" style="display:none"></i>
@@ -313,8 +336,18 @@
     <a href="#causes"><span class="lang-en">Programs</span><span class="lang-hi">कार्यक्रम</span></a>
     <a href="#gallery"><span class="lang-en">Gallery</span><span class="lang-hi">गैलरी</span></a>
     <a href="#blog"><span class="lang-en">Blog</span><span class="lang-hi">ब्लॉग</span></a>
-    <a href="#events"><span class="lang-en">Events</span><span class="lang-hi">कार्यक्रम</span></a>
+    <a href="#events"><span class="lang-en">Events</span><span class="lang-hi">इवेंट्स</span></a>
     <a href="#contact"><span class="lang-en">Contact</span><span class="lang-hi">संपर्क</span></a>
+  </div>
+  <div class="nav-ctrls">
+    <button class="ctrl-btn" id="theme-btn" onclick="toggleTheme()">
+      <i class="ti ti-moon" id="theme-icon"></i>
+      <span class="lang-en">Dark</span><span class="lang-hi">डार्क</span>
+    </button>
+    <button class="ctrl-btn" id="lang-btn" onclick="toggleLang()">
+      <i class="ti ti-language"></i>
+      <span id="lang-label">हिन्दी</span>
+    </button>
   </div>
   <button class="btn-nav" onclick="goto('donate')">
     <span class="lang-en">Donate Now</span><span class="lang-hi">अभी दान करें</span>
@@ -591,10 +624,12 @@
         <div class="tier" onclick="selTier(this,2500)"><div class="tier-amt">₹2,500</div><div class="tier-lbl"><span class="lang-en">One complete school bag kit</span><span class="lang-hi">एक पूर्ण स्कूल बैग किट</span></div></div>
         <div class="tier" onclick="selTier(this,5000)"><div class="tier-amt">₹5,000+</div><div class="tier-lbl"><span class="lang-en">CSR / custom contribution</span><span class="lang-hi">CSR / विशेष योगदान</span></div></div>
       </div>
-      <div class="upi-box" style="margin-top:1.5rem">
-        <i class="ti ti-qrcode" style="font-size:32px;color:var(--g)"></i>
+      <div class="upi-box" style="margin-top:1.5rem; display: flex; flex-direction: column; align-items: center;">
+        <div style="background: white; padding: 8px; border-radius: 8px; margin-bottom: 0.5rem; width: 146px; height: 146px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--bd);">
+          <img id="upi-qr-img" src="" alt="Scan to Pay" style="width: 130px; height: 130px; display: block;" />
+        </div>
         <p style="font-size:12px;color:var(--mid);margin-top:.5rem"><span class="lang-en">Scan &amp; Pay via UPI / PhonePe / Google Pay</span><span class="lang-hi">UPI / PhonePe / Google Pay से स्कैन करें और भुगतान करें</span></p>
-        <div class="upi-id" id="upi-display">veddakshafoundation22@gmail.com</div>
+        <div class="upi-id" id="upi-display" style="cursor: pointer; font-weight: 600; color: var(--g);" onclick="copyUPI()" title="Click to copy / कॉपी करने के लिए क्लिक करें">veddakshafoundation22@gmail.com</div>
         <p style="margin-top:.5rem;font-size:11px;color:var(--mid)"><span class="lang-en">After payment, WhatsApp receipt to <strong>8700785399</strong></span><span class="lang-hi">भुगतान के बाद, रसीद WhatsApp करें <strong>8700785399</strong> पर</span></p>
       </div>
     </div>
@@ -761,7 +796,25 @@ const co=new IntersectionObserver(e=>e.forEach(x=>{
 document.querySelectorAll('.impact-n[data-t]').forEach(el=>co.observe(el));
 
 // ── DONATE ──
-function selTier(card,amt){document.querySelectorAll('.tier').forEach(c=>c.classList.remove('sel'));card.classList.add('sel');document.getElementById('da').value=amt}
+function updateQR() {
+  const upiId = 'veddakshafoundation22@gmail.com';
+  const amt = document.getElementById('da').value || '500';
+  const upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=Ved+Daksha+Foundation&cu=INR&am=${amt}`;
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl)}`;
+  const img = document.getElementById('upi-qr-img');
+  if (img) img.src = qrUrl;
+}
+function copyUPI(){
+  navigator.clipboard.writeText('veddakshafoundation22@gmail.com').then(()=>{
+    alert('UPI ID copied to clipboard / UPI ID कॉपी हो गया!');
+  });
+}
+function selTier(card,amt){
+  document.querySelectorAll('.tier').forEach(c=>c.classList.remove('sel'));
+  card.classList.add('sel');
+  document.getElementById('da').value=amt;
+  updateQR();
+}
 function sendWA(){
   const n=document.getElementById('dn').value||'A supporter';
   const p=document.getElementById('dp').value||'Not provided';
@@ -808,6 +861,10 @@ fetch(`${API}/events?upcoming=true&limit=3`)
         </div></div>`;
     }).join('');
   }).catch(()=>{});
+
+// Initialize QR
+document.getElementById('da')?.addEventListener('input', updateQR);
+updateQR();
 </script>
 </body>
 </html>
