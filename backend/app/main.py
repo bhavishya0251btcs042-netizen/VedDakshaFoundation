@@ -2,6 +2,7 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from datetime import datetime
 
 from app.config import Config
@@ -71,3 +72,27 @@ def health_check():
         "database": "connected" if db_connected else "disconnected",
         "time": datetime.utcnow().isoformat()
     }
+
+# ── Serve Frontend Files ──
+FRONTEND_DIR = os.path.dirname(BACKEND_DIR)
+
+@app.get("/")
+def read_root():
+    return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
+
+@app.get("/index.html")
+def read_index():
+    return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
+
+@app.get("/blog")
+def read_blog_clean():
+    return FileResponse(os.path.join(FRONTEND_DIR, "blog.html"))
+
+@app.get("/blog.html")
+def read_blog():
+    return FileResponse(os.path.join(FRONTEND_DIR, "blog.html"))
+
+# Mount admin and images directories
+app.mount("/images", StaticFiles(directory=IMAGES_DIR), name="images")
+app.mount("/admin", StaticFiles(directory=os.path.join(FRONTEND_DIR, "admin"), html=True), name="admin")
+
