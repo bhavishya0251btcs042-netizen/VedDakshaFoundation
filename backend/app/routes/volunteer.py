@@ -28,7 +28,8 @@ DEFAULT_FIELDS = [
       "Health Camps / स्वास्थ्य शिविर",
       "Management / प्रबंधन"
     ] },
-    { "id": "message", "label": "Why do you want to volunteer?", "labelHindi": "आप स्वयंसेवक क्यों बनना चाहते हैं?", "type": "textarea", "required": False, "enabled": True }
+    { "id": "message", "label": "Why do you want to volunteer?", "labelHindi": "आप स्वयंसेवक क्यों बनना चाहते हैं?", "type": "textarea", "required": False, "enabled": True },
+    { "id": "feedback", "label": "Feedback / Suggestions", "labelHindi": "प्रतिक्रिया / सुझाव", "type": "textarea", "required": False, "enabled": True }
 ]
 
 def get_db_config():
@@ -37,6 +38,18 @@ def get_db_config():
     if not cfg:
         cfg = {"_id": "default_config", "fields": DEFAULT_FIELDS}
         config_col.insert_one(cfg)
+    else:
+        existing_ids = [f["id"] for f in cfg.get("fields", [])]
+        if "feedback" not in existing_ids:
+            cfg["fields"].append({
+                "id": "feedback",
+                "label": "Feedback / Suggestions",
+                "labelHindi": "प्रतिक्रिया / सुझाव",
+                "type": "textarea",
+                "required": False,
+                "enabled": True
+            })
+            config_col.update_one({"_id": "default_config"}, {"$set": {"fields": cfg["fields"]}})
     return cfg
 
 @router.get("/config")
@@ -89,7 +102,7 @@ async def volunteer_apply(request: Request, resume: Optional[UploadFile] = File(
                         raise HTTPException(status_code=400, detail=f"Field '{field['label']}' is required / '{field['label']}' आवश्यक है")
                     
                     # Store standard fields directly, custom fields in customFields dict
-                    if fid in ["name", "email", "phone", "occupation", "organization", "field_of_interest", "message"]:
+                    if fid in ["name", "email", "phone", "occupation", "organization", "field_of_interest", "message", "feedback"]:
                         app_doc[fid] = val if val else ""
                     else:
                         custom_fields[fid] = val if val else ""
