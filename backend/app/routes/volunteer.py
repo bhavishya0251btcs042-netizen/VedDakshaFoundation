@@ -8,6 +8,7 @@ from app.database import get_collection
 from app.models import VolunteerConfigUpdate, VolunteerEmailSend
 from app.utils import serialize_doc, serialize_docs, send_custom_email
 from app.middleware import get_current_admin
+from app.resume_parser import parse_resume
 
 router = APIRouter(prefix="/volunteer", tags=["volunteer"])
 
@@ -177,5 +178,42 @@ def send_email_to_volunteer(app_id: str, email_data: VolunteerEmailSend, admin_p
         
         send_custom_email(to_email, email_data.subject, html_content)
         return {"message": f"Email successfully sent to {to_email}"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.post("/applications/{app_id}/analyze")
+def analyze_applicant_resume(app_id: str, admin_payload: dict = Depends(get_current_admin)):
+    volunteers_col = get_collection("volunteers")
+    try:
+        if not ObjectId.is_valid(app_id):
+            raise HTTPException(status_code=400, detail="Invalid application ID")
+            
+        app_doc = volunteers_col.find_one({"_id": ObjectId(app_id)})
+        if not app_doc:
+            raise HTTPException(status_code=404, detail="Application not found")
+            
+        if "analysis" in app_doc:
+            return app_doc["analysis"]
+            
+        resume_url = app_doc.get("resumeUrl")
+        if not resume_url:
+            raise HTTPException(status_code=400, detail="Applicant has not uploaded a resume")
+            
+        filename = os.path.basename(resume_url)
+        filepath = os.path.join(UPLOAD_DIR, filename)
+        
+        if not os.path.exists(filepath):
+            raise HTTPException(status_code=404, detail="Resume file not found on server")
+            
+        analysis = parse_resume(filepath, default_name=app_doc.get("name", ""))
+        
+        volunteers_col.update_one(
+            {"_id": ObjectId(app_id)},
+            {"$set": {"analysis": analysis}}
+        )
+        
+        return analysis
+    except HTTPException as he:
+        raise he
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

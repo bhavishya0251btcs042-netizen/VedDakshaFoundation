@@ -328,9 +328,52 @@
     .vol-submit{width:100%;background:var(--o);color:#fff;border:none;border-radius:8px;padding:13px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:8px}
     .vol-submit:hover{background:#c96b20;transform:translateY(-1px)}
     .vol-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
-    .vol-msg{padding:10px 14px;border-radius:8px;font-size:13px;margin-top:10px;display:none}
     .vol-msg.ok{background:var(--gl);color:var(--g)}
     .vol-msg.err{background:#fee2e2;color:#dc2626}
+
+    /* Checkmark Animation Styles */
+    .checkmark {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: block;
+      stroke-width: 3;
+      stroke: #1B6B3A;
+      stroke-miterlimit: 10;
+      box-shadow: inset 0px 0px 0px #1B6B3A;
+      animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+      margin: 0 auto;
+    }
+    .checkmark__circle {
+      stroke-dasharray: 166;
+      stroke-dashoffset: 166;
+      stroke-width: 3;
+      stroke: #1B6B3A;
+      fill: none;
+      animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+    }
+    .checkmark__check {
+      transform-origin: 50% 50%;
+      stroke-dasharray: 48;
+      stroke-dashoffset: 48;
+      stroke-width: 4;
+      stroke: #1B6B3A;
+      animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+    }
+    @keyframes stroke {
+      100% { stroke-dashoffset: 0; }
+    }
+    @keyframes scale {
+      0%, 100% { transform: none; }
+      50% { transform: scale3d(1.1, 1.1, 1); }
+    }
+    @keyframes fill {
+      100% { box-shadow: inset 0px 0px 0px 40px #e6f4ea; background-color: #e6f4ea; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     @media(max-width:560px){
       section{padding:56px 5vw}
@@ -774,7 +817,7 @@
       <button class="vol-close" onclick="closeVolunteerModal()">&#x2715;</button>
     </div>
     <div class="vol-body">
-      <p style="font-size:13px;color:var(--mid);margin-bottom:16px"><span class="lang-en">Fill in the form below and we'll get back to you within 48 hours. Fields marked * are required.</span><span class="lang-hi">नीचे फ़ॉर्म भरें और हम 48 घंटों के भीतर आपसे संपर्क करेंगे। * से चिह्नित फ़ील्ड आवश्यक हैं।</span></p>
+      <p id="vol-intro" style="font-size:13px;color:var(--mid);margin-bottom:16px"><span class="lang-en">Fill in the form below and we'll get back to you within 48 hours. Fields marked * are required.</span><span class="lang-hi">नीचे फ़ॉर्म भरें और हम 48 घंटों के भीतर आपसे संपर्क करेंगे। * से चिह्नित फ़ील्ड आवश्यक हैं।</span></p>
       <form id="vol-form" onsubmit="event.preventDefault();submitVolunteer()">
         <div id="vol-fields"><!-- Dynamic fields rendered by JS --></div>
         <!-- Resume Upload -->
@@ -793,6 +836,23 @@
           <span class="lang-en">Submit Application</span><span class="lang-hi">आवेदन जमा करें</span>
         </button>
       </form>
+      <!-- Success Screen -->
+      <div id="vol-success" style="display:none;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1rem;text-align:center;animation:fadeIn 0.4s ease-out">
+        <div style="margin-bottom:1.2rem">
+          <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+          </svg>
+        </div>
+        <h4 style="color:#1B6B3A;font-size:18px;margin-bottom:8px;font-weight:600">
+          <span class="lang-en">Application Submitted Successfully!</span>
+          <span class="lang-hi">आवेदन सफलतापूर्वक जमा हो गया!</span>
+        </h4>
+        <p style="color:var(--mid);font-size:13px;line-height:1.6;max-width:320px;margin:0 auto">
+          <span class="lang-en">Thank you for applying. We will review your resume/CV and contact you soon.</span>
+          <span class="lang-hi">आवेदन करने के लिए धन्यवाद। हम आपके बायोडाटा की समीक्षा करेंगे और जल्द ही आपसे संपर्क करेंगे।</span>
+        </p>
+      </div>
     </div>
   </div>
 </div>
@@ -941,6 +1001,11 @@ function closeVolunteerModal(){
   const msg = document.getElementById('vol-msg');
   msg.style.display = 'none';
   msg.className = 'vol-msg';
+  
+  // Restore form and hide success screen
+  document.getElementById('vol-intro').style.display = 'block';
+  document.getElementById('vol-form').style.display = 'block';
+  document.getElementById('vol-success').style.display = 'none';
 }
 async function loadVolConfig(){
   try{
@@ -992,12 +1057,13 @@ async function submitVolunteer(){
     const r = await fetch(`${API}/volunteer/apply`,{method:'POST',body:fd});
     const d = await r.json();
     if(r.ok){
-      msg.className='vol-msg ok';
-      msg.innerHTML='✅ '+(d.message||'Application submitted successfully!');
-      msg.style.display='block';
+      document.getElementById('vol-intro').style.display = 'none';
+      document.getElementById('vol-form').style.display = 'none';
+      document.getElementById('vol-success').style.display = 'flex';
+      
       form.reset();
       document.getElementById('vol-resume-name').textContent='';
-      setTimeout(closeVolunteerModal, 3000);
+      setTimeout(closeVolunteerModal, 4000);
     } else {
       msg.className='vol-msg err';
       msg.innerHTML='❌ '+(d.detail||'Submission failed. Please try again.');

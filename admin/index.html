@@ -429,6 +429,77 @@
       </div>
     </div>
 
+    <!-- RESUME ANALYZER MODAL -->
+    <div id="vol-analyzer-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(4px)">
+      <div style="background:var(--card);border-radius:14px;width:100%;max-width:700px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3);display:flex;flex-direction:column">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 20px 14px;border-bottom:1px solid var(--bd);position:sticky;top:0;background:var(--card);z-index:10">
+          <h3 style="font-size:16px;font-weight:600;color:var(--dark)"><i class="ti ti-wand" style="color:var(--o);margin-right:6px"></i> <span class="lang-en">Resume / CV Analysis</span><span class="lang-hi">बायोडाटा विश्लेषण</span></h3>
+          <button onclick="closeVolAnalyzer()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--mid);line-height:1">&times;</button>
+        </div>
+        <div id="analyzer-loading" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4rem 2rem;color:var(--mid)">
+          <i class="ti ti-loader-2" style="font-size:36px;animation:spin 1s linear infinite;color:var(--o);margin-bottom:1rem"></i>
+          <span style="font-size:14px">Analyzing Resume... Please wait.</span>
+        </div>
+        <div id="analyzer-error" style="display:none;flex-direction:column;align-items:center;justify-content:center;padding:3rem 2rem;color:var(--red);text-align:center">
+          <i class="ti ti-alert-circle" style="font-size:36px;margin-bottom:1rem"></i>
+          <span style="font-size:14px;font-weight:500" id="analyzer-error-msg">Failed to analyze resume.</span>
+        </div>
+        <div id="analyzer-content" style="display:none;padding:20px;gap:1.2rem;flex-direction:column;overflow-y:auto">
+          <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:1.2rem;align-items:start">
+            <!-- Left Pane: Personal Info & Skills -->
+            <div style="display:flex;flex-direction:column;gap:1.2rem">
+              <!-- Personal details card -->
+              <div style="background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:16px">
+                <h4 style="font-size:13px;font-weight:600;color:var(--o);margin-bottom:12px;text-transform:uppercase;border-bottom:1px solid var(--bd);padding-bottom:6px"><i class="ti ti-user"></i> Personal Info</h4>
+                <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+                  <div><strong style="color:var(--dark)">Name:</strong> <span id="ana-name" style="color:var(--mid)"></span></div>
+                  <div><strong style="color:var(--dark)">Email:</strong> <span id="ana-email" style="color:var(--mid)"></span></div>
+                  <div><strong style="color:var(--dark)">Phone:</strong> <span id="ana-phone" style="color:var(--mid)"></span></div>
+                  <div><strong style="color:var(--dark)">Location:</strong> <span id="ana-location" style="color:var(--mid)"></span></div>
+                </div>
+              </div>
+              
+              <!-- Skills card -->
+              <div style="background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:16px">
+                <h4 style="font-size:13px;font-weight:600;color:var(--o);margin-bottom:12px;text-transform:uppercase;border-bottom:1px solid var(--bd);padding-bottom:6px"><i class="ti ti-subtask"></i> Skills</h4>
+                <div id="ana-skills" style="display:flex;flex-wrap:wrap;gap:6px">
+                  <!-- Skills badges -->
+                </div>
+              </div>
+            </div>
+            
+            <!-- Right Pane: Experience & Education -->
+            <div style="display:flex;flex-direction:column;gap:1.2rem">
+              <!-- Professional Experience card -->
+              <div style="background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:16px">
+                <h4 style="font-size:13px;font-weight:600;color:var(--o);margin-bottom:12px;text-transform:uppercase;border-bottom:1px solid var(--bd);padding-bottom:6px"><i class="ti ti-briefcase"></i> Professional Experience</h4>
+                <div id="ana-experience" style="display:flex;flex-direction:column;gap:12px">
+                  <!-- Experience timeline -->
+                </div>
+              </div>
+              
+              <!-- Education card -->
+              <div style="background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:16px">
+                <h4 style="font-size:13px;font-weight:600;color:var(--o);margin-bottom:12px;text-transform:uppercase;border-bottom:1px solid var(--bd);padding-bottom:6px"><i class="ti ti-school"></i> Education</h4>
+                <div id="ana-education" style="display:flex;flex-direction:column;gap:12px">
+                  <!-- Education list -->
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Summary/Objective -->
+          <div style="background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:16px">
+            <h4 style="font-size:13px;font-weight:600;color:var(--o);margin-bottom:8px;text-transform:uppercase"><i class="ti ti-align-left"></i> Summary / Objective</h4>
+            <p id="ana-summary" style="font-size:13px;color:var(--mid);line-height:1.6;margin:0"></p>
+          </div>
+        </div>
+        <div style="padding:14px 20px;border-top:1px solid var(--bd);display:flex;justify-content:flex-end;gap:10px;background:var(--card);position:sticky;bottom:0">
+          <button class="btn-sm btn-ghost" onclick="closeVolAnalyzer()">Close</button>
+        </div>
+      </div>
+    </div>
+
     <!-- SETTINGS -->
     <div id="page-settings" class="page" style="display:none">
       <div class="topbar"><div class="page-title"><span class="lang-en">Settings</span><span class="lang-hi">सेटिंग</span></div></div>
@@ -747,6 +818,9 @@ function renderVolTable() {
     const resumeBtn = app.resumeUrl
       ? `<a href="${API.replace('/api','')}${app.resumeUrl}" target="_blank" class="btn-sm btn-ghost" title="Download Resume"><i class="ti ti-download"></i></a>`
       : '';
+    const analyzeBtn = app.resumeUrl
+      ? `<button class="btn-sm btn-ghost" onclick="analyzeResume('${app._id}')" title="Analyze Resume" style="margin-left:4px"><i class="ti ti-wand"></i></button>`
+      : '';
     const statusBadge = `<span class="status ${statusColors[app.status] || 's-p'}">${app.status || 'pending'}</span>`;
     const statusSelect = `<select style="font-size:11px;border:1px solid var(--bd);border-radius:6px;padding:3px 6px;background:var(--input-bg);color:var(--dark);cursor:pointer" onchange="updateVolStatus('${app._id}',this.value)">
       <option value="pending" ${app.status==='pending'?'selected':''}>Pending</option>
@@ -762,6 +836,7 @@ function renderVolTable() {
       <td>${statusSelect}</td>
       <td style="white-space:nowrap">
         ${resumeBtn}
+        ${analyzeBtn}
         <button class="btn-sm btn-green" onclick="openVolEmail('${app._id}')" title="Send Email" style="margin-left:4px"><i class="ti ti-mail"></i></button>
       </td>
     </tr>`;
@@ -893,6 +968,107 @@ async function saveVolConfig() {
     setTimeout(() => { al.style.display = 'none'; }, 3000);
   } catch (e) {
     al.className = 'alert alert-r'; al.textContent = '❌ Network error.'; al.style.display = 'block';
+  }
+}
+
+// ── RESUME ANALYZER ──
+let currentVolAnalyzeId = null;
+
+function closeVolAnalyzer() {
+  document.getElementById('vol-analyzer-modal').style.display = 'none';
+  currentVolAnalyzeId = null;
+}
+
+async function analyzeResume(id) {
+  currentVolAnalyzeId = id;
+  const modal = document.getElementById('vol-analyzer-modal');
+  modal.style.display = 'flex';
+  
+  const loading = document.getElementById('analyzer-loading');
+  const errorDiv = document.getElementById('analyzer-error');
+  const content = document.getElementById('analyzer-content');
+  
+  loading.style.display = 'flex';
+  errorDiv.style.display = 'none';
+  content.style.display = 'none';
+  
+  try {
+    const r = await fetch(`${API}/volunteer/applications/${id}/analyze`, {
+      method: 'POST',
+      headers: authH()
+    });
+    
+    if (!r.ok) {
+      const d = await r.json();
+      throw new Error(d.detail || 'Analysis failed');
+    }
+    
+    const data = await r.json();
+    renderAnalysisData(data);
+    
+    loading.style.display = 'none';
+    content.style.display = 'flex';
+  } catch (e) {
+    loading.style.display = 'none';
+    document.getElementById('analyzer-error-msg').textContent = e.message || 'Failed to analyze resume.';
+    errorDiv.style.display = 'flex';
+  }
+}
+
+function renderAnalysisData(data) {
+  const p = data.personal || {};
+  
+  document.getElementById('ana-name').textContent = p.name || '—';
+  document.getElementById('ana-email').textContent = p.email || '—';
+  document.getElementById('ana-phone').textContent = p.phone || '—';
+  document.getElementById('ana-location').textContent = p.location || '—';
+  document.getElementById('ana-summary').textContent = p.summary || 'No summary extracted.';
+  
+  // Skills
+  const skillsWrap = document.getElementById('ana-skills');
+  const skills = data.skills || [];
+  if (!skills.length) {
+    skillsWrap.innerHTML = '<span style="font-size:12px;color:var(--mid)">No skills extracted.</span>';
+  } else {
+    skillsWrap.innerHTML = skills.map(s => 
+      `<span style="background:var(--gl);color:var(--g);font-size:11px;font-weight:600;padding:4px 10px;border-radius:12px;border:1px solid rgba(27,107,58,0.2)">${s}</span>`
+    ).join('');
+  }
+  
+  // Experience
+  const expWrap = document.getElementById('ana-experience');
+  const experience = data.professional || [];
+  if (!experience.length) {
+    expWrap.innerHTML = '<p style="font-size:12px;color:var(--mid);margin:0">No work experience extracted.</p>';
+  } else {
+    expWrap.innerHTML = experience.map(exp => `
+      <div style="border-left:2px solid var(--o);padding-left:12px;margin-bottom:12px;position:relative">
+        <div style="position:absolute;left:-6px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--o)"></div>
+        <div style="font-size:13px;font-weight:600;color:var(--dark)">${exp.role || 'Role'}</div>
+        <div style="font-size:12px;color:var(--mid);margin-top:2px">
+          <strong>${exp.company || 'Company'}</strong> ${exp.duration ? `• ${exp.duration}` : ''}
+        </div>
+        ${exp.description ? `<p style="font-size:11px;color:var(--mid);margin-top:6px;line-height:1.5">${exp.description}</p>` : ''}
+      </div>
+    `).join('');
+  }
+  
+  // Education
+  const eduWrap = document.getElementById('ana-education');
+  const education = data.education || [];
+  if (!education.length) {
+    eduWrap.innerHTML = '<p style="font-size:12px;color:var(--mid);margin:0">No education history extracted.</p>';
+  } else {
+    eduWrap.innerHTML = education.map(edu => `
+      <div style="border-left:2px solid var(--g);padding-left:12px;margin-bottom:12px;position:relative">
+        <div style="position:absolute;left:-6px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--g)"></div>
+        <div style="font-size:13px;font-weight:600;color:var(--dark)">${edu.degree || 'Degree/Education'}</div>
+        <div style="font-size:12px;color:var(--mid);margin-top:2px">
+          <strong>${edu.institution || 'Institution'}</strong> ${edu.year ? `• ${edu.year}` : ''}
+        </div>
+        ${edu.details ? `<p style="font-size:11px;color:var(--mid);margin-top:6px;line-height:1.5">${edu.details}</p>` : ''}
+      </div>
+    `).join('');
   }
 }
 </script>
