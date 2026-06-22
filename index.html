@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Ved Daksha Foundation — Empowering Children, Ghaziabad</title>
+  <meta name="description" content="Ved Daksha Foundation — free education, martial arts, yoga, dance & health camps for underprivileged children in Ghaziabad, Delhi & Meerut. Founded by Dr. Usha Tyagi."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"/>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <style>
+    :root{--g:#1B6B3A;--gl:#E8F5EE;--o:#E07B2A;--ol:#FFF3E8;--bg:#FDFAF6;--dark:#1C1C1A;--mid:#5A5A56;--bd:#E2DDD6;--r:12px;--rl:20px;--nav:72px}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--dark);-webkit-font-smoothing:antialiased}
+    img{display:block;width:100%;height:100%;object-fit:cover}
+    a{color:inherit;text-decoration:none}
+    ul{list-style:none}
+
+    /* NAV */
+    #nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav);background:rgba(253,250,246,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 5vw;gap:1.5rem;transition:box-shadow .3s}
+    #nav.scrolled{box-shadow:0 4px 24px rgba(0,0,0,.08)}
+    .nav-brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
+    .nav-logo{width:40px;height:40px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center}
+    .nav-logo i{color:#fff;font-size:21px}
+    .nav-name{font-family:'Playfair Display',serif;font-size:16px;color:var(--g);font-weight:700;line-height:1.2}
+    .nav-name span{display:block;font-family:'Poppins',sans-serif;font-size:9.5px;font-weight:400;color:var(--mid);letter-spacing:.05em}
+    .nav-links{display:flex;align-items:center;gap:1.6rem;margin-left:auto}
+    .nav-links a{font-size:13px;font-weight:500;color:var(--mid);transition:color .2s}
+    .nav-links a:hover{color:var(--g)}
+    .btn-nav{background:var(--g);color:#fff;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Poppins',sans-serif;transition:background .2s;white-space:nowrap}
+    .btn-nav:hover{background:#154f2c}
+    .ham{display:none;background:none;border:none;cursor:pointer;padding:4px}
+    .ham i{font-size:22px;color:var(--dark)}
+    #mob{display:none;position:fixed;top:var(--nav);left:0;right:0;z-index:99;background:var(--bg);border-bottom:1px solid var(--bd);padding:1rem 5vw 1.5rem;flex-direction:column;gap:1rem}
+    #mob.open{display:flex}
+    #mob a{font-size:15px;font-weight:500;color:var(--dark);padding:.4rem 0;border-bottom:1px solid var(--bd)}
+
+    /* HERO */
+    #hero{margin-top:var(--nav);min-height:calc(100vh - var(--nav));display:grid;grid-template-columns:1fr 1fr}
+    .hero-l{display:flex;flex-direction:column;justify-content:center;padding:5vw 4vw 5vw 6vw}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--gl);color:var(--g);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;border-radius:40px;margin-bottom:1.4rem;width:fit-content}
+    .eyebrow i{font-size:14px}
+    h1{font-family:'Playfair Display',serif;font-size:clamp(30px,3.2vw,52px);font-weight:700;line-height:1.2;color:var(--dark);margin-bottom:1.2rem}
+    h1 .ac{color:var(--g)}
+    .hero-p{font-size:15px;color:var(--mid);line-height:1.75;max-width:440px;margin-bottom:2rem}
+    .btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:2.5rem}
+    .btn-p{background:var(--g);color:#fff;border:none;border-radius:10px;padding:13px 28px;font-size:14px;font-weight:500;cursor:pointer;font-family:'Poppins',sans-serif;transition:background .2s,transform .15s;display:inline-flex;align-items:center;gap:8px}
+    .btn-p:hover{background:#154f2c;transform:translateY(-1px)}
+    .btn-o{background:transparent;color:var(--g);border:1.5px solid var(--g);border-radius:10px;padding:12px 26px;font-size:14px;font-weight:500;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+    .btn-o:hover{background:var(--gl)}
+    .hero-stats{display:flex;gap:1.5rem;flex-wrap:wrap}
+    .stat-n{font-size:28px;font-weight:700;color:var(--g);font-family:'Playfair Display',serif}
+    .stat-l{font-size:12px;color:var(--mid);margin-top:1px}
+    .stat-div{width:1px;background:var(--bd);align-self:stretch}
+    .hero-r{position:relative;overflow:hidden;background:var(--gl)}
+    .hero-r img{width:100%;height:100%;object-fit:cover}
+    .hero-badge{position:absolute;bottom:2rem;left:2rem;right:2rem;background:rgba(255,255,255,.93);backdrop-filter:blur(8px);border-radius:var(--r);padding:14px 18px;display:flex;align-items:center;gap:12px}
+    .hero-badge i{font-size:24px;color:var(--o);flex-shrink:0}
+    .badge-t{font-size:13px;font-weight:500;color:var(--dark)}
+    .badge-s{font-size:11px;color:var(--mid);margin-top:2px}
+
+    /* SECTIONS */
+    section{padding:80px 6vw}
+    section:nth-child(even){background:#fff}
+    .sec-eye{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--o);margin-bottom:.6rem}
+    .sec-h{font-family:'Playfair Display',serif;font-size:clamp(24px,2.8vw,40px);font-weight:700;color:var(--dark);line-height:1.25;margin-bottom:1rem}
+    .sec-sub{font-size:15px;color:var(--mid);max-width:560px;line-height:1.7;margin-bottom:2.5rem}
+    .center{text-align:center}
+    .center .sec-sub{margin-left:auto;margin-right:auto}
+
+    /* MISSION */
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    .card{background:#fff;border:1px solid var(--bd);border-radius:var(--rl);padding:28px 24px;transition:box-shadow .25s,transform .25s}
+    .card:hover{box-shadow:0 12px 40px rgba(27,107,58,.1);transform:translateY(-4px)}
+    .icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:1.1rem}
+    .ig{background:var(--gl)}.ig i{color:var(--g)}
+    .io{background:var(--ol)}.io i{color:var(--o)}
+    .icon i{font-size:26px}
+    .card h3{font-size:16px;font-weight:600;margin-bottom:.5rem}
+    .card p{font-size:13px;color:var(--mid);line-height:1.65}
+
+    /* ABOUT */
+    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+    .about-img{border-radius:var(--rl);overflow:hidden;height:480px;position:relative}
+    .about-img img{height:100%}
+    .about-badge{position:absolute;bottom:-1.5rem;right:-1.5rem;background:var(--g);color:#fff;border-radius:var(--r);padding:18px 22px;text-align:center;box-shadow:0 8px 32px rgba(27,107,58,.3)}
+    .badge-n{font-size:30px;font-weight:700;font-family:'Playfair Display',serif}
+    .badge-l{font-size:12px;opacity:.85;margin-top:2px}
+    .checks{margin-top:1.5rem;display:flex;flex-direction:column;gap:.85rem}
+    .chk{display:flex;align-items:flex-start;gap:10px}
+    .chk i{font-size:18px;color:var(--g);flex-shrink:0;margin-top:1px}
+    .chk span{font-size:14px;color:var(--mid);line-height:1.6}
+
+    /* TEAM */
+    #team{background:var(--gl)}
+    .team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-top:1rem}
+    .team-card{background:#fff;border-radius:var(--rl);overflow:hidden;text-align:center;padding-bottom:1.5rem;border:1px solid rgba(27,107,58,.1)}
+    .team-img{height:220px;overflow:hidden}
+    .team-img img{width:100%;height:100%;object-fit:cover;object-position:top}
+    .team-name{font-size:16px;font-weight:600;margin:1rem 1rem .3rem}
+    .team-role{font-size:12px;color:var(--g);font-weight:500;padding:3px 10px;background:var(--gl);border-radius:20px;display:inline-block;margin-bottom:.5rem}
+    .team-bio{font-size:12px;color:var(--mid);line-height:1.6;padding:0 1rem}
+
+    /* CAUSES */
+    .causes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.2rem}
+    .cause-card{border-radius:var(--rl);overflow:hidden;border:1px solid var(--bd);background:#fff;transition:box-shadow .25s}
+    .cause-card:hover{box-shadow:0 10px 36px rgba(0,0,0,.1)}
+    .cimg{height:180px}
+    .cbody{padding:18px 20px 22px}
+    .ctag{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:3px 10px;border-radius:20px;background:var(--gl);color:var(--g);margin-bottom:.7rem}
+    .cause-card h3{font-size:16px;font-weight:600;margin-bottom:.4rem}
+    .cause-card p{font-size:13px;color:var(--mid);line-height:1.6}
+
+    /* NEWSPAPER */
+    #press{background:#fff}
+    .press-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center}
+    .press-img{border-radius:var(--r);overflow:hidden}
+    .press-quote{font-family:'Playfair Display',serif;font-size:18px;color:var(--dark);line-height:1.5;margin-bottom:1rem;position:relative;padding-left:1.5rem}
+    .press-quote::before{content:'"';position:absolute;left:0;top:-4px;font-size:36px;color:var(--g);line-height:1}
+    .press-source{font-size:13px;color:var(--mid)}
+    .press-source strong{color:var(--g)}
+
+    /* IMPACT */
+    #impact{background:var(--g);color:#fff}
+    #impact .sec-eye{color:rgba(255,255,255,.65)}
+    #impact .sec-h{color:#fff}
+    #impact .sec-sub{color:rgba(255,255,255,.75)}
+    .impact-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:1rem}
+    .impact-n{font-family:'Playfair Display',serif;font-size:clamp(36px,4.5vw,60px);font-weight:700;color:#fff;line-height:1}
+    .impact-l{font-size:13px;color:rgba(255,255,255,.7);margin-top:.4rem}
+
+    /* GALLERY */
+    .gal-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:220px;gap:10px}
+    .gi{border-radius:var(--r);overflow:hidden;position:relative;cursor:pointer}
+    .gi img{height:100%;transition:transform .4s}
+    .gi:hover img{transform:scale(1.05)}
+    .gi.wide{grid-column:span 2}
+    .gi.tall{grid-row:span 2}
+    .gov{position:absolute;inset:0;background:linear-gradient(to top,rgba(27,107,58,.7) 0%,transparent 60%);opacity:0;transition:opacity .3s;display:flex;align-items:flex-end;padding:14px}
+    .gi:hover .gov{opacity:1}
+    .gov span{color:#fff;font-size:13px;font-weight:500}
+
+    /* BLOG */
+    #blog{background:var(--bg)}
+    .blog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+    .blog-card{background:#fff;border:1px solid var(--bd);border-radius:var(--rl);overflow:hidden;transition:box-shadow .25s}
+    .blog-card:hover{box-shadow:0 10px 32px rgba(0,0,0,.09)}
+    .blog-img{height:190px}
+    .blog-body{padding:20px}
+    .blog-cat{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--o);margin-bottom:.5rem}
+    .blog-card h3{font-size:15px;font-weight:600;margin-bottom:.5rem;line-height:1.4}
+    .blog-card p{font-size:13px;color:var(--mid);line-height:1.6;margin-bottom:1rem}
+    .blog-link{font-size:13px;font-weight:600;color:var(--g);display:inline-flex;align-items:center;gap:5px}
+    .blog-link i{transition:transform .2s}
+    .blog-link:hover i{transform:translateX(4px)}
+
+    /* EVENTS */
+    #events{background:#fff}
+    .events-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+    .ev-card{background:var(--bg);border:1px solid var(--bd);border-radius:var(--rl);overflow:hidden}
+    .ev-img{height:200px}
+    .ev-body{padding:20px}
+    .ev-date{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--o);font-weight:600;margin-bottom:.6rem}
+    .ev-card h3{font-size:16px;font-weight:600;margin-bottom:.5rem;line-height:1.3}
+    .ev-card p{font-size:13px;color:var(--mid);line-height:1.6}
+    /* Countdown chip */
+    .countdown{display:inline-flex;align-items:center;gap:6px;background:var(--g);color:#fff;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;margin-top:.8rem}
+    .countdown i{font-size:13px}
+
+    /* INVOLVE */
+    #involve{background:var(--gl)}
+    .inv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:.5rem}
+    .inv-card{background:#fff;border-radius:var(--rl);padding:28px 24px;border:1px solid rgba(27,107,58,.12);text-align:center}
+    .inv-icon{font-size:36px;margin-bottom:1rem}
+    .inv-card h3{font-size:16px;font-weight:600;margin-bottom:.5rem}
+    .inv-card p{font-size:13px;color:var(--mid);line-height:1.6;margin-bottom:1.2rem}
+    .inv-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--g)}
+    .inv-link i{transition:transform .2s}
+    .inv-link:hover i{transform:translateX(4px)}
+
+    /* DONATE */
+    #donate{background:var(--bg)}
+    .don-wrap{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;margin-top:1rem}
+    .tiers{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .tier{background:#fff;border:1.5px solid var(--bd);border-radius:var(--r);padding:18px 20px;cursor:pointer;transition:all .2s}
+    .tier:hover,.tier.sel{border-color:var(--g);background:var(--gl)}
+    .tier-amt{font-size:22px;font-weight:700;color:var(--g);font-family:'Playfair Display',serif}
+    .tier-lbl{font-size:12px;color:var(--mid);margin-top:4px;line-height:1.4}
+    .don-form{background:#fff;border-radius:var(--rl);padding:28px;border:1px solid var(--bd)}
+    .don-form h3{font-size:18px;font-weight:600;margin-bottom:1.2rem}
+    .frow{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1rem}
+    .frow label{font-size:12px;font-weight:500;color:var(--mid)}
+    .frow input,.frow select{border:1px solid var(--bd);border-radius:8px;padding:10px 14px;font-size:14px;font-family:'Poppins',sans-serif;outline:none;background:var(--bg);transition:border-color .2s}
+    .frow input:focus,.frow select:focus{border-color:var(--g)}
+    .upi-box{background:var(--gl);border-radius:var(--r);padding:18px;text-align:center;margin-top:1.5rem}
+    .upi-id{font-size:15px;font-weight:600;color:var(--g);margin-top:.3rem}
+
+    /* CONTACT */
+    #contact{background:#fff}
+    .con-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+    .con-det{display:flex;align-items:flex-start;gap:14px;margin-bottom:1.5rem}
+    .con-icon{width:42px;height:42px;background:var(--gl);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .con-icon i{font-size:20px;color:var(--g)}
+    .con-lbl{font-size:11px;color:var(--mid);margin-bottom:3px;text-transform:uppercase;letter-spacing:.05em}
+    .con-val{font-size:14px;font-weight:500;color:var(--dark);line-height:1.5}
+    .soc-row{display:flex;gap:12px;margin-top:1.5rem}
+    .soc{width:40px;height:40px;border-radius:10px;border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;transition:all .2s;color:var(--mid)}
+    .soc:hover{background:var(--g);border-color:var(--g);color:#fff}
+    .soc i{font-size:18px}
+    .map-box{border-radius:var(--rl);overflow:hidden;height:300px}
+    .map-box iframe{width:100%;height:100%;border:none}
+
+    /* FOOTER */
+    footer{background:var(--dark);color:rgba(255,255,255,.75);padding:48px 6vw 28px}
+    .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2.5rem}
+    .foot-brand{font-family:'Playfair Display',serif;font-size:20px;color:#fff;margin-bottom:.6rem}
+    .foot-tag{font-size:12px;line-height:1.6;max-width:240px}
+    .foot-h{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#fff;margin-bottom:.9rem}
+    .foot-links{display:flex;flex-direction:column;gap:.5rem}
+    .foot-links a{font-size:13px;color:rgba(255,255,255,.6);transition:color .2s}
+    .foot-links a:hover{color:#fff}
+    .foot-bot{border-top:1px solid rgba(255,255,255,.1);padding-top:1.2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+    .foot-copy{font-size:12px;color:rgba(255,255,255,.4)}
+
+    /* WA FLOAT */
+    #wa{position:fixed;bottom:28px;right:28px;z-index:200;width:54px;height:54px;border-radius:50%;background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(37,211,102,.4);transition:transform .25s}
+    #wa:hover{transform:scale(1.1)}
+    #wa i{font-size:28px}
+
+    /* FADE-UP ANIM */
+    .fu{opacity:0;transform:translateY(28px);transition:opacity .55s ease,transform .55s ease}
+    .fu.vis{opacity:1;transform:translateY(0)}
+
+    /* RESPONSIVE */
+    @media(max-width:900px){
+      #hero{grid-template-columns:1fr}
+      .hero-r{display:none}
+      .hero-l{padding:3rem 6vw}
+      .about-grid,.don-wrap,.con-grid{grid-template-columns:1fr}
+      .about-badge{right:0}
+      #impact .impact-grid{grid-template-columns:repeat(2,1fr)}
+      .gal-grid{grid-template-columns:repeat(2,1fr)}
+      .grid3,.inv-grid{grid-template-columns:1fr 1fr}
+      .foot-grid{grid-template-columns:1fr 1fr}
+      .nav-links{display:none}
+      .ham{display:block}
+      .press-grid{grid-template-columns:1fr}
+    }
+    @media(max-width:560px){
+      section{padding:56px 5vw}
+      .grid3,.inv-grid,.tiers{grid-template-columns:1fr}
+      .gal-grid{grid-template-columns:1fr 1fr;grid-auto-rows:160px}
+      .foot-grid{grid-template-columns:1fr}
+      .team-grid{grid-template-columns:repeat(2,1fr)}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-brand">
+    <div class="nav-logo" style="background:none"><img src="images/logo.png" alt="Ved Daksha Foundation Logo" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/></div>
+    <div class="nav-name">Ved Daksha Foundation<span>वय राष्ट्रे जागृयाम</span></div>
+  </div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#team">Team</a>
+    <a href="#causes">Programs</a>
+    <a href="#gallery">Gallery</a>
+    <a href="blog.html">Blog</a>
+    <a href="#events">Events</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <button class="btn-nav" onclick="goto('donate')">Donate Now</button>
+  <button class="ham" id="ham"><i class="ti ti-menu-2"></i></button>
+</nav>
+<div id="mob">
+  <a href="#about" onclick="cm()">About</a>
+  <a href="#team" onclick="cm()">Team</a>
+  <a href="#causes" onclick="cm()">Programs</a>
+  <a href="#gallery" onclick="cm()">Gallery</a>
+  <a href="blog.html" onclick="cm()">Blog</a>
+  <a href="#events" onclick="cm()">Events</a>
+  <a href="#contact" onclick="cm()">Contact</a>
+  <button class="btn-nav" onclick="cm();goto('donate')">Donate Now</button>
+</div>
+
+<!-- HERO -->
+<section id="hero" style="padding:0">
+  <div class="hero-l">
+    <div class="eyebrow"><i class="ti ti-map-pin"></i>Ghaziabad · Delhi · Meerut</div>
+    <h1>Protecting, Educating<br>&amp; <span class="ac">Empowering</span><br>Every Child</h1>
+    <p class="hero-p">Ved Daksha Foundation provides free education, yoga, dance, martial arts, and health camps to underprivileged children — because every child deserves a dignified future.</p>
+    <div class="btns">
+      <button class="btn-p" onclick="goto('causes')"><i class="ti ti-arrow-right"></i>See Our Work</button>
+      <button class="btn-o" onclick="goto('donate')"><i class="ti ti-coin"></i>Donate</button>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-n">3+</div><div class="stat-l">Cities Reached</div></div>
+      <div class="stat-div"></div>
+      <div><div class="stat-n">5+</div><div class="stat-l">Active Programs</div></div>
+      <div class="stat-div"></div>
+      <div><div class="stat-n">Daily</div><div class="stat-l">Classes Running</div></div>
+    </div>
+  </div>
+  <div class="hero-r">
+    <img src="images/1000087293.jpg.jpeg" alt="Children and team at Ved Daksha Foundation annual event"/>
+    <div class="hero-badge"><i class="ti ti-award"></i>
+      <div><div class="badge-t">Annual Recognition Ceremony</div><div class="badge-s">Medals, school bags &amp; certificates</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION -->
+<section id="mission">
+  <div class="center fu">
+    <div class="sec-eye">Our Mission</div>
+    <h2 class="sec-h">Three pillars of change</h2>
+    <p class="sec-sub">We work across education, health, and skill development — building confident, complete children who will shape a better nation.</p>
+  </div>
+  <div class="grid3 fu">
+    <div class="card"><div class="icon ig"><i class="ti ti-book-open"></i></div><h3>Free Education</h3><p>Daily tutoring, reading programs, and academic support for children who cannot afford private schooling.</p></div>
+    <div class="card"><div class="icon io"><i class="ti ti-shield-check"></i></div><h3>Yoga &amp; Self-Defence</h3><p>Yoga, Judo, Karate, and classical dance training builds discipline, confidence, and physical wellbeing — especially for girls' safety.</p></div>
+    <div class="card"><div class="icon ig"><i class="ti ti-heart-plus"></i></div><h3>Health &amp; Community</h3><p>Medical camps, health awareness drives, and women's wellbeing programs extending our reach beyond classroom walls.</p></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div style="position:relative" class="fu">
+      <div class="about-img"><img src="images/1000087243.jpg.jpeg" alt="Dr. Usha Tyagi, Founder of Ved Daksha Foundation, lighting the ceremonial diya"/></div>
+      <div class="about-badge"><div class="badge-n">Since<br>2022</div><div class="badge-l">Serving the community</div></div>
+    </div>
+    <div class="fu">
+      <div class="sec-eye">About Us</div>
+      <h2 class="sec-h">Rooted in Ghaziabad,<br>reaching every child</h2>
+      <p style="font-size:14px;color:var(--mid);line-height:1.7;margin-bottom:1.5rem">Founded at 7/56, Chiranjeev Vihar by <strong>Dr. Usha Tyagi</strong>, Ved Daksha Foundation was born from a single belief: no child should be denied a dignified future because of where they were born. From books and backpacks to yoga performances and community awards — we cover every dimension of a child's growth.</p>
+      <div class="checks">
+        <div class="chk"><i class="ti ti-circle-check-filled"></i><span>Registered NGO — Ghaziabad, Delhi &amp; Meerut</span></div>
+        <div class="chk"><i class="ti ti-circle-check-filled"></i><span>Free programs: education, yoga, dance, martial arts &amp; health</span></div>
+        <div class="chk"><i class="ti ti-circle-check-filled"></i><span>Annual felicitation with medals, bags &amp; certificates</span></div>
+        <div class="chk"><i class="ti ti-circle-check-filled"></i><span>Covered by local newspapers — Drishti Sagar &amp; others</span></div>
+        <div class="chk"><i class="ti ti-circle-check-filled"></i><span>Book &amp; stationery distribution to meritorious students</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="center fu">
+    <div class="sec-eye">Our People</div>
+    <h2 class="sec-h">The faces behind the mission</h2>
+    <p class="sec-sub">Led by Dr. Usha Tyagi and supported by volunteers, educators, and community leaders who believe every child matters.</p>
+  </div>
+  <div class="team-grid fu">
+    <div class="team-card">
+      <div class="team-img"><img src="images/1000087243.jpg.jpeg" alt="Dr. Usha Tyagi — Founder &amp; President"/></div>
+      <div class="team-name">Dr. Usha Tyagi</div>
+      <div class="team-role">Founder &amp; President</div>
+      <div class="team-bio">The driving force behind Ved Daksha Foundation. Dr. Usha Tyagi has dedicated years to providing free education and holistic development to underprivileged children of Ghaziabad.</div>
+    </div>
+    <div class="team-card">
+      <div class="team-img"><img src="images/1000086285.jpg.jpeg" alt="Vishakha Tyagi — Program Head"/></div>
+      <div class="team-name">Vishakha Tyagi</div>
+      <div class="team-role">Program Head &amp; Anchor</div>
+      <div class="team-bio">Vishakha leads the on-ground programs and serves as the main event anchor. She coordinates daily classes, events, and volunteer management across all programs.</div>
+    </div>
+    <div class="team-card">
+      <div class="team-img"><img src="images/1000086482.jpg.jpeg" alt="Dr. Richa Sood — Education Advisor"/></div>
+      <div class="team-name">Dr. Richa Sood</div>
+      <div class="team-role">Education Advisor</div>
+      <div class="team-bio">A respected educationist and author, Dr. Richa Sood advises on curriculum, mentors students, and has been a keynote presence at the foundation's annual events.</div>
+    </div>
+    <div class="team-card">
+      <div class="team-img"><img src="images/1000087283.jpg.jpeg" alt="Aryan Tyagi — Youth Coordinator"/></div>
+      <div class="team-name">Aryan Tyagi</div>
+      <div class="team-role">Youth Coordinator</div>
+      <div class="team-bio">Aryan bridges the gap between the foundation and younger volunteers, organizing youth participation in outreach events and educational programs.</div>
+    </div>
+    <div class="team-card">
+      <div class="team-img"><img src="images/1000087481.jpg.jpeg" alt="Kavita Singhal — Social Worker"/></div>
+      <div class="team-name">Kavita Singhal</div>
+      <div class="team-role">Senior Social Worker</div>
+      <div class="team-bio">A veteran community worker who extends the foundation's reach into low-income neighbourhoods, organising health camps and women's awareness programs.</div>
+    </div>
+    <div class="team-card">
+      <div class="team-img"><img src="images/1000087431.jpg.jpeg" alt="Our Volunteer Team"/></div>
+      <div class="team-name">Our Volunteer Team</div>
+      <div class="team-role">Educators &amp; Coaches</div>
+      <div class="team-bio">Young educators, dance teachers, yoga instructors, and community volunteers who show up every day to make a difference in these children's lives.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMS / CAUSES -->
+<section id="causes">
+  <div class="center fu">
+    <div class="sec-eye">What We Do</div>
+    <h2 class="sec-h">Programs that change lives</h2>
+    <p class="sec-sub">Designed around what our children actually need — not just textbooks, but confidence, health, expression, and joy.</p>
+  </div>
+  <div class="causes-grid fu">
+    <div class="cause-card"><div class="cimg"><img src="images/1000086223.jpg.jpeg" alt="Free tutoring sessions"/></div><div class="cbody"><span class="ctag">Education</span><h3>Free Tutoring &amp; Literacy</h3><p>Daily classes for Class 1–10, covering core subjects and reading skills — completely free, at our Chiranjeev Vihar centre.</p></div></div>
+    <div class="cause-card"><div class="cimg"><img src="images/1000087479.jpg.jpeg" alt="Yoga and acrobatics performance"/></div><div class="cbody"><span class="ctag">Yoga &amp; Fitness</span><h3>Yoga &amp; Acrobatics</h3><p>Children train in yoga and acrobatics under expert guidance, performing at annual showcases and competing at district level.</p></div></div>
+    <div class="cause-card"><div class="cimg"><img src="images/1000087227.jpg.jpeg" alt="Dance performance"/></div><div class="cbody"><span class="ctag">Arts &amp; Culture</span><h3>Dance &amp; Performing Arts</h3><p>Classical and contemporary dance training that builds expression, discipline, and pride — showcased at every annual celebration.</p></div></div>
+    <div class="cause-card"><div class="cimg"><img src="images/1000087405.jpg.jpeg" alt="Book distribution to students"/></div><div class="cbody"><span class="ctag">Resources</span><h3>Books &amp; Stationery Drive</h3><p>Regular distribution of school books, notebooks, and stationery kits to deserving students who cannot afford them.</p></div></div>
+  </div>
+</section>
+
+<!-- PRESS / NEWSPAPER -->
+<section id="press">
+  <div class="press-grid fu">
+    <div class="press-img"><img src="images/1000087237.jpg.jpeg" alt="Drishti Sagar newspaper coverage of Ved Daksha Foundation"/></div>
+    <div>
+      <div class="sec-eye">In the News</div>
+      <h2 class="sec-h">Recognised by the community</h2>
+      <blockquote class="press-quote">The annual felicitation saw children showcase talents in dance, song, Sanskrit recitation, and martial arts — a moving display of the foundation's impact.</blockquote>
+      <p class="press-source">— <strong>Drishti Sagar</strong>, Local News Coverage · Ghaziabad</p>
+      <p style="font-size:13px;color:var(--mid);margin-top:1rem;line-height:1.7">The event was covered by local newspapers and attended by prominent figures including Advocate Rajkumar Gupta, BJP leader Om Rajput, poet Deepak Deep, and social workers Kavita Singhal and Aryan Tyagi.</p>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT -->
+<section id="impact">
+  <div class="center fu">
+    <div class="sec-eye">Our Impact</div>
+    <h2 class="sec-h">Numbers that matter</h2>
+    <p class="sec-sub">Every number here is a real child, a real family, a real life changed by your support and our dedication.</p>
+  </div>
+  <div class="impact-grid fu">
+    <div><div class="impact-n" data-t="3">0</div><div class="impact-l">Cities — Ghaziabad, Delhi &amp; Meerut</div></div>
+    <div><div class="impact-n" data-t="5">0</div><div class="impact-l">Active programs running daily</div></div>
+    <div><div class="impact-n" data-t="100">0</div><div class="impact-l">Children supported every year</div></div>
+    <div><div class="impact-n" data-t="2022">0</div><div class="impact-l">Founded — serving since</div></div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="center fu">
+    <div class="sec-eye">Gallery</div>
+    <h2 class="sec-h">Moments of joy &amp; growth</h2>
+    <p class="sec-sub">Real photos from our events, performances, and celebrations — the proof is in these smiles.</p>
+  </div>
+  <div class="gal-grid fu">
+    <div class="gi wide tall"><img src="images/1000087293.jpg.jpeg" alt="Annual event group photo"/><div class="gov"><span>Annual Felicitation Event</span></div></div>
+    <div class="gi"><img src="images/1000086285.jpg.jpeg" alt="Yoga performance"/><div class="gov"><span>Yoga Performance</span></div></div>
+    <div class="gi"><img src="images/1000087227.jpg.jpeg" alt="Dance performance"/><div class="gov"><span>Dance Showcase</span></div></div>
+    <div class="gi"><img src="images/1000087433.jpg.jpeg" alt="Acrobatics"/><div class="gov"><span>Acrobatics Display</span></div></div>
+    <div class="gi"><img src="images/1000087479.jpg.jpeg" alt="Yoga performance"/><div class="gov"><span>Yoga &amp; Fitness</span></div></div>
+    <div class="gi"><img src="images/1000087405.jpg.jpeg" alt="Book distribution"/><div class="gov"><span>Book Distribution</span></div></div>
+    <div class="gi"><img src="images/1000087431.jpg.jpeg" alt="Children and team"/><div class="gov"><span>Our Children</span></div></div>
+    <div class="gi"><img src="images/1000087407.jpg.jpeg" alt="Award ceremony"/><div class="gov"><span>Award Ceremony</span></div></div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section id="blog">
+  <div class="center fu">
+    <div class="sec-eye">Blog &amp; Updates</div>
+    <h2 class="sec-h">Stories from the field</h2>
+    <p class="sec-sub">Read about our work, our children's journeys, and how education is changing lives in Ghaziabad.</p>
+  </div>
+  <div class="blog-grid fu">
+    <div class="blog-card">
+      <div class="blog-img"><img src="images/1000086285.jpg.jpeg" alt="Children performing yoga"/></div>
+      <div class="blog-body">
+        <div class="blog-cat">Education</div>
+        <h3>How Free Education Changes a Child's Trajectory in Ghaziabad</h3>
+        <p>When a child from a daily-wage family gets access to books, a classroom, and a caring teacher — everything changes. Here's what we've witnessed...</p>
+        <a class="blog-link" href="blog.html">Read More <i class="ti ti-arrow-right"></i></a>
+      </div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-img"><img src="images/1000087271.jpg.jpeg" alt="Dance practice"/></div>
+      <div class="blog-body">
+        <div class="blog-cat">Arts &amp; Development</div>
+        <h3>Why Yoga and Dance Are as Important as Textbooks</h3>
+        <p>Physical expression, discipline, and artistry are not extracurricular — they are the core of holistic childhood development. Our children prove it every day.</p>
+        <a class="blog-link" href="blog.html">Read More <i class="ti ti-arrow-right"></i></a>
+      </div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-img"><img src="images/1000087355.jpg.jpeg" alt="Children at event"/></div>
+      <div class="blog-body">
+        <div class="blog-cat">Community</div>
+        <h3>5 Ways You Can Support Underprivileged Children Without Donating Money</h3>
+        <p>Books, time, skills, connections, and presence — there are more ways to give than you think. Here's how our volunteers make the difference...</p>
+        <a class="blog-link" href="blog.html">Read More <i class="ti ti-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:2rem"><a href="blog.html" class="btn-o">View All Posts <i class="ti ti-arrow-right"></i></a></div>
+</section>
+
+<!-- EVENTS -->
+<section id="events">
+  <div class="center fu">
+    <div class="sec-eye">Events</div>
+    <h2 class="sec-h">Past highlights &amp; upcoming</h2>
+    <p class="sec-sub">From annual celebrations to community outreach — stay connected with what we're doing.</p>
+  </div>
+  <div class="events-grid fu" id="events-container">
+    <!-- Populated by API or fallback below -->
+    <div class="ev-card">
+      <div class="ev-img"><img src="images/1000087293.jpg.jpeg" alt="Annual event"/></div>
+      <div class="ev-body">
+        <div class="ev-date"><i class="ti ti-calendar"></i>Annual Event</div>
+        <h3>वार्षिकोत्सव व सम्मान समारोह</h3>
+        <p>Annual felicitation — medals, school bags, and certificates. Performances in yoga, dance &amp; Sanskrit recitation. Attended by dignitaries and parents.</p>
+      </div>
+    </div>
+    <div class="ev-card">
+      <div class="ev-img"><img src="images/1000086285.jpg.jpeg" alt="Yoga showcase"/></div>
+      <div class="ev-body">
+        <div class="ev-date"><i class="ti ti-music"></i>Cultural Program</div>
+        <h3>Yoga &amp; Dance Showcase</h3>
+        <p>Children performed yoga, acrobatics, and classical dance in front of parents and dignitaries — months of practice on full display.</p>
+      </div>
+    </div>
+    <div class="ev-card">
+      <div class="ev-img"><img src="images/1000087405.jpg.jpeg" alt="Book distribution"/></div>
+      <div class="ev-body">
+        <div class="ev-date"><i class="ti ti-book"></i>Education Drive</div>
+        <h3>Books &amp; Stationery Distribution</h3>
+        <p>Meritorious students from the foundation received books, stationery kits, and encouragement to continue their studies.</p>
+        <div class="countdown"><i class="ti ti-clock"></i><span id="next-event-countdown">Next event coming soon</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GET INVOLVED -->
+<section id="involve">
+  <div class="center fu">
+    <div class="sec-eye">Get Involved</div>
+    <h2 class="sec-h">Join the movement</h2>
+    <p class="sec-sub">Time, skills, or resources — every contribution makes a real difference in a child's life.</p>
+  </div>
+  <div class="inv-grid fu">
+    <div class="inv-card"><div class="inv-icon" style="color:var(--g)"><i class="ti ti-coin"></i></div><h3>Donate</h3><p>Fund stationery, school bags, yoga gear, or health camp supplies. Every rupee goes directly to the children.</p><a class="inv-link" href="#donate">Donate now <i class="ti ti-arrow-right"></i></a></div>
+    <div class="inv-card"><div class="inv-icon" style="color:var(--o)"><i class="ti ti-hand-stop"></i></div><h3>Volunteer</h3><p>Teach a skill, run a workshop, assist at events, or mentor a child. Doctors, teachers, artists — all welcome.</p><a class="inv-link" href="#contact" style="color:var(--o)">Get in touch <i class="ti ti-arrow-right"></i></a></div>
+    <div class="inv-card"><div class="inv-icon" style="color:#2563EB"><i class="ti ti-building"></i></div><h3>CSR / Partnership</h3><p>Partner for CSR initiatives, in-kind donations, or sponsored programs. Open to schools, businesses &amp; institutions.</p><a class="inv-link" href="mailto:veddakshafoundation22@gmail.com" style="color:#2563EB">Email us <i class="ti ti-arrow-right"></i></a></div>
+  </div>
+</section>
+
+<!-- DONATE -->
+<section id="donate">
+  <div class="fu">
+    <div class="sec-eye">Donate</div>
+    <h2 class="sec-h">Every rupee reaches a child</h2>
+    <p class="sec-sub">Choose an amount or enter your own. Your donation funds education, health, and opportunity.</p>
+  </div>
+  <div class="don-wrap fu">
+    <div>
+      <div class="tiers">
+        <div class="tier sel" onclick="selTier(this,500)"><div class="tier-amt">₹500</div><div class="tier-lbl">Stationery kit for one child</div></div>
+        <div class="tier" onclick="selTier(this,1000)"><div class="tier-amt">₹1,000</div><div class="tier-lbl">A week of yoga/dance training</div></div>
+        <div class="tier" onclick="selTier(this,2500)"><div class="tier-amt">₹2,500</div><div class="tier-lbl">One complete school bag kit</div></div>
+        <div class="tier" onclick="selTier(this,5000)"><div class="tier-amt">₹5,000+</div><div class="tier-lbl">CSR / custom contribution</div></div>
+        <div class="tier" onclick="selTier(this,0)" style="border-style:dashed"><div class="tier-amt" style="font-size:14px">Custom ✎</div><div class="tier-lbl">Enter your own amount below</div></div>
+      </div>
+      <div class="upi-box" style="margin-top:1.5rem">
+        <!-- Live amount badge -->
+        <div id="qr-amount-badge" style="background:var(--g);color:#fff;border-radius:20px;padding:4px 14px;font-size:13px;font-weight:600;margin-bottom:.5rem;display:inline-block">Paying ₹500</div>
+        <!-- QR code auto-generated from UPI ID — updates with amount -->
+        <div id="upi-qr-wrap" style="display:flex;flex-direction:column;align-items:center;gap:.5rem">
+          <div style="position:relative">
+            <img id="upi-qr-img" src="" alt="Scan to Pay" style="width:160px;height:160px;border-radius:12px;border:3px solid var(--g);display:none"/>
+            <i id="upi-qr-icon" class="ti ti-qrcode" style="font-size:48px;color:var(--g)"></i>
+          </div>
+        </div>
+        <p style="font-size:12px;color:var(--mid);margin-top:.4rem;text-align:center">Scan with PhonePe / Google Pay / Paytm</p>
+        <div class="upi-id" id="donate-upi-id" style="cursor:pointer;user-select:all" title="Tap to copy">kbhavishya682-1@oksbi</div>
+        <div style="display:flex;gap:.5rem;margin-top:.5rem;flex-wrap:wrap;justify-content:center">
+          <button onclick="copyUPI()" style="background:var(--gl);border:1px solid var(--bd);border-radius:8px;padding:5px 14px;font-size:12px;color:var(--g);cursor:pointer;font-family:Poppins,sans-serif"><i class="ti ti-copy" style="margin-right:4px"></i>Copy UPI ID</button>
+          <a id="upi-deep-link" href="#" target="_blank" style="display:inline-flex;align-items:center;background:var(--g);color:#fff;border-radius:8px;padding:5px 14px;font-size:12px;text-decoration:none"><i class="ti ti-external-link" style="margin-right:4px"></i>Open Pay App</a>
+        </div>
+        <p style="margin-top:.5rem;font-size:11px;color:var(--mid);text-align:center">After payment, WhatsApp receipt to <strong id="donate-phone-number">9068188593</strong></p>
+      </div>
+      <div style="background:var(--gl);border-radius:var(--r);padding:14px 18px;margin-top:1rem;font-size:13px;color:var(--mid);display:flex;gap:10px;align-items:flex-start">
+        <i class="ti ti-receipt" style="color:var(--g);font-size:18px;flex-shrink:0;margin-top:1px"></i>
+        <span>Bank Transfer: Contact us at <a href="tel:8700785399" id="bank-phone-link" style="color:var(--g);font-weight:600">8700785399</a> for NEFT/RTGS account details. 80G tax benefit available.</span>
+      </div>
+    </div>
+    <div class="don-form">
+      <h3>Send your details</h3>
+      <div class="frow"><label for="dn">Your Name</label><input type="text" id="dn" placeholder="Full name"/></div>
+      <div class="frow"><label for="dp">Mobile / WhatsApp</label><input type="tel" id="dp" placeholder="+91 "/></div>
+      <div class="frow"><label for="de">Email (optional)</label><input type="email" id="de" placeholder="your@email.com"/></div>
+      <div class="frow"><label for="da">Amount (₹)</label><input type="number" id="da" value="500" min="1" oninput="onAmountInput(this.value)" placeholder="Enter amount"/></div>
+      <div class="frow"><label for="dpu">Purpose</label>
+        <select id="dpu">
+          <option>General donation</option>
+          <option>Stationery &amp; books</option>
+          <option>Yoga / dance training</option>
+          <option>School bags</option>
+          <option>Health camp</option>
+          <option>CSR partnership</option>
+        </select>
+      </div>
+      <button class="btn-p" style="width:100%;justify-content:center;margin-top:.5rem" onclick="sendWA()"><i class="ti ti-brand-whatsapp"></i>Send via WhatsApp</button>
+      <button id="rzp-btn" class="btn-o" style="width:100%;justify-content:center;margin-top:.7rem;display:none" onclick="payRazorpay()"><i class="ti ti-credit-card"></i>Pay Online via Razorpay</button>
+      <p style="font-size:11px;color:var(--mid);margin-top:.8rem;text-align:center">WhatsApp opens with details pre-filled. Online payment processes instantly.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="con-grid fu">
+    <div>
+      <div class="sec-eye">Contact</div>
+      <h2 class="sec-h">We're right here<br>in Ghaziabad</h2>
+      <p style="font-size:14px;color:var(--mid);line-height:1.7;margin-bottom:2rem">Visit us, call us, or send a WhatsApp. We're a small, hands-on team and we personally respond to every message.</p>
+      <div class="con-det"><div class="con-icon"><i class="ti ti-map-pin"></i></div><div><div class="con-lbl">Address</div><div class="con-val">7/56, Chiranjeev Vihar, Ghaziabad, UP – 201002</div></div></div>
+      <div class="con-det"><div class="con-icon"><i class="ti ti-phone"></i></div><div><div class="con-lbl">Call / WhatsApp</div><div class="con-val"><a href="tel:8700785399">8700785399</a> &nbsp;|&nbsp; <a href="tel:8595656658">8595656658</a></div></div></div>
+      <div class="con-det"><div class="con-icon"><i class="ti ti-mail"></i></div><div><div class="con-lbl">Email</div><div class="con-val"><a href="mailto:veddakshafoundation22@gmail.com">veddakshafoundation22@gmail.com</a></div></div></div>
+      <div class="soc-row">
+        <a class="soc" href="https://facebook.com/VedDakshaFoundation" target="_blank"><i class="ti ti-brand-facebook"></i></a>
+        <a class="soc" href="https://instagram.com/veddakshafoundation" target="_blank"><i class="ti ti-brand-instagram"></i></a>
+        <a class="soc" href="https://youtube.com/@veddakshafoundation22" target="_blank"><i class="ti ti-brand-youtube"></i></a>
+        <a class="soc" href="https://wa.me/918700785399" target="_blank"><i class="ti ti-brand-whatsapp"></i></a>
+      </div>
+      <!-- Contact form -->
+      <div style="margin-top:2rem;background:var(--gl);border-radius:var(--r);padding:20px">
+        <h3 style="font-size:16px;font-weight:600;margin-bottom:1rem">Send us a message</h3>
+        <div class="frow"><label for="cn">Name</label><input type="text" id="cn" placeholder="Your name"/></div>
+        <div class="frow"><label for="cc">Phone / Email</label><input type="text" id="cc" placeholder="Phone or email"/></div>
+        <div class="frow"><label for="cm2">Message</label><textarea id="cm2" rows="3" style="border:1px solid var(--bd);border-radius:8px;padding:10px 14px;font-size:14px;font-family:Poppins,sans-serif;outline:none;background:#fff;resize:vertical;width:100%"></textarea></div>
+        <button class="btn-p" style="margin-top:.5rem" onclick="sendContact()"><i class="ti ti-send"></i>Send Message</button>
+      </div>
+    </div>
+    <div>
+      <div class="map-box">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3499!2d77.4733!3d28.6703!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce5c3a6666667%3A0x0!2sChiranjeev+Vihar%2C+Ghaziabad!5e0!3m2!1sen!2sin!4v1" allowfullscreen loading="lazy" title="Ved Daksha Foundation Map"></iframe>
+      </div>
+      <div style="background:var(--gl);border-radius:var(--r);padding:16px 18px;margin-top:1rem;display:flex;align-items:flex-start;gap:12px">
+        <i class="ti ti-info-circle" style="color:var(--g);font-size:20px;flex-shrink:0;margin-top:2px"></i>
+        <p style="font-size:13px;color:var(--mid);line-height:1.6">Located in Chiranjeev Vihar near House No. 56. Look for the green NGO banners on the wall!</p>
+      </div>
+      <div style="margin-top:1rem">
+        <img src="images/1000087287.jpg.jpeg" style="border-radius:var(--r);height:200px;width:100%;object-fit:cover" alt="Ved Daksha Foundation office entrance"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-grid">
+    <div>
+      <div class="foot-brand" style="display:flex;align-items:center;gap:10px">
+        <img src="images/logo.png" alt="Ved Daksha Foundation Logo" style="width:36px;height:36px;border-radius:50%;object-fit:cover"/>
+        <span>Ved Daksha Foundation</span>
+      </div>
+      <p class="foot-tag" style="margin-top:.6rem">वय राष्ट्रे जागृयाम — We rise for the nation. Empowering underprivileged children through education, yoga, arts, and self-defence.</p>
+      <div class="soc-row" style="margin-top:1.2rem">
+        <a class="soc" href="https://facebook.com/VedDakshaFoundation" target="_blank" style="border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.6)"><i class="ti ti-brand-facebook"></i></a>
+        <a class="soc" href="https://instagram.com/veddakshafoundation" target="_blank" style="border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.6)"><i class="ti ti-brand-instagram"></i></a>
+        <a class="soc" href="https://youtube.com/@veddakshafoundation22" target="_blank" style="border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.6)"><i class="ti ti-brand-youtube"></i></a>
+      </div>
+    </div>
+    <div>
+      <div class="foot-h">Programs</div>
+      <div class="foot-links"><a href="#causes">Free Education</a><a href="#causes">Yoga &amp; Martial Arts</a><a href="#causes">Dance &amp; Arts</a><a href="#causes">Health Camps</a><a href="#causes">Book Distribution</a></div>
+    </div>
+    <div>
+      <div class="foot-h">Organisation</div>
+      <div class="foot-links"><a href="#about">About Us</a><a href="#team">Our Team</a><a href="#impact">Impact</a><a href="#gallery">Gallery</a><a href="#blog">Blog</a><a href="admin/index.html">Admin</a></div>
+    </div>
+    <div>
+      <div class="foot-h">Contact</div>
+      <div class="foot-links"><a href="tel:8700785399">8700785399</a><a href="tel:8595656658">8595656658</a><a href="mailto:veddakshafoundation22@gmail.com">veddakshafoundation22@gmail.com</a><a href="#contact">7/56, Chiranjeev Vihar,<br>Ghaziabad – 201002</a></div>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <div class="foot-copy">© 2024 Ved Daksha Foundation. All rights reserved.</div>
+    <div class="foot-copy">Built with ❤️ for a better India</div>
+  </div>
+</footer>
+
+<!-- WA FLOAT -->
+<a id="wa" href="https://wa.me/918700785399?text=Hi%2C%20I%20want%20to%20know%20more%20about%20Ved%20Daksha%20Foundation" target="_blank">
+  <i class="ti ti-brand-whatsapp"></i>
+</a>
+
+<script>
+const API = 'http://localhost:5000/api';
+
+// Nav
+document.getElementById('ham').addEventListener('click',()=>document.getElementById('mob').classList.toggle('open'));
+function cm(){document.getElementById('mob').classList.remove('open')}
+function goto(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth'})}
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>20));
+
+// Fade-up
+const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('vis');io.unobserve(x.target)}}),{threshold:.1});
+document.querySelectorAll('.fu').forEach(el=>io.observe(el));
+
+// CountUp
+const co=new IntersectionObserver(e=>e.forEach(x=>{
+  if(x.isIntersecting){
+    const el=x.target,t=+el.dataset.t,d=t>1000?1800:1200,step=t/(d/16);let c=0;
+    const r=setInterval(()=>{c=Math.min(c+step,t);el.textContent=t>999?Math.round(c):Math.round(c)+(c>=t?'+':'');if(c>=t)clearInterval(r)},16);
+    co.unobserve(el);
+  }
+}),{threshold:.3});
+document.querySelectorAll('.impact-n[data-t]').forEach(el=>co.observe(el));
+
+// Tier select
+function selTier(card,amt){
+  document.querySelectorAll('.tier').forEach(c=>c.classList.remove('sel'));
+  card.classList.add('sel');
+  const daEl = document.getElementById('da');
+  if (amt > 0) {
+    daEl.value = amt;
+    onAmountInput(amt);
+  } else {
+    daEl.value = '';
+    daEl.focus();
+    onAmountInput(0);
+  }
+}
+
+// Handle manual or automatic amount changes
+function onAmountInput(val){
+  const amount = parseFloat(val) || 0;
+  const badge = document.getElementById('qr-amount-badge');
+  if (badge) {
+    if (amount > 0) {
+      badge.textContent = `Paying ₹${amount}`;
+    } else {
+      badge.textContent = `Enter custom amount`;
+    }
+  }
+  const upiId = document.getElementById('donate-upi-id')?.textContent.trim() || 'kbhavishya682-1@oksbi';
+  generateUPIQR(upiId, amount > 0 ? amount : null);
+
+  // If the user typed an amount, update the tier card selection state to match it
+  const tiers = document.querySelectorAll('.tier');
+  let matched = false;
+  if (amount > 0) {
+    tiers.forEach((t, idx) => {
+      if (idx === 4) return; // Skip custom tier card
+      const amtEl = t.querySelector('.tier-amt');
+      if (amtEl) {
+        const tVal = parseInt(amtEl.textContent.replace(/[^0-9]/g, ''));
+        if (tVal === amount) {
+          document.querySelectorAll('.tier').forEach(c => c.classList.remove('sel'));
+          t.classList.add('sel');
+          matched = true;
+        }
+      }
+    });
+  }
+  if (!matched && amount > 0 && tiers[4]) {
+    document.querySelectorAll('.tier').forEach(c => c.classList.remove('sel'));
+    tiers[4].classList.add('sel');
+  }
+}
+
+// Copy UPI ID to clipboard
+function copyUPI(){
+  const upiId=document.getElementById('donate-upi-id').textContent.trim();
+  navigator.clipboard.writeText(upiId).then(()=>alert('✅ UPI ID copied!\n\n'+upiId+'\n\nOpen PhonePe / Google Pay / Paytm and paste this to pay.')).catch(()=>{
+    prompt('Copy this UPI ID:',upiId);
+  });
+}
+
+// Generate QR code from UPI ID using Google Charts API
+function generateUPIQR(upiId, amount){
+  const amtPart = amount ? `&am=${amount}` : '';
+  const upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=Ved+Daksha+Foundation&cu=INR${amtPart}`;
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl)}`;
+  const img = document.getElementById('upi-qr-img');
+  const icon = document.getElementById('upi-qr-icon');
+  const deepLink = document.getElementById('upi-deep-link');
+  if(img){
+    img.src = qrUrl;
+    img.style.display = 'block';
+    if(icon) icon.style.display = 'none';
+  }
+  if(deepLink) deepLink.href = upiUrl;
+}
+
+// Donate via WhatsApp
+function sendWA(){
+  const n=document.getElementById('dn').value||'A supporter';
+  const p=document.getElementById('dp').value||'Not provided';
+  const a=document.getElementById('da').value||'500';
+  const pu=document.getElementById('dpu').value;
+  const upiId=document.getElementById('donate-upi-id')?.textContent.trim()||'kbhavishya682-1@oksbi';
+  const msg=encodeURIComponent(`Hello Ved Daksha Foundation! 🙏\n\nI'd like to donate ₹${a} for: ${pu}\n\nName: ${n}\nMobile: ${p}\nUPI ID to pay: ${upiId}\n\nPlease confirm receipt. Thank you!`);
+  const waPhone = window._donationPhone || '9068188593';
+  window.open(`https://wa.me/91${waPhone}?text=${msg}`,'_blank');
+  fetch(`${API}/donations`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:n,phone:p,email:document.getElementById('de').value,amount:+a,purpose:pu,method:'whatsapp'})}).catch(()=>{});
+}
+
+// Donate via Razorpay
+function payRazorpay(){
+  const rzpKey = window._razorpayKey;
+  if(!rzpKey){
+    alert('Razorpay is loading, please wait a moment and try again.');
+    return;
+  }
+  const n=document.getElementById('dn').value.trim()||'Donor';
+  const p=document.getElementById('dp').value.trim()||'';
+  const e=document.getElementById('de').value.trim()||'';
+  const a=+(document.getElementById('da').value||500);
+  const pu=document.getElementById('dpu').value;
+  if(!n||n==='Donor'){alert('Please enter your name before paying.');return;}
+  if(a<1){alert('Please enter a valid donation amount.');return;}
+  const options={
+    key: rzpKey,
+    amount: a*100,
+    currency: 'INR',
+    name: 'Ved Daksha Foundation',
+    description: pu,
+    image: 'images/logo.png',
+    handler: function(response){
+      fetch(`${API}/donations`,{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({name:n,phone:p,email:e,amount:a,purpose:pu,method:'razorpay',txnId:response.razorpay_payment_id})
+      }).catch(()=>{});
+      alert(`✅ Payment of ₹${a} successful!\nPayment ID: ${response.razorpay_payment_id}\nThank you for supporting Ved Daksha Foundation!`);
+    },
+    prefill:{name:n,email:e,contact:p},
+    notes:{purpose:pu},
+    theme:{color:'#1B6B3A'}
+  };
+  try{
+    const rzp=new Razorpay(options);
+    rzp.on('payment.failed',function(r){
+      alert('Payment failed: '+(r.error?.description||'Unknown error')+'\nPlease try again or donate via UPI/WhatsApp.');
+    });
+    rzp.open();
+  } catch(err){
+    alert('Could not open payment. Please ensure you have a stable internet connection.\n\nYou can also donate via UPI: '+( document.getElementById('donate-upi-id')?.textContent.trim()||'kbhavishya682-1@oksbi'));
+  }
+}
+
+// Contact form
+function sendContact(){
+  const n=document.getElementById('cn').value;
+  const c=document.getElementById('cc').value;
+  const m=document.getElementById('cm2').value;
+  if(!n||!m){alert('Please fill in name and message');return}
+  fetch(`${API}/contact`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:n,phone:c,message:m})})
+    .then(()=>{alert('✅ Message sent! We will contact you soon.');document.getElementById('cn').value='';document.getElementById('cc').value='';document.getElementById('cm2').value=''})
+    .catch(()=>alert('✅ Message noted! Call us at ' + (window._donationPhone || '8700785399')));
+}
+
+// Load upcoming events from API
+fetch(`${API}/events?upcoming=true&limit=3`)
+  .then(r=>r.json())
+  .then(events=>{
+    if(!events.length)return;
+    const c=document.getElementById('events-container');
+    c.innerHTML=events.map(ev=>{
+      const d=new Date(ev.date);
+      const diff=Math.ceil((d-Date.now())/(1000*60*60*24));
+      const countdown=diff>0?`<div class="countdown"><i class="ti ti-clock"></i><span>In ${diff} day${diff===1?'':'s'}</span></div>`:'';
+      return `<div class="ev-card">
+        ${ev.coverImage?`<div class="ev-img"><img src="${ev.coverImage}" alt="${ev.title}"/></div>`:''}
+        <div class="ev-body">
+          <div class="ev-date"><i class="ti ti-calendar"></i>${d.toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})}</div>
+          <h3>${ev.title}</h3>
+          <p>${ev.description.substring(0,120)}...</p>
+          ${countdown}
+        </div>
+      </div>`;
+    }).join('');
+  }).catch(()=>{}); // fallback to static content already in HTML
+
+// Fetch donation config dynamically
+fetch(`${API}/donations/config`)
+  .then(r=>r.json())
+  .then(cfg=>{
+    const upiId = cfg.upi_id || 'kbhavishya682-1@oksbi';
+    const upiEl = document.getElementById('donate-upi-id');
+    if (upiEl) upiEl.textContent = upiId;
+    
+    // Get initial amount
+    const initialAmt = parseFloat(document.getElementById('da').value) || 500;
+    // Generate QR code for UPI
+    generateUPIQR(upiId, initialAmt);
+    if (cfg.email) {
+      document.querySelectorAll('a[href^="mailto:"]').forEach(el => {
+        if (el.href.includes('veddakshafoundation22@gmail.com')) {
+          el.href = `mailto:${cfg.email}`;
+          el.textContent = cfg.email;
+        }
+      });
+    }
+    if (cfg.phone) {
+      window._donationPhone = cfg.phone;
+      const phoneEl = document.getElementById('donate-phone-number');
+      if (phoneEl) phoneEl.textContent = cfg.phone;
+      const bankLink = document.getElementById('bank-phone-link');
+      if (bankLink) { bankLink.href = `tel:${cfg.phone}`; bankLink.textContent = cfg.phone; }
+      document.querySelectorAll('a[href^="tel:8700785399"]').forEach(el => { el.href = `tel:${cfg.phone}`; el.textContent = cfg.phone; });
+      document.querySelectorAll('a[href*="wa.me/918700785399"]').forEach(el => { el.href = el.href.replace('8700785399', cfg.phone); });
+      const waFloat = document.getElementById('wa');
+      if (waFloat) waFloat.href = `https://wa.me/91${cfg.phone}?text=Hi%2C%20I%20want%20to%20know%20more%20about%20Ved%20Daksha%20Foundation`;
+    }
+    if (cfg.second_phone) {
+      document.querySelectorAll('a[href^="tel:8595656658"]').forEach(el => { el.href = `tel:${cfg.second_phone}`; el.textContent = cfg.second_phone; });
+    }
+    // Always show Razorpay button if a key exists (test or live)
+    if (cfg.razorpay_key_id) {
+      window._razorpayKey = cfg.razorpay_key_id;
+      const rzpBtn = document.getElementById('rzp-btn');
+      if (rzpBtn) rzpBtn.style.display = 'flex';
+    }
+  }).catch(()=>{
+    // Fallback: generate QR with default UPI and show Rzp button
+    const initialAmt = parseFloat(document.getElementById('da').value) || 500;
+    generateUPIQR('kbhavishya682-1@oksbi', initialAmt);
+  });
+</script>
+</body>
+</html>

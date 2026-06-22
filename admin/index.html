@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Admin Portal — Ved Daksha Foundation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"/>
+  <style>
+    :root {
+      --g: #0d9488;
+      --gl: #ccfbf1;
+      --g-dark: #0f766e;
+      --o: #f59e0b;
+      --dark: #0f172a;
+      --mid: #64748b;
+      --bd: #e2e8f0;
+      --bg: #f8fafc;
+      --white: #ffffff;
+      --red: #ef4444;
+      --sidebar: 280px;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Poppins', sans-serif; background: #f1f5f9; color: var(--dark); -webkit-font-smoothing: antialiased; min-height: 100vh; }
+    
+    /* LOGIN SCREEN */
+    #login-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: url('https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop') center/cover; position: relative; overflow: hidden; }
+    #login-screen::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(15,23,42,0.92) 0%, rgba(13,148,136,0.88) 100%); z-index: 1; }
+    .login-box { background: rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 48px 40px; width: 420px; box-shadow: 0 30px 60px rgba(0,0,0,0.3); border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(20px); position: relative; z-index: 10; color: #fff; }
+    .login-logo { text-align: center; margin-bottom: 2rem; }
+    .login-logo i { font-size: 48px; color: #fff; background: linear-gradient(135deg, var(--g) 0%, var(--g-dark) 100%); width: 80px; height: 80px; display: inline-flex; align-items: center; justify-content: center; border-radius: 24px; box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
+    .login-box h2 { font-size: 24px; font-weight: 600; text-align: center; margin-bottom: 2rem; color: #fff; line-height: 1.4; }
+    .fi { display: flex; flex-direction: column; gap: .4rem; margin-bottom: 1.2rem; }
+    .fi label { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.8); }
+    .fi input { border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; padding: 14px 16px; font-size: 14px; font-family: 'Poppins', sans-serif; outline: none; transition: all .3s; background: rgba(0,0,0,0.2); color: #fff; }
+    .fi input::placeholder { color: rgba(255,255,255,0.4); }
+    .fi input:focus { border-color: var(--g); background: rgba(0,0,0,0.4); box-shadow: 0 0 0 4px rgba(13,148,136,0.2); }
+    .btn-g { width: 100%; background: linear-gradient(135deg, var(--g) 0%, var(--g-dark) 100%); border: none; border-radius: 12px; padding: 14px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: 'Poppins', sans-serif; transition: all .3s; margin-top: .8rem; display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: #fff; box-shadow: 0 4px 12px rgba(13,148,136,0.3); }
+    .btn-g:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(13,148,136,0.4); }
+    .btn-g:active { transform: translateY(0); }
+    #login-err { color: #fca5a5; font-size: 13px; text-align: center; margin-top: .8rem; display: none; padding: 8px; background: rgba(239, 68, 68, 0.2); border-radius: 8px; border: 1px solid rgba(239, 68, 68, 0.3); }
+    
+    /* LAYOUT */
+    #app { display: none; min-height: 100vh; }
+    .sidebar { position: fixed; left: 0; top: 0; width: var(--sidebar); height: 100vh; background: #1e293b; padding: 2rem 0; overflow-y: auto; z-index: 50; display: flex; flex-direction: column; color: #fff; box-shadow: 4px 0 24px rgba(0,0,0,0.04); }
+    .sb-brand { padding: 0 1.8rem 1.8rem; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 1.5rem; }
+    .sb-logo { font-size: 17px; font-weight: 600; color: #fff; line-height: 1.3; }
+    .sb-sub { font-size: 12px; color: var(--g); margin-top: 4px; letter-spacing: 0.05em; font-weight: 500; }
+    .sb-item { display: flex; align-items: center; gap: 14px; padding: 1rem 1.8rem; font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.7); cursor: pointer; transition: all .3s cubic-bezier(0.4, 0, 0.2, 1); border-left: 4px solid transparent; }
+    .sb-item i { font-size: 22px; }
+    .sb-item:hover { color: #fff; background: rgba(255,255,255,0.06); transform: translateX(4px); }
+    .sb-item.active { background: linear-gradient(90deg, rgba(13,148,136,0.15) 0%, transparent 100%); color: #fff; border-left-color: var(--g); font-weight: 600; }
+    .sb-section { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: rgba(255,255,255,0.3); padding: 1.5rem 1.8rem .5rem; }
+    .sb-bot { padding: 1.5rem 1.8rem; border-top: 1px solid rgba(255,255,255,0.06); margin-top: auto; }
+    .main { margin-left: var(--sidebar); padding: 3rem; min-height: 100vh; }
+    
+    /* TOPBAR */
+    .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem; }
+    .page-title { font-size: 26px; font-weight: 600; color: var(--dark); letter-spacing: -0.02em; }
+    .topbar-right { display: flex; align-items: center; gap: 1rem; }
+    .badge-count { background: var(--red); color: #fff; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+    
+    /* CARDS */
+    .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 2.5rem; }
+    .stat-card { background: #fff; border-radius: 20px; padding: 24px; border: 1px solid var(--bd); box-shadow: var(--shadow); transition: all .3s ease-in-out; }
+    .stat-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: rgba(13,148,136,0.2); }
+    .sc-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+    .sc-icon { width: 52px; height: 52px; border-radius: 16px; display: flex; align-items: center; justify-content: center; }
+    .sc-g { background: var(--gl); }.sc-g i { color: var(--g); }
+    .sc-o { background: #FFFBEB; }.sc-o i { color: var(--o); }
+    .sc-b { background: #EFF6FF; }.sc-b i { color: #3B82F6; }
+    .sc-r { background: #FEF2F2; }.sc-r i { color: var(--red); }
+    .sc-icon i { font-size: 24px; }
+    .sc-num { font-size: 34px; font-weight: 700; color: var(--dark); letter-spacing: -0.03em; }
+    .sc-lbl { font-size: 14px; color: var(--mid); font-weight: 500; margin-top: 4px; }
+    
+    /* PANELS */
+    .panel { background: #fff; border-radius: 20px; border: 1px solid var(--bd); overflow: hidden; margin-bottom: 2rem; box-shadow: var(--shadow-md); }
+    .panel-head { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 1.8rem; border-bottom: 1px solid var(--bd); background: #f8fafc; }
+    .panel-head h3 { font-size: 17px; font-weight: 600; color: var(--dark); }
+    
+    /* TABLES */
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 1.2rem 1.8rem; text-align: left; font-size: 14px; border-bottom: 1px solid var(--bd); }
+    th { background: #f8fafc; font-weight: 600; color: var(--mid); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #f8fafc; }
+    
+    /* FORMS */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .full { grid-column: 1 / -1; }
+    .form-g { display: flex; flex-direction: column; gap: .5rem; }
+    .form-g label { font-size: 13px; font-weight: 600; color: var(--mid); }
+    .form-g input, .form-g textarea, .form-g select { border: 1px solid var(--bd); border-radius: 12px; padding: 12px 16px; font-size: 14px; font-family: 'Poppins', sans-serif; outline: none; background: #fff; transition: all .3s; width: 100%; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
+    .form-g input:focus, .form-g textarea:focus, .form-g select:focus { border-color: var(--g); background: #fff; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02), 0 0 0 4px rgba(13,148,136,0.15); }
+    .form-g textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
+    
+    /* BUTTONS */
+    .btn-sm { padding: 10px 20px; border-radius: 10px; font-size: 13.5px; font-weight: 500; cursor: pointer; border: none; font-family: 'Poppins', sans-serif; transition: all .3s; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-green { background: var(--g); color: #fff; box-shadow: 0 4px 10px rgba(13,148,136,0.2); }.btn-green:hover { background: var(--g-dark); transform: translateY(-2px); box-shadow: 0 6px 14px rgba(13,148,136,0.3); }
+    .btn-orange { background: var(--o); color: #fff; box-shadow: 0 4px 10px rgba(245, 158, 11, 0.2); }.btn-orange:hover { background: #d97706; transform: translateY(-2px); box-shadow: 0 6px 14px rgba(245, 158, 11, 0.3); }
+    .btn-red { background: var(--red); color: #fff; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2); }.btn-red:hover { background: #dc2626; transform: translateY(-2px); box-shadow: 0 6px 14px rgba(239, 68, 68, 0.3); }
+    .btn-ghost { background: transparent; color: var(--dark); border: 1px solid var(--bd); }.btn-ghost:hover { border-color: var(--g); color: var(--g); background: var(--gl); transform: translateY(-2px); }
+    
+    /* STATUS CHIPS */
+    .status { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 24px; font-size: 12px; font-weight: 600; text-transform: capitalize; letter-spacing: 0.02em; }
+    .s-p { background: #fef3c7; color: #b45309; }
+    .s-c { background: var(--gl); color: var(--g-dark); }
+    .s-f { background: #fee2e2; color: #b91c1c; }
+    
+    /* COUNTDOWN */
+    .ev-countdown { display: inline-flex; gap: .8rem; margin-top: .8rem; }
+    .cd-box { background: var(--g); color: #fff; border-radius: 12px; padding: 10px 14px; text-align: center; min-width: 60px; box-shadow: 0 4px 12px rgba(13,148,136,0.25); }
+    .cd-n { font-size: 24px; font-weight: 700; line-height: 1; }
+    .cd-l { font-size: 10px; opacity: .9; font-weight: 600; margin-top: 4px; letter-spacing: 0.05em; }
+    
+    /* ALERTS */
+    .alert { padding: 14px 20px; border-radius: 12px; font-size: 14px; margin-bottom: 1.5rem; display: none; border: 1px solid transparent; font-weight: 500; }
+    .alert-g { background: var(--gl); color: var(--g-dark); border-color: #99f6e4; }
+    .alert-r { background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
+    
+    /* TABS */
+    .tab-bar { display: flex; gap: .8rem; margin-bottom: 2rem; }
+    .tab { padding: 10px 24px; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; background: #fff; border: 1px solid var(--bd); color: var(--mid); transition: all .3s; box-shadow: var(--shadow); }
+    .tab:hover { border-color: var(--g); color: var(--g); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+    .tab.on { background: var(--g); color: #fff; border-color: var(--g); box-shadow: 0 6px 14px rgba(13,148,136,0.25); }
+    
+    /* UPLOAD ZONE */
+    .upload-zone { border: 2px dashed var(--bd); border-radius: 16px; padding: 40px 24px; text-align: center; cursor: pointer; transition: all .3s; background: var(--bg); }
+    .upload-zone:hover { border-color: var(--g); background: var(--gl); }
+    .upload-zone i { font-size: 42px; color: var(--mid); margin-bottom: 1rem; transition: all .3s; }
+    .upload-zone:hover i { color: var(--g); transform: scale(1.1); }
+    .upload-zone p { font-size: 14px; color: var(--mid); font-weight: 500; }
+    
+    /* GALLERY & PREVIEWS */
+    .img-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+    .img-thumb { position: relative; aspect-ratio: 16/10; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-md); border: 1px solid var(--bd); transition: all .3s; }
+    .img-thumb:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .img-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .img-del { position: absolute; top: 10px; right: 10px; background: rgba(220, 38, 38, 0.9); color: #fff; border: none; border-radius: 8px; padding: 6px 10px; cursor: pointer; font-size: 14px; transition: all .3s; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+    .img-del:hover { background: #dc2626; transform: scale(1.1); }
+    
+    /* RESPONSIVE */
+    @media(max-width: 768px) {
+      .stat-row { grid-template-columns: 1fr 1fr; }
+      .sidebar { width: 80px; }
+      .sb-brand { padding: 0 0 1rem; display: flex; justify-content: center; border-bottom: none; }
+      .sb-brand img { width: 40px !important; height: 40px !important; }
+      .main { margin-left: 80px; padding: 1.5rem; }
+      .sb-logo, .sb-sub, .sb-section, .sb-item span { display: none; }
+      .form-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo"><img src="../images/logo.png" alt="Ved Daksha Foundation Logo" style="width:80px;height:80px;border-radius:50%;object-fit:cover;box-shadow: 0 8px 16px rgba(0,0,0,0.2)"/></div>
+    <h2>Ved Daksha Foundation<br><span style="font-size:14px;color:rgba(255,255,255,0.7)">Admin Portal</span></h2>
+    <div class="fi"><label for="l-email">Email</label><input type="email" id="l-email" placeholder="admin@veddakshafoundation.org"/></div>
+    <div class="fi"><label for="l-pass">Password</label><input type="password" id="l-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <button class="btn-g" onclick="doLogin()"><i class="ti ti-login"></i> Sign In</button>
+    <div id="login-err">Invalid email or password</div>
+    <p style="font-size:12px;color:rgba(255,255,255,0.5);text-align:center;margin-top:1.5rem">First time? Call: 8700785399 to get credentials</p>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sb-brand" style="display:flex;align-items:center;gap:10px">
+      <img src="../images/logo.png" alt="Ved Daksha Foundation Logo" style="width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0"/>
+      <div>
+        <div class="sb-logo">Ved Daksha Foundation</div>
+        <div class="sb-sub">Admin Portal v1.0</div>
+      </div>
+    </div>
+    <div class="sb-section">Main</div>
+    <div class="sb-item active" onclick="showPage('dashboard')"><i class="ti ti-dashboard"></i><span>Dashboard</span></div>
+    <div class="sb-item" onclick="showPage('events')"><i class="ti ti-calendar-event"></i><span>Events</span></div>
+    <div class="sb-item" onclick="showPage('gallery')"><i class="ti ti-photo"></i><span>Gallery</span></div>
+    <div class="sb-item" onclick="showPage('blog')"><i class="ti ti-article"></i><span>Blog Posts</span></div>
+    <div class="sb-section">Finance</div>
+    <div class="sb-item" onclick="showPage('donations')"><i class="ti ti-coin"></i><span>Donations</span></div>
+    <div class="sb-section">Communication</div>
+    <div class="sb-item" onclick="showPage('messages')"><i class="ti ti-message"></i><span>Messages <span id="unread-badge" class="badge-count" style="display:none">0</span></span></div>
+    <div class="sb-section">Settings</div>
+    <div class="sb-item" onclick="showPage('settings')"><i class="ti ti-settings"></i><span>Settings</span></div>
+    <div style="height:2rem"></div>
+    <div class="sb-bot">
+      <div class="sb-item" onclick="logout()" style="color:rgba(255,100,100,.8)"><i class="ti ti-logout"></i><span>Logout</span></div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+
+    <!-- DASHBOARD -->
+    <div id="page-dashboard" class="page">
+      <div class="topbar">
+        <div>
+          <div class="page-title">Dashboard</div>
+          <p style="font-size:13px;color:var(--mid)" id="dash-greeting">Good morning, Admin</p>
+        </div>
+        <div class="topbar-right">
+          <a href="../index.html" target="_blank" class="btn-sm btn-ghost"><i class="ti ti-external-link"></i>View Website</a>
+          <button class="btn-sm btn-green" onclick="showPage('events');setTimeout(()=>openEventForm(),300)"><i class="ti ti-plus"></i>Add Event</button>
+        </div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-card"><div class="sc-top"><span class="sc-icon sc-g"><i class="ti ti-calendar"></i></span></div><div class="sc-num" id="d-events">—</div><div class="sc-lbl">Total Events</div></div>
+        <div class="stat-card"><div class="sc-top"><span class="sc-icon sc-o"><i class="ti ti-coin"></i></span></div><div class="sc-num" id="d-donations">—</div><div class="sc-lbl">Donations Received</div></div>
+        <div class="stat-card"><div class="sc-top"><span class="sc-icon sc-b"><i class="ti ti-message"></i></span></div><div class="sc-num" id="d-messages">—</div><div class="sc-lbl">Unread Messages</div></div>
+        <div class="stat-card"><div class="sc-top"><span class="sc-icon sc-r"><i class="ti ti-photo"></i></span></div><div class="sc-num" id="d-gallery">—</div><div class="sc-lbl">Gallery Images</div></div>
+      </div>
+      <!-- Upcoming event countdown -->
+      <div class="panel" id="upcoming-panel" style="display:none">
+        <div class="panel-head"><h3><i class="ti ti-clock" style="color:var(--g)"></i> Next Upcoming Event</h3></div>
+        <div style="padding:1.2rem">
+          <h4 id="cd-event-title" style="font-size:16px;margin-bottom:.3rem"></h4>
+          <p id="cd-event-date" style="font-size:12px;color:var(--mid);margin-bottom:1rem"></p>
+          <div class="ev-countdown">
+            <div class="cd-box"><div class="cd-n" id="cd-d">00</div><div class="cd-l">DAYS</div></div>
+            <div class="cd-box"><div class="cd-n" id="cd-h">00</div><div class="cd-l">HRS</div></div>
+            <div class="cd-box"><div class="cd-n" id="cd-m">00</div><div class="cd-l">MIN</div></div>
+            <div class="cd-box"><div class="cd-n" id="cd-s">00</div><div class="cd-l">SEC</div></div>
+          </div>
+        </div>
+      </div>
+      <!-- Recent donations -->
+      <div class="panel">
+        <div class="panel-head"><h3>Recent Donations</h3><button class="btn-sm btn-ghost" onclick="showPage('donations')">View All</button></div>
+        <table><thead><tr><th>Name</th><th>Amount</th><th>Purpose</th><th>Status</th><th>Date</th></tr></thead>
+        <tbody id="dash-donations"><tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--mid)">Loading...</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <!-- EVENTS PAGE -->
+    <div id="page-events" class="page" style="display:none">
+      <div class="topbar">
+        <div class="page-title">Events Management</div>
+        <button class="btn-sm btn-green" onclick="openEventForm()"><i class="ti ti-plus"></i>Add New Event</button>
+      </div>
+      <div class="tab-bar">
+        <button class="tab on" onclick="filterEvents('all',this)">All Events</button>
+        <button class="tab" onclick="filterEvents('upcoming',this)">Upcoming</button>
+        <button class="tab" onclick="filterEvents('past',this)">Past</button>
+      </div>
+      <!-- Add/Edit Event Form -->
+      <div class="panel" id="event-form-panel" style="display:none">
+        <div class="panel-head"><h3 id="ef-title">Add New Event</h3><button class="btn-sm btn-ghost" onclick="closeEventForm()"><i class="ti ti-x"></i>Cancel</button></div>
+        <div style="padding:1.2rem">
+          <div id="ev-alert" class="alert"></div>
+          <div class="form-grid">
+            <div class="form-g"><label for="ev-title">Event Title *</label><input type="text" id="ev-title" placeholder="e.g. Annual Varshikotsav 2025"/></div>
+            <div class="form-g"><label for="ev-titlehi">Title in Hindi</label><input type="text" id="ev-titlehi" placeholder="वार्षिकोत्सव व सम्मान समारोह"/></div>
+            <div class="form-g"><label for="ev-date">Date *</label><input type="date" id="ev-date"/></div>
+            <div class="form-g"><label for="ev-time">Time</label><input type="time" id="ev-time"/></div>
+            <div class="form-g"><label for="ev-loc">Location</label><input type="text" id="ev-loc" value="7/56, Chiranjeev Vihar, Ghaziabad"/></div>
+            <div class="form-g"><label for="ev-cat">Category</label>
+              <select id="ev-cat"><option value="cultural">Cultural</option><option value="education">Education</option><option value="health">Health</option><option value="awards">Awards</option><option value="outreach">Outreach</option><option value="other">Other</option></select>
+            </div>
+            <div class="form-g full"><label for="ev-desc">Description *</label><textarea id="ev-desc" rows="4" placeholder="Describe the event..."></textarea></div>
+            <div class="form-g"><label for="ev-att">Expected/Actual Attendees</label><input type="number" id="ev-att" placeholder="50"/></div>
+            <div class="form-g"><label for="ev-upcoming">Is this an upcoming event?</label>
+              <select id="ev-upcoming"><option value="true">Yes — Upcoming</option><option value="false">No — Past Event</option></select>
+            </div>
+            <div class="form-g full"><label for="ev-imgs">Event Photos (up to 10)</label>
+              <div class="upload-zone" onclick="document.getElementById('ev-imgs').click()">
+                <i class="ti ti-cloud-upload"></i>
+                <p>Click to upload images (JPG, PNG — max 10MB each)</p>
+              </div>
+              <input type="file" id="ev-imgs" multiple accept="image/*" style="display:none" onchange="previewImages(this)"/>
+              <div id="img-preview" class="img-grid"></div>
+            </div>
+          </div>
+          <div style="display:flex;gap:.8rem;margin-top:1rem;justify-content:flex-end">
+            <button class="btn-sm btn-ghost" onclick="closeEventForm()">Cancel</button>
+            <button class="btn-sm btn-green" onclick="saveEvent()"><i class="ti ti-device-floppy"></i>Save Event</button>
+          </div>
+        </div>
+      </div>
+      <!-- Events List -->
+      <div class="panel">
+        <table><thead><tr><th>Title</th><th>Date</th><th>Category</th><th>Status</th><th>Attendees</th><th>Actions</th></tr></thead>
+        <tbody id="events-table"><tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)">Loading events...</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <!-- GALLERY PAGE -->
+    <div id="page-gallery" class="page" style="display:none">
+      <div class="topbar">
+        <div class="page-title">Gallery Management</div>
+        <button class="btn-sm btn-green" onclick="document.getElementById('gal-upload').click()"><i class="ti ti-plus"></i>Upload Images</button>
+        <input type="file" id="gal-upload" multiple accept="image/*" style="display:none" onchange="uploadGallery(this)"/>
+      </div>
+      <div id="gal-alert" class="alert"></div>
+      <div class="panel">
+        <div class="panel-head"><h3>All Gallery Images</h3></div>
+        <div style="padding:1rem">
+          <div class="img-grid" id="gallery-grid">
+            <p style="color:var(--mid);font-size:13px">Loading gallery...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLOG PAGE -->
+    <div id="page-blog" class="page" style="display:none">
+      <div class="topbar">
+        <div class="page-title">Blog Posts</div>
+        <button class="btn-sm btn-green" onclick="openBlogForm()"><i class="ti ti-plus"></i>New Post</button>
+      </div>
+      <!-- Blog Form -->
+      <div class="panel" id="blog-form-panel" style="display:none">
+        <div class="panel-head"><h3>Write Blog Post</h3><button class="btn-sm btn-ghost" onclick="document.getElementById('blog-form-panel').style.display='none'"><i class="ti ti-x"></i></button></div>
+        <div style="padding:1.2rem">
+          <div class="form-grid">
+            <div class="form-g"><label for="bl-title">Post Title *</label><input type="text" id="bl-title" placeholder="Post title"/></div>
+            <div class="form-g"><label for="bl-cat">Category</label><select id="bl-cat"><option>Education</option><option>Health</option><option>Community</option><option>Events</option><option>Impact Stories</option><option>Volunteering</option></select></div>
+            <div class="form-g"><label for="bl-author">Author</label><input type="text" id="bl-author" value="Dr. Usha Tyagi" placeholder="Author name"/></div>
+            <div class="form-g"><label for="bl-tags">Tags (comma separated)</label><input type="text" id="bl-tags" placeholder="education, children, ghaziabad"/></div>
+            <div class="form-g full"><label for="bl-exc">Excerpt (short summary)</label><textarea id="bl-exc" rows="2" placeholder="Brief description shown in blog listing..."></textarea></div>
+            <div class="form-g full"><label for="bl-content">Full Content *</label><textarea id="bl-content" rows="10" placeholder="Write the full blog post here..."></textarea></div>
+            <div class="form-g full"><label for="bl-img">Blog Cover Image</label>
+              <div class="upload-zone" onclick="document.getElementById('bl-img').click()">
+                <i class="ti ti-cloud-upload"></i>
+                <p>Click to upload cover image (JPG, PNG)</p>
+              </div>
+              <input type="file" id="bl-img" accept="image/*" style="display:none" onchange="previewBlogImage(this)"/>
+              <div id="blog-img-preview" class="img-grid"></div>
+            </div>
+          </div>
+          <div style="display:flex;gap:.8rem;margin-top:1rem;justify-content:flex-end">
+            <button class="btn-sm btn-ghost" onclick="document.getElementById('blog-form-panel').style.display='none'">Cancel</button>
+            <button class="btn-sm btn-green" onclick="saveBlog()"><i class="ti ti-device-floppy"></i>Publish Post</button>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <table><thead><tr><th>Title</th><th>Category</th><th>Author</th><th>Views</th><th>Date</th><th>Actions</th></tr></thead>
+        <tbody id="blog-table"><tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)">Loading posts...</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <!-- DONATIONS PAGE -->
+    <div id="page-donations" class="page" style="display:none">
+      <div class="topbar">
+        <div class="page-title">Donations</div>
+        <div id="don-total" style="font-size:14px;color:var(--mid)">Total confirmed: loading...</div>
+      </div>
+      <div class="panel">
+        <table><thead><tr><th>Name</th><th>Phone</th><th>Amount</th><th>Purpose</th><th>Method</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>
+        <tbody id="don-table"><tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--mid)">Loading...</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <!-- MESSAGES PAGE -->
+    <div id="page-messages" class="page" style="display:none">
+      <div class="topbar"><div class="page-title">Contact Messages</div></div>
+      <div class="panel">
+        <table><thead><tr><th>Name</th><th>Contact</th><th>Message</th><th>Type</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>
+        <tbody id="msg-table"><tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--mid)">Loading...</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <!-- SETTINGS PAGE -->
+    <div id="page-settings" class="page" style="display:none">
+      <div class="topbar"><div class="page-title">Settings</div></div>
+      <div class="panel">
+        <div class="panel-head"><h3>Change Password</h3></div>
+        <div style="padding:1.2rem;max-width:400px">
+          <div id="set-alert" class="alert"></div>
+          <div class="form-g" style="margin-bottom:1rem"><label for="op">Current Password</label><input type="password" id="op"/></div>
+          <div class="form-g" style="margin-bottom:1rem"><label for="np">New Password</label><input type="password" id="np"/></div>
+          <div class="form-g" style="margin-bottom:1rem"><label for="cp">Confirm New Password</label><input type="password" id="cp"/></div>
+          <button class="btn-sm btn-green" onclick="changePwd()"><i class="ti ti-lock"></i>Update Password</button>
+        </div>
+      </div>
+      <div class="panel" style="margin-top:1.5rem">
+        <div class="panel-head"><h3>Foundation Info</h3></div>
+        <div style="padding:1.2rem;font-size:13px;color:var(--mid);line-height:1.8">
+          <strong style="color:var(--dark)">Ved Daksha Foundation</strong><br>
+          7/56, Chiranjeev Vihar, Ghaziabad – 201002<br>
+          Phone: 8700785399 | 8595656658<br>
+          Email: veddakshafoundation22@gmail.com<br>
+          Social: @veddakshafoundation | @ved.dakshafoundation | @veddakshafoundation22
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+const API = 'http://localhost:5000/api';
+let TOKEN = localStorage.getItem('vdf_token') || '';
+let currentEditId = null;
+
+// ── AUTH ──
+async function doLogin(){
+  const email = document.getElementById('l-email').value;
+  const pass = document.getElementById('l-pass').value;
+  const err = document.getElementById('login-err');
+  err.style.display='none';
+  try {
+    const r = await fetch(`${API}/auth/login`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pass})});
+    const d = await r.json();
+    if(!r.ok)throw new Error(d.error);
+    TOKEN = d.token;
+    localStorage.setItem('vdf_token', TOKEN);
+    showApp();
+  } catch(e) { err.textContent=e.message||'Login failed'; err.style.display='block'; }
+}
+
+function logout(){
+  localStorage.removeItem('vdf_token');
+  TOKEN='';
+  document.getElementById('app').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+}
+
+function authH(){ return { 'Content-Type':'application/json', 'Authorization':'Bearer '+TOKEN } }
+
+// ── INIT ──
+if(TOKEN){ showApp(); } else { document.getElementById('login-screen').style.display='flex'; }
+
+function showApp(){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  const h=new Date().getHours();
+  document.getElementById('dash-greeting').textContent=(h<12?'Good morning':(h<17?'Good afternoon':'Good evening'))+', Admin';
+  loadDashboard();
+}
+
+// ── NAVIGATION ──
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.style.display='none');
+  document.getElementById('page-'+id).style.display='block';
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  document.querySelector(`[onclick="showPage('${id}')"]`)?.classList.add('active');
+  const loaders={events:loadEvents,donations:loadDonations,messages:loadMessages,gallery:loadGallery,blog:loadBlog};
+  loaders[id]?.();
+}
+
+// ── DASHBOARD ──
+async function loadDashboard(){
+  try {
+    const [evR, donR, msgR] = await Promise.all([
+      fetch(`${API}/events`,{headers:authH()}),
+      fetch(`${API}/donations`,{headers:authH()}),
+      fetch(`${API}/contact`,{headers:authH()})
+    ]);
+    const ev=await evR.json(), don=await donR.json(), msg=await msgR.json();
+    document.getElementById('d-events').textContent=Array.isArray(ev)?ev.length:'—';
+    document.getElementById('d-donations').textContent='₹'+(don.totalConfirmed||0).toLocaleString('en-IN');
+    document.getElementById('d-messages').textContent=msg.unread||0;
+    if(msg.unread>0){document.getElementById('unread-badge').textContent=msg.unread;document.getElementById('unread-badge').style.display='inline'}
+    // Recent donations
+    const tbody=document.getElementById('dash-donations');
+    const dons=don.donations?.slice(0,5)||[];
+    tbody.innerHTML=dons.map(d=>`<tr>
+      <td>${d.name}</td><td>₹${d.amount.toLocaleString('en-IN')}</td>
+      <td>${d.purpose||'—'}</td>
+      <td><span class="status ${d.status==='confirmed'?'s-c':d.status==='failed'?'s-f':'s-p'}">${d.status}</span></td>
+      <td>${new Date(d.createdAt).toLocaleDateString('en-IN')}</td>
+    </tr>`).join('')||'<tr><td colspan="5" style="text-align:center;color:var(--mid)">No donations yet</td></tr>';
+    // Upcoming event countdown
+    const upcoming=Array.isArray(ev)?ev.filter(e=>e.isUpcoming&&new Date(e.date)>new Date()).sort((a,b)=>new Date(a.date)-new Date(b.date))[0]:null;
+    if(upcoming){
+      document.getElementById('upcoming-panel').style.display='block';
+      document.getElementById('cd-event-title').textContent=upcoming.title;
+      document.getElementById('cd-event-date').textContent=new Date(upcoming.date).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})+(upcoming.time?' at '+upcoming.time:'');
+      startCountdown(new Date(upcoming.date));
+    }
+  } catch(e){ console.error(e); }
+}
+
+function startCountdown(target){
+  clearInterval(window._cdTimer);
+  window._cdTimer=setInterval(()=>{
+    const diff=target-Date.now();
+    if(diff<=0){clearInterval(window._cdTimer);return}
+    const d=Math.floor(diff/864e5),h=Math.floor((diff%864e5)/36e5),m=Math.floor((diff%36e5)/6e4),s=Math.floor((diff%6e4)/1e3);
+    ['d','h','m','s'].forEach((k,i)=>{document.getElementById('cd-'+k).textContent=String([d,h,m,s][i]).padStart(2,'0')});
+  },1000);
+}
+
+// ── EVENTS ──
+let allEvents=[];
+async function loadEvents(){
+  const r=await fetch(`${API}/events`,{headers:authH()});
+  allEvents=await r.json();
+  renderEvents(allEvents);
+}
+function filterEvents(type,btn){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  btn.classList.add('on');
+  if(type==='all')renderEvents(allEvents);
+  else if(type==='upcoming')renderEvents(allEvents.filter(e=>e.isUpcoming));
+  else renderEvents(allEvents.filter(e=>!e.isUpcoming));
+}
+function renderEvents(events){
+  const cats={education:'Education',health:'Health',cultural:'Cultural',awards:'Awards',outreach:'Outreach',other:'Other'};
+  document.getElementById('events-table').innerHTML=events.length?events.map(e=>`<tr>
+    <td><strong>${e.title}</strong>${e.titleHindi?`<br><span style="font-size:11px;color:var(--mid)">${e.titleHindi}</span>`:''}</td>
+    <td>${new Date(e.date).toLocaleDateString('en-IN')}</td>
+    <td>${cats[e.category]||e.category}</td>
+    <td><span class="status ${e.isUpcoming?'s-p':'s-c'}">${e.isUpcoming?'Upcoming':'Past'}</span></td>
+    <td>${e.attendees||'—'}</td>
+    <td style="display:flex;gap:6px">
+      <button class="btn-sm btn-ghost" onclick="editEvent('${e._id}')"><i class="ti ti-edit"></i></button>
+      <button class="btn-sm btn-red" onclick="deleteEvent('${e._id}')"><i class="ti ti-trash"></i></button>
+    </td>
+  </tr>`).join(''):'<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)">No events yet. Add your first event!</td></tr>';
+}
+function openEventForm(){document.getElementById('event-form-panel').style.display='block';currentEditId=null;document.getElementById('ef-title').textContent='Add New Event';clearEventForm()}
+function closeEventForm(){document.getElementById('event-form-panel').style.display='none';currentEditId=null}
+function clearEventForm(){['ev-title','ev-titlehi','ev-date','ev-time','ev-desc','ev-att'].forEach(id=>document.getElementById(id).value='');document.getElementById('ev-loc').value='7/56, Chiranjeev Vihar, Ghaziabad';document.getElementById('img-preview').innerHTML=''}
+async function saveEvent(){
+  const title=document.getElementById('ev-title').value;
+  const desc=document.getElementById('ev-desc').value;
+  const date=document.getElementById('ev-date').value;
+  const alert=document.getElementById('ev-alert');
+  if(!title||!desc||!date){alert.className='alert alert-r';alert.textContent='Title, description and date are required';alert.style.display='block';return}
+  const fd=new FormData();
+  fd.append('title',title);
+  fd.append('titleHindi',document.getElementById('ev-titlehi').value);
+  fd.append('description',desc);
+  fd.append('date',date);
+  fd.append('time',document.getElementById('ev-time').value);
+  fd.append('location',document.getElementById('ev-loc').value);
+  fd.append('category',document.getElementById('ev-cat').value);
+  fd.append('attendees',document.getElementById('ev-att').value||0);
+  fd.append('isUpcoming',document.getElementById('ev-upcoming').value);
+  const imgs=document.getElementById('ev-imgs').files;
+  for(let f of imgs)fd.append('images',f);
+  try {
+    const url=currentEditId?`${API}/events/${currentEditId}`:`${API}/events`;
+    const method=currentEditId?'PUT':'POST';
+    const r=await fetch(url,{method,headers:{'Authorization':'Bearer '+TOKEN},body:fd});
+    if(!r.ok)throw new Error('Save failed');
+    alert.className='alert alert-g';alert.textContent='✅ Event saved successfully!';alert.style.display='block';
+    setTimeout(()=>{closeEventForm();loadEvents();},1000);
+  } catch(e){alert.className='alert alert-r';alert.textContent='Error: '+e.message;alert.style.display='block'}
+}
+function editEvent(id){
+  const ev=allEvents.find(e=>e._id===id);
+  if(!ev)return;
+  currentEditId=id;
+  document.getElementById('ef-title').textContent='Edit Event';
+  document.getElementById('ev-title').value=ev.title;
+  document.getElementById('ev-titlehi').value=ev.titleHindi||'';
+  document.getElementById('ev-date').value=ev.date.split('T')[0];
+  document.getElementById('ev-time').value=ev.time||'';
+  document.getElementById('ev-loc').value=ev.location;
+  document.getElementById('ev-cat').value=ev.category;
+  document.getElementById('ev-desc').value=ev.description;
+  document.getElementById('ev-att').value=ev.attendees||'';
+  document.getElementById('ev-upcoming').value=ev.isUpcoming?'true':'false';
+  document.getElementById('event-form-panel').style.display='block';
+  document.getElementById('event-form-panel').scrollIntoView({behavior:'smooth'});
+}
+async function deleteEvent(id){
+  if(!confirm('Delete this event permanently?'))return;
+  await fetch(`${API}/events/${id}`,{method:'DELETE',headers:authH()});
+  loadEvents();
+}
+function previewImages(input){
+  const prev=document.getElementById('img-preview');
+  prev.innerHTML='';
+  [...input.files].forEach(f=>{
+    const url=URL.createObjectURL(f);
+    const div=document.createElement('div');div.className='img-thumb';
+    div.innerHTML=`<img src="${url}"/>`;
+    prev.appendChild(div);
+  });
+}
+
+// ── GALLERY ──
+let galleryItems=[];
+async function loadGallery(){
+  const r=await fetch(`${API}/gallery`,{headers:authH()});
+  galleryItems=await r.json();
+  const grid=document.getElementById('gallery-grid');
+  grid.innerHTML=galleryItems.length?galleryItems.map(g=>`
+    <div class="img-thumb">
+      <img src="${g.url}" alt="${g.caption||''}"/>
+      <button class="img-del" onclick="deleteGallery('${g._id}')"><i class="ti ti-x"></i></button>
+    </div>`).join(''):'<p style="color:var(--mid);font-size:13px;padding:1rem">No images in gallery yet. Upload some!</p>';
+}
+async function uploadGallery(input){
+  const alert=document.getElementById('gal-alert');
+  alert.className='alert alert-g';alert.textContent='Uploading...';alert.style.display='block';
+  for(const file of input.files){
+    const reader=new FileReader();
+    await new Promise(resolve=>{
+      reader.onload=async e=>{
+        await fetch(`${API}/gallery`,{method:'POST',headers:authH(),body:JSON.stringify({url:e.target.result,caption:file.name.replace(/[_-]/g,' ').replace(/\.[^.]+$/,'')})});
+        resolve();
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+  alert.textContent='✅ Images uploaded!';
+  setTimeout(()=>{alert.style.display='none';loadGallery();},1000);
+}
+async function deleteGallery(id){
+  if(!confirm('Remove this image from gallery?'))return;
+  await fetch(`${API}/gallery/${id}`,{method:'DELETE',headers:authH()});
+  loadGallery();
+}
+
+// ── BLOG ──
+async function loadBlog(){
+  const r=await fetch(`${API}/blog`,{headers:authH()});
+  const posts=await r.json();
+  document.getElementById('blog-table').innerHTML=posts.length?posts.map(p=>`<tr>
+    <td><strong>${p.title}</strong></td><td>${p.category||'General'}</td>
+    <td>${p.author}</td><td>${p.views||0}</td>
+    <td>${new Date(p.createdAt).toLocaleDateString('en-IN')}</td>
+    <td><button class="btn-sm btn-red" onclick="deleteBlog('${p._id}')"><i class="ti ti-trash"></i></button></td>
+  </tr>`).join(''):'<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)">No blog posts yet. Write your first post!</td></tr>';
+}
+function openBlogForm(){
+  document.getElementById('blog-form-panel').style.display='block';
+  document.getElementById('bl-title').value='';
+  document.getElementById('bl-cat').value='Education';
+  document.getElementById('bl-author').value='Dr. Usha Tyagi';
+  document.getElementById('bl-tags').value='';
+  document.getElementById('bl-exc').value='';
+  document.getElementById('bl-content').value='';
+  document.getElementById('bl-img').value='';
+  document.getElementById('blog-img-preview').innerHTML='';
+}
+async function saveBlog(){
+  const title=document.getElementById('bl-title').value;
+  const content=document.getElementById('bl-content').value;
+  if(!title||!content){alert('Title and content required');return}
+  const tags=document.getElementById('bl-tags').value.split(',').map(t=>t.trim()).filter(Boolean);
+  
+  const fd = new FormData();
+  fd.append('title', title);
+  fd.append('content', content);
+  fd.append('excerpt', document.getElementById('bl-exc').value);
+  fd.append('category', document.getElementById('bl-cat').value);
+  fd.append('author', document.getElementById('bl-author').value);
+  fd.append('tags', JSON.stringify(tags));
+  const coverImg = document.getElementById('bl-img').files[0];
+  if(coverImg) fd.append('coverImage', coverImg);
+
+  const headers = {'Authorization':'Bearer '+TOKEN};
+  const r = await fetch(`${API}/blog`,{method:'POST',headers:headers,body:fd});
+  if(r.ok) {
+    document.getElementById('blog-form-panel').style.display='none';
+    loadBlog();
+  } else {
+    alert('Failed to save blog post');
+  }
+}
+function previewBlogImage(input){
+  const prev=document.getElementById('blog-img-preview');
+  prev.innerHTML='';
+  if(input.files && input.files[0]){
+    const url=URL.createObjectURL(input.files[0]);
+    const div=document.createElement('div');div.className='img-thumb';
+    div.innerHTML=`<img src="${url}"/>`;
+    prev.appendChild(div);
+  }
+}
+async function deleteBlog(id){
+  if(!confirm('Delete this post?'))return;
+  await fetch(`${API}/blog/${id}`,{method:'DELETE',headers:authH()});
+  loadBlog();
+}
+
+// ── DONATIONS ──
+async function loadDonations(){
+  const r=await fetch(`${API}/donations`,{headers:authH()});
+  const {donations,totalConfirmed}=await r.json();
+  document.getElementById('don-total').textContent='Total confirmed: ₹'+(totalConfirmed||0).toLocaleString('en-IN');
+  document.getElementById('don-table').innerHTML=donations?.map(d=>`<tr>
+    <td>${d.name}${d.isAnonymous?' (Anon)':''}</td>
+    <td>${d.phone||'—'}</td><td>₹${d.amount.toLocaleString('en-IN')}</td>
+    <td>${d.purpose||'—'}</td><td>${d.method}</td>
+    <td><span class="status ${d.status==='confirmed'?'s-c':d.status==='failed'?'s-f':'s-p'}">${d.status}</span></td>
+    <td>${new Date(d.createdAt).toLocaleDateString('en-IN')}</td>
+    <td style="display:flex;gap:4px">
+      ${d.status!=='confirmed'?`<button class="btn-sm btn-green" onclick="updateDon('${d._id}','confirmed')"><i class="ti ti-check"></i></button>`:''}
+      ${d.status!=='failed'?`<button class="btn-sm btn-red" onclick="updateDon('${d._id}','failed')"><i class="ti ti-x"></i></button>`:''}
+    </td>
+  </tr>`).join('')||'<tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--mid)">No donations yet</td></tr>';
+}
+async function updateDon(id,status){
+  await fetch(`${API}/donations/${id}`,{method:'PATCH',headers:authH(),body:JSON.stringify({status})});
+  loadDonations();
+}
+
+// ── MESSAGES ──
+async function loadMessages(){
+  const r=await fetch(`${API}/contact`,{headers:authH()});
+  const {messages,unread}=await r.json();
+  if(unread>0){document.getElementById('unread-badge').textContent=unread;document.getElementById('unread-badge').style.display='inline'}
+  document.getElementById('msg-table').innerHTML=messages?.map(m=>`<tr style="${!m.isRead?'font-weight:600':''}" >
+    <td>${m.name}</td>
+    <td>${m.phone||m.email||'—'}</td>
+    <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.message}</td>
+    <td>${m.type}</td>
+    <td>${m.isRead?'<span style="color:var(--mid)">Read</span>':'<span style="color:var(--o);font-weight:600">New</span>'}</td>
+    <td>${new Date(m.createdAt).toLocaleDateString('en-IN')}</td>
+    <td>${!m.isRead?`<button class="btn-sm btn-ghost" onclick="markRead('${m._id}')">Mark Read</button>`:''}</td>
+  </tr>`).join('')||'<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--mid)">No messages</td></tr>';
+}
+async function markRead(id){
+  await fetch(`${API}/contact/${id}/read`,{method:'PATCH',headers:authH()});
+  loadMessages();
+}
+
+// ── SETTINGS ──
+async function changePwd(){
+  const op=document.getElementById('op').value,np=document.getElementById('np').value,cp=document.getElementById('cp').value;
+  const al=document.getElementById('set-alert');
+  if(np!==cp){al.className='alert alert-r';al.textContent='New passwords do not match';al.style.display='block';return}
+  const r=await fetch(`${API}/auth/change-password`,{method:'POST',headers:authH(),body:JSON.stringify({oldPassword:op,newPassword:np})});
+  const d=await r.json();
+  al.className=r.ok?'alert alert-g':'alert alert-r';
+  al.textContent=r.ok?'✅ Password changed successfully!':d.error;
+  al.style.display='block';
+}
+</script>
+</body>
+</html>
