@@ -1,35 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light" data-lang="en">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Ved Daksha Foundation — Empowering Children, Ghaziabad</title>
   <meta name="description" content="Ved Daksha Foundation — free education, martial arts, yoga, dance & health camps for underprivileged children in Ghaziabad, Delhi & Meerut. Founded by Dr. Usha Tyagi."/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"/>
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <style>
-    :root{--g:#1B6B3A;--gl:#E8F5EE;--o:#E07B2A;--ol:#FFF3E8;--bg:#FDFAF6;--dark:#1C1C1A;--mid:#5A5A56;--bd:#E2DDD6;--r:12px;--rl:20px;--nav:72px}
+    /* ── LIGHT THEME (default) ── */
+    :root {
+      --g:#1B6B3A;--gl:#E8F5EE;--o:#E07B2A;--ol:#FFF3E8;
+      --bg:#FDFAF6;--bg2:#FFFFFF;--dark:#1C1C1A;--mid:#5A5A56;
+      --bd:#E2DDD6;--card:#FFFFFF;--nav-bg:rgba(253,250,246,.96);
+      --hero-txt:#1C1C1A;--r:12px;--rl:20px;--nav:72px;
+      --shadow:rgba(0,0,0,.08);--impact-bg:#1B6B3A;
+      --team-bg:#E8F5EE;--involve-bg:#E8F5EE;
+    }
+    /* ── DARK THEME ── */
+    [data-theme="dark"] {
+      --bg:#0F1410;--bg2:#1A221A;--dark:#E8F0E8;--mid:#9EAA9E;
+      --bd:#2A3A2A;--card:#1A221A;--nav-bg:rgba(15,20,16,.96);
+      --hero-txt:#E8F0E8;--gl:#1A2E1A;--ol:#2E1E0A;
+      --shadow:rgba(0,0,0,.4);--impact-bg:#0D3D20;
+      --team-bg:#131E13;--involve-bg:#131E13;--bg2:#1A221A;
+    }
+    /* ── HINDI FONT ── */
+    [data-lang="hi"] body,[data-lang="hi"] button,[data-lang="hi"] input,[data-lang="hi"] select,[data-lang="hi"] textarea {
+      font-family:'Noto Sans Devanagari','Poppins',sans-serif;
+    }
+    [data-lang="en"] .lang-hi,[data-lang="hi"] .lang-en { display:none!important; }
+    [data-lang="hi"] .lang-hi,[data-lang="en"] .lang-en { display:revert; }
+
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
-    body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--dark);-webkit-font-smoothing:antialiased}
+    body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--dark);-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
     img{display:block;width:100%;height:100%;object-fit:cover}
     a{color:inherit;text-decoration:none}
     ul{list-style:none}
 
-    /* NAV */
-    #nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav);background:rgba(253,250,246,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 5vw;gap:1.5rem;transition:box-shadow .3s}
-    #nav.scrolled{box-shadow:0 4px 24px rgba(0,0,0,.08)}
+    /* ── THEME/LANG TOGGLE CONTROLS ── */
+    .ctrl-bar {
+      position:fixed;top:16px;right:calc(5vw + 130px);z-index:200;
+      display:flex;align-items:center;gap:8px;
+    }
+    .ctrl-btn {
+      background:var(--card);border:1px solid var(--bd);border-radius:20px;
+      padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;
+      color:var(--dark);transition:all .2s;display:flex;align-items:center;gap:5px;
+      font-family:inherit;
+    }
+    .ctrl-btn:hover{background:var(--g);color:#fff;border-color:var(--g)}
+    .ctrl-btn i{font-size:14px}
+    .lang-toggle-active{background:var(--g);color:#fff;border-color:var(--g)}
+
+    /* ── NAV ── */
+    #nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav);background:var(--nav-bg);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 5vw;gap:1.5rem;transition:box-shadow .3s,background .3s}
+    #nav.scrolled{box-shadow:0 4px 24px var(--shadow)}
     .nav-brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
     .nav-logo{width:40px;height:40px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center}
+    .nav-logo img{width:40px;height:40px;border-radius:50%;object-fit:cover}
     .nav-logo i{color:#fff;font-size:21px}
     .nav-name{font-family:'Playfair Display',serif;font-size:16px;color:var(--g);font-weight:700;line-height:1.2}
     .nav-name span{display:block;font-family:'Poppins',sans-serif;font-size:9.5px;font-weight:400;color:var(--mid);letter-spacing:.05em}
     .nav-links{display:flex;align-items:center;gap:1.6rem;margin-left:auto}
     .nav-links a{font-size:13px;font-weight:500;color:var(--mid);transition:color .2s}
     .nav-links a:hover{color:var(--g)}
-    .btn-nav{background:var(--g);color:#fff;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Poppins',sans-serif;transition:background .2s;white-space:nowrap}
+    .btn-nav{background:var(--g);color:#fff;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;transition:background .2s;white-space:nowrap}
     .btn-nav:hover{background:#154f2c}
     .ham{display:none;background:none;border:none;cursor:pointer;padding:4px}
     .ham i{font-size:22px;color:var(--dark)}
@@ -37,93 +75,86 @@
     #mob.open{display:flex}
     #mob a{font-size:15px;font-weight:500;color:var(--dark);padding:.4rem 0;border-bottom:1px solid var(--bd)}
 
-    /* HERO */
+    /* ── HERO ── */
     #hero{margin-top:var(--nav);min-height:calc(100vh - var(--nav));display:grid;grid-template-columns:1fr 1fr}
     .hero-l{display:flex;flex-direction:column;justify-content:center;padding:5vw 4vw 5vw 6vw}
     .eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--gl);color:var(--g);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;border-radius:40px;margin-bottom:1.4rem;width:fit-content}
-    .eyebrow i{font-size:14px}
-    h1{font-family:'Playfair Display',serif;font-size:clamp(30px,3.2vw,52px);font-weight:700;line-height:1.2;color:var(--dark);margin-bottom:1.2rem}
+    h1{font-family:'Playfair Display',serif;font-size:clamp(30px,3.2vw,52px);font-weight:700;line-height:1.2;color:var(--hero-txt);margin-bottom:1.2rem}
     h1 .ac{color:var(--g)}
     .hero-p{font-size:15px;color:var(--mid);line-height:1.75;max-width:440px;margin-bottom:2rem}
     .btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:2.5rem}
-    .btn-p{background:var(--g);color:#fff;border:none;border-radius:10px;padding:13px 28px;font-size:14px;font-weight:500;cursor:pointer;font-family:'Poppins',sans-serif;transition:background .2s,transform .15s;display:inline-flex;align-items:center;gap:8px}
+    .btn-p{background:var(--g);color:#fff;border:none;border-radius:10px;padding:13px 28px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;transition:background .2s,transform .15s;display:inline-flex;align-items:center;gap:8px}
     .btn-p:hover{background:#154f2c;transform:translateY(-1px)}
-    .btn-o{background:transparent;color:var(--g);border:1.5px solid var(--g);border-radius:10px;padding:12px 26px;font-size:14px;font-weight:500;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+    .btn-o{background:transparent;color:var(--g);border:1.5px solid var(--g);border-radius:10px;padding:12px 26px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
     .btn-o:hover{background:var(--gl)}
     .hero-stats{display:flex;gap:1.5rem;flex-wrap:wrap}
     .stat-n{font-size:28px;font-weight:700;color:var(--g);font-family:'Playfair Display',serif}
     .stat-l{font-size:12px;color:var(--mid);margin-top:1px}
     .stat-div{width:1px;background:var(--bd);align-self:stretch}
     .hero-r{position:relative;overflow:hidden;background:var(--gl)}
-    .hero-r img{width:100%;height:100%;object-fit:cover}
     .hero-badge{position:absolute;bottom:2rem;left:2rem;right:2rem;background:rgba(255,255,255,.93);backdrop-filter:blur(8px);border-radius:var(--r);padding:14px 18px;display:flex;align-items:center;gap:12px}
-    .hero-badge i{font-size:24px;color:var(--o);flex-shrink:0}
+    [data-theme="dark"] .hero-badge{background:rgba(26,34,26,.92)}
     .badge-t{font-size:13px;font-weight:500;color:var(--dark)}
     .badge-s{font-size:11px;color:var(--mid);margin-top:2px}
 
-    /* SECTIONS */
-    section{padding:80px 6vw}
-    section:nth-child(even){background:#fff}
+    /* ── SECTIONS ── */
+    section{padding:80px 6vw;background:var(--bg);transition:background .3s}
+    section:nth-child(even){background:var(--bg2)}
     .sec-eye{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--o);margin-bottom:.6rem}
     .sec-h{font-family:'Playfair Display',serif;font-size:clamp(24px,2.8vw,40px);font-weight:700;color:var(--dark);line-height:1.25;margin-bottom:1rem}
     .sec-sub{font-size:15px;color:var(--mid);max-width:560px;line-height:1.7;margin-bottom:2.5rem}
     .center{text-align:center}
     .center .sec-sub{margin-left:auto;margin-right:auto}
 
-    /* MISSION */
+    /* ── CARDS ── */
     .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-    .card{background:#fff;border:1px solid var(--bd);border-radius:var(--rl);padding:28px 24px;transition:box-shadow .25s,transform .25s}
+    .card{background:var(--card);border:1px solid var(--bd);border-radius:var(--rl);padding:28px 24px;transition:box-shadow .25s,transform .25s}
     .card:hover{box-shadow:0 12px 40px rgba(27,107,58,.1);transform:translateY(-4px)}
     .icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:1.1rem}
     .ig{background:var(--gl)}.ig i{color:var(--g)}
     .io{background:var(--ol)}.io i{color:var(--o)}
     .icon i{font-size:26px}
-    .card h3{font-size:16px;font-weight:600;margin-bottom:.5rem}
+    .card h3{font-size:16px;font-weight:600;margin-bottom:.5rem;color:var(--dark)}
     .card p{font-size:13px;color:var(--mid);line-height:1.65}
 
-    /* ABOUT */
+    /* ── ABOUT ── */
     .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
     .about-img{border-radius:var(--rl);overflow:hidden;height:480px;position:relative}
-    .about-img img{height:100%}
     .about-badge{position:absolute;bottom:-1.5rem;right:-1.5rem;background:var(--g);color:#fff;border-radius:var(--r);padding:18px 22px;text-align:center;box-shadow:0 8px 32px rgba(27,107,58,.3)}
     .badge-n{font-size:30px;font-weight:700;font-family:'Playfair Display',serif}
-    .badge-l{font-size:12px;opacity:.85;margin-top:2px}
+    .badge-lb{font-size:12px;opacity:.85;margin-top:2px}
     .checks{margin-top:1.5rem;display:flex;flex-direction:column;gap:.85rem}
     .chk{display:flex;align-items:flex-start;gap:10px}
     .chk i{font-size:18px;color:var(--g);flex-shrink:0;margin-top:1px}
     .chk span{font-size:14px;color:var(--mid);line-height:1.6}
 
-    /* TEAM */
-    #team{background:var(--gl)}
+    /* ── TEAM ── */
+    #team{background:var(--team-bg)!important}
     .team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-top:1rem}
-    .team-card{background:#fff;border-radius:var(--rl);overflow:hidden;text-align:center;padding-bottom:1.5rem;border:1px solid rgba(27,107,58,.1)}
+    .team-card{background:var(--card);border-radius:var(--rl);overflow:hidden;text-align:center;padding-bottom:1.5rem;border:1px solid var(--bd)}
     .team-img{height:220px;overflow:hidden}
-    .team-img img{width:100%;height:100%;object-fit:cover;object-position:top}
-    .team-name{font-size:16px;font-weight:600;margin:1rem 1rem .3rem}
+    .team-name{font-size:16px;font-weight:600;margin:1rem 1rem .3rem;color:var(--dark)}
     .team-role{font-size:12px;color:var(--g);font-weight:500;padding:3px 10px;background:var(--gl);border-radius:20px;display:inline-block;margin-bottom:.5rem}
     .team-bio{font-size:12px;color:var(--mid);line-height:1.6;padding:0 1rem}
 
-    /* CAUSES */
+    /* ── CAUSES ── */
     .causes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.2rem}
-    .cause-card{border-radius:var(--rl);overflow:hidden;border:1px solid var(--bd);background:#fff;transition:box-shadow .25s}
+    .cause-card{border-radius:var(--rl);overflow:hidden;border:1px solid var(--bd);background:var(--card);transition:box-shadow .25s}
     .cause-card:hover{box-shadow:0 10px 36px rgba(0,0,0,.1)}
     .cimg{height:180px}
     .cbody{padding:18px 20px 22px}
     .ctag{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:3px 10px;border-radius:20px;background:var(--gl);color:var(--g);margin-bottom:.7rem}
-    .cause-card h3{font-size:16px;font-weight:600;margin-bottom:.4rem}
+    .cause-card h3{font-size:16px;font-weight:600;margin-bottom:.4rem;color:var(--dark)}
     .cause-card p{font-size:13px;color:var(--mid);line-height:1.6}
 
-    /* NEWSPAPER */
-    #press{background:#fff}
+    /* ── PRESS ── */
     .press-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center}
     .press-img{border-radius:var(--r);overflow:hidden}
     .press-quote{font-family:'Playfair Display',serif;font-size:18px;color:var(--dark);line-height:1.5;margin-bottom:1rem;position:relative;padding-left:1.5rem}
     .press-quote::before{content:'"';position:absolute;left:0;top:-4px;font-size:36px;color:var(--g);line-height:1}
-    .press-source{font-size:13px;color:var(--mid)}
-    .press-source strong{color:var(--g)}
 
-    /* IMPACT */
-    #impact{background:var(--g);color:#fff}
+    /* ── IMPACT ── */
+    #impact{background:var(--impact-bg)!important;color:#fff}
     #impact .sec-eye{color:rgba(255,255,255,.65)}
     #impact .sec-h{color:#fff}
     #impact .sec-sub{color:rgba(255,255,255,.75)}
@@ -131,7 +162,7 @@
     .impact-n{font-family:'Playfair Display',serif;font-size:clamp(36px,4.5vw,60px);font-weight:700;color:#fff;line-height:1}
     .impact-l{font-size:13px;color:rgba(255,255,255,.7);margin-top:.4rem}
 
-    /* GALLERY */
+    /* ── GALLERY ── */
     .gal-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:220px;gap:10px}
     .gi{border-radius:var(--r);overflow:hidden;position:relative;cursor:pointer}
     .gi img{height:100%;transition:transform .4s}
@@ -142,63 +173,57 @@
     .gi:hover .gov{opacity:1}
     .gov span{color:#fff;font-size:13px;font-weight:500}
 
-    /* BLOG */
-    #blog{background:var(--bg)}
+    /* ── BLOG ── */
     .blog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
-    .blog-card{background:#fff;border:1px solid var(--bd);border-radius:var(--rl);overflow:hidden;transition:box-shadow .25s}
-    .blog-card:hover{box-shadow:0 10px 32px rgba(0,0,0,.09)}
+    .blog-card{background:var(--card);border:1px solid var(--bd);border-radius:var(--rl);overflow:hidden;transition:box-shadow .25s}
+    .blog-card:hover{box-shadow:0 10px 32px var(--shadow)}
     .blog-img{height:190px}
     .blog-body{padding:20px}
     .blog-cat{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--o);margin-bottom:.5rem}
-    .blog-card h3{font-size:15px;font-weight:600;margin-bottom:.5rem;line-height:1.4}
+    .blog-card h3{font-size:15px;font-weight:600;margin-bottom:.5rem;line-height:1.4;color:var(--dark)}
     .blog-card p{font-size:13px;color:var(--mid);line-height:1.6;margin-bottom:1rem}
     .blog-link{font-size:13px;font-weight:600;color:var(--g);display:inline-flex;align-items:center;gap:5px}
     .blog-link i{transition:transform .2s}
     .blog-link:hover i{transform:translateX(4px)}
 
-    /* EVENTS */
-    #events{background:#fff}
+    /* ── EVENTS ── */
     .events-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
     .ev-card{background:var(--bg);border:1px solid var(--bd);border-radius:var(--rl);overflow:hidden}
     .ev-img{height:200px}
     .ev-body{padding:20px}
     .ev-date{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--o);font-weight:600;margin-bottom:.6rem}
-    .ev-card h3{font-size:16px;font-weight:600;margin-bottom:.5rem;line-height:1.3}
+    .ev-card h3{font-size:16px;font-weight:600;margin-bottom:.5rem;line-height:1.3;color:var(--dark)}
     .ev-card p{font-size:13px;color:var(--mid);line-height:1.6}
-    /* Countdown chip */
     .countdown{display:inline-flex;align-items:center;gap:6px;background:var(--g);color:#fff;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;margin-top:.8rem}
-    .countdown i{font-size:13px}
 
-    /* INVOLVE */
-    #involve{background:var(--gl)}
+    /* ── INVOLVE ── */
+    #involve{background:var(--involve-bg)!important}
     .inv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:.5rem}
-    .inv-card{background:#fff;border-radius:var(--rl);padding:28px 24px;border:1px solid rgba(27,107,58,.12);text-align:center}
+    .inv-card{background:var(--card);border-radius:var(--rl);padding:28px 24px;border:1px solid var(--bd);text-align:center}
     .inv-icon{font-size:36px;margin-bottom:1rem}
-    .inv-card h3{font-size:16px;font-weight:600;margin-bottom:.5rem}
+    .inv-card h3{font-size:16px;font-weight:600;margin-bottom:.5rem;color:var(--dark)}
     .inv-card p{font-size:13px;color:var(--mid);line-height:1.6;margin-bottom:1.2rem}
     .inv-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--g)}
     .inv-link i{transition:transform .2s}
     .inv-link:hover i{transform:translateX(4px)}
 
-    /* DONATE */
-    #donate{background:var(--bg)}
+    /* ── DONATE ── */
     .don-wrap{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;margin-top:1rem}
     .tiers{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-    .tier{background:#fff;border:1.5px solid var(--bd);border-radius:var(--r);padding:18px 20px;cursor:pointer;transition:all .2s}
+    .tier{background:var(--card);border:1.5px solid var(--bd);border-radius:var(--r);padding:18px 20px;cursor:pointer;transition:all .2s}
     .tier:hover,.tier.sel{border-color:var(--g);background:var(--gl)}
     .tier-amt{font-size:22px;font-weight:700;color:var(--g);font-family:'Playfair Display',serif}
     .tier-lbl{font-size:12px;color:var(--mid);margin-top:4px;line-height:1.4}
-    .don-form{background:#fff;border-radius:var(--rl);padding:28px;border:1px solid var(--bd)}
-    .don-form h3{font-size:18px;font-weight:600;margin-bottom:1.2rem}
+    .don-form{background:var(--card);border-radius:var(--rl);padding:28px;border:1px solid var(--bd)}
+    .don-form h3{font-size:18px;font-weight:600;margin-bottom:1.2rem;color:var(--dark)}
     .frow{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1rem}
     .frow label{font-size:12px;font-weight:500;color:var(--mid)}
-    .frow input,.frow select{border:1px solid var(--bd);border-radius:8px;padding:10px 14px;font-size:14px;font-family:'Poppins',sans-serif;outline:none;background:var(--bg);transition:border-color .2s}
+    .frow input,.frow select{border:1px solid var(--bd);border-radius:8px;padding:10px 14px;font-size:14px;font-family:inherit;outline:none;background:var(--bg);color:var(--dark);transition:border-color .2s}
     .frow input:focus,.frow select:focus{border-color:var(--g)}
     .upi-box{background:var(--gl);border-radius:var(--r);padding:18px;text-align:center;margin-top:1.5rem}
     .upi-id{font-size:15px;font-weight:600;color:var(--g);margin-top:.3rem}
 
-    /* CONTACT */
-    #contact{background:#fff}
+    /* ── CONTACT ── */
     .con-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
     .con-det{display:flex;align-items:flex-start;gap:14px;margin-bottom:1.5rem}
     .con-icon{width:42px;height:42px;background:var(--gl);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -208,45 +233,43 @@
     .soc-row{display:flex;gap:12px;margin-top:1.5rem}
     .soc{width:40px;height:40px;border-radius:10px;border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;transition:all .2s;color:var(--mid)}
     .soc:hover{background:var(--g);border-color:var(--g);color:#fff}
-    .soc i{font-size:18px}
     .map-box{border-radius:var(--rl);overflow:hidden;height:300px}
     .map-box iframe{width:100%;height:100%;border:none}
+    .con-form{background:var(--gl);border-radius:var(--r);padding:20px;margin-top:2rem}
+    .con-form h3{font-size:16px;font-weight:600;margin-bottom:1rem;color:var(--dark)}
 
-    /* FOOTER */
-    footer{background:var(--dark);color:rgba(255,255,255,.75);padding:48px 6vw 28px}
+    /* ── FOOTER ── */
+    footer{background:#0D1A0D;color:rgba(255,255,255,.75);padding:48px 6vw 28px;transition:background .3s}
+    [data-theme="dark"] footer{background:#050D05}
     .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2.5rem}
     .foot-brand{font-family:'Playfair Display',serif;font-size:20px;color:#fff;margin-bottom:.6rem}
-    .foot-tag{font-size:12px;line-height:1.6;max-width:240px}
     .foot-h{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:#fff;margin-bottom:.9rem}
     .foot-links{display:flex;flex-direction:column;gap:.5rem}
     .foot-links a{font-size:13px;color:rgba(255,255,255,.6);transition:color .2s}
     .foot-links a:hover{color:#fff}
-    .foot-bot{border-top:1px solid rgba(255,255,255,.1);padding-top:1.2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+    .foot-bot{border-top:1px solid rgba(255,255,255,.1);padding-top:1.2rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
     .foot-copy{font-size:12px;color:rgba(255,255,255,.4)}
 
-    /* WA FLOAT */
+    /* ── WHATSAPP ── */
     #wa{position:fixed;bottom:28px;right:28px;z-index:200;width:54px;height:54px;border-radius:50%;background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(37,211,102,.4);transition:transform .25s}
     #wa:hover{transform:scale(1.1)}
     #wa i{font-size:28px}
 
-    /* FADE-UP ANIM */
+    /* ── FADE ANIM ── */
     .fu{opacity:0;transform:translateY(28px);transition:opacity .55s ease,transform .55s ease}
     .fu.vis{opacity:1;transform:translateY(0)}
 
-    /* RESPONSIVE */
+    /* ── RESPONSIVE ── */
     @media(max-width:900px){
-      #hero{grid-template-columns:1fr}
-      .hero-r{display:none}
-      .hero-l{padding:3rem 6vw}
-      .about-grid,.don-wrap,.con-grid{grid-template-columns:1fr}
-      .about-badge{right:0}
+      #hero{grid-template-columns:1fr}.hero-r{display:none}.hero-l{padding:3rem 6vw}
+      .about-grid,.don-wrap,.con-grid{grid-template-columns:1fr}.about-badge{right:0}
       #impact .impact-grid{grid-template-columns:repeat(2,1fr)}
       .gal-grid{grid-template-columns:repeat(2,1fr)}
       .grid3,.inv-grid{grid-template-columns:1fr 1fr}
       .foot-grid{grid-template-columns:1fr 1fr}
-      .nav-links{display:none}
-      .ham{display:block}
+      .nav-links{display:none}.ham{display:block}
       .press-grid{grid-template-columns:1fr}
+      .ctrl-bar{top:80px;right:5vw}
     }
     @media(max-width:560px){
       section{padding:56px 5vw}
@@ -259,419 +282,387 @@
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ── THEME + LANG CONTROLS ── -->
+<div class="ctrl-bar">
+  <button class="ctrl-btn" id="theme-btn" onclick="toggleTheme()">
+    <i class="ti ti-moon" id="theme-icon"></i>
+    <span class="lang-en">Dark</span><span class="lang-hi">डार्क</span>
+  </button>
+  <button class="ctrl-btn" id="lang-btn" onclick="toggleLang()">
+    <i class="ti ti-language"></i>
+    <span id="lang-label">हिन्दी</span>
+  </button>
+</div>
+
+<!-- ── NAV ── -->
 <nav id="nav">
   <div class="nav-brand">
-    <div class="nav-logo" style="background:none"><img src="images/logo.png" alt="Ved Daksha Foundation Logo" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/></div>
-    <div class="nav-name">Ved Daksha Foundation<span data-i18n="nav-tagline">वय राष्ट्रे जागृयाम</span></div>
+    <div class="nav-logo">
+      <img src="images/logo.png" alt="Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <i class="ti ti-heart-handshake" style="display:none"></i>
+    </div>
+    <div class="nav-name">
+      <span class="lang-en">Ved Daksha Foundation</span>
+      <span class="lang-hi">वेद दक्षा फाउंडेशन</span>
+      <span style="display:block;font-size:9.5px;font-weight:400;color:var(--mid);letter-spacing:.05em">वयं राष्ट्रे जागृयाम</span>
+    </div>
   </div>
   <div class="nav-links">
-    <a href="#about" data-i18n="nav-about">About</a>
-    <a href="#team" data-i18n="nav-team">Team</a>
-    <a href="#causes" data-i18n="nav-causes">Programs</a>
-    <a href="#gallery" data-i18n="nav-gallery">Gallery</a>
-    <a href="blog.html" data-i18n="nav-blog">Blog</a>
-    <a href="#events" data-i18n="nav-events">Events</a>
-    <a href="#contact" data-i18n="nav-contact">Contact</a>
+    <a href="#about"><span class="lang-en">About</span><span class="lang-hi">परिचय</span></a>
+    <a href="#team"><span class="lang-en">Team</span><span class="lang-hi">टीम</span></a>
+    <a href="#causes"><span class="lang-en">Programs</span><span class="lang-hi">कार्यक्रम</span></a>
+    <a href="#gallery"><span class="lang-en">Gallery</span><span class="lang-hi">गैलरी</span></a>
+    <a href="#blog"><span class="lang-en">Blog</span><span class="lang-hi">ब्लॉग</span></a>
+    <a href="#events"><span class="lang-en">Events</span><span class="lang-hi">कार्यक्रम</span></a>
+    <a href="#contact"><span class="lang-en">Contact</span><span class="lang-hi">संपर्क</span></a>
   </div>
-  <select id="lang-switch" class="lang-switch" onchange="switchLanguage(this.value)" style="margin-left: 10px; margin-right: 10px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--bd); font-family: 'Poppins', sans-serif; font-size: 13px; background: #fff; cursor: pointer; outline: none;">
-    <option value="en">English</option>
-    <option value="hi">हिन्दी</option>
-  </select>
-  <button class="btn-nav" onclick="goto('donate')" data-i18n="nav-donate">Donate Now</button>
+  <button class="btn-nav" onclick="goto('donate')">
+    <span class="lang-en">Donate Now</span><span class="lang-hi">अभी दान करें</span>
+  </button>
   <button class="ham" id="ham"><i class="ti ti-menu-2"></i></button>
 </nav>
 <div id="mob">
-  <a href="#about" onclick="cm()" data-i18n="nav-about">About</a>
-  <a href="#team" onclick="cm()" data-i18n="nav-team">Team</a>
-  <a href="#causes" onclick="cm()" data-i18n="nav-causes">Programs</a>
-  <a href="#gallery" onclick="cm()" data-i18n="nav-gallery">Gallery</a>
-  <a href="blog.html" onclick="cm()" data-i18n="nav-blog">Blog</a>
-  <a href="#events" onclick="cm()" data-i18n="nav-events">Events</a>
-  <a href="#contact" onclick="cm()" data-i18n="nav-contact">Contact</a>
-  <div style="display:flex; align-items:center; gap: 10px; padding: .4rem 0; border-bottom:1px solid var(--bd)">
-    <span style="font-size: 14px; font-weight: 500; color:var(--dark);">Language / भाषा:</span>
-    <select id="lang-switch-mob" onchange="switchLanguage(this.value)" style="padding: 6px 12px; border-radius: 8px; border: 1px solid var(--bd); font-family: 'Poppins', sans-serif; font-size: 13px; background: #fff; cursor: pointer; flex-grow:1; outline:none;">
-      <option value="en">English</option>
-      <option value="hi">हिन्दी</option>
-    </select>
-  </div>
-  <button class="btn-nav" onclick="cm();goto('donate')" data-i18n="nav-donate">Donate Now</button>
+  <a href="#about" onclick="cm()"><span class="lang-en">About</span><span class="lang-hi">परिचय</span></a>
+  <a href="#team" onclick="cm()"><span class="lang-en">Team</span><span class="lang-hi">टीम</span></a>
+  <a href="#causes" onclick="cm()"><span class="lang-en">Programs</span><span class="lang-hi">कार्यक्रम</span></a>
+  <a href="#gallery" onclick="cm()"><span class="lang-en">Gallery</span><span class="lang-hi">गैलरी</span></a>
+  <a href="#blog" onclick="cm()"><span class="lang-en">Blog</span><span class="lang-hi">ब्लॉग</span></a>
+  <a href="#events" onclick="cm()"><span class="lang-en">Events</span><span class="lang-hi">कार्यक्रम</span></a>
+  <a href="#contact" onclick="cm()"><span class="lang-en">Contact</span><span class="lang-hi">संपर्क</span></a>
+  <button class="btn-nav" onclick="cm();goto('donate')">
+    <span class="lang-en">Donate Now</span><span class="lang-hi">अभी दान करें</span>
+  </button>
 </div>
 
-<!-- HERO -->
+<!-- ── HERO ── -->
 <section id="hero" style="padding:0">
   <div class="hero-l">
-    <div class="eyebrow" data-i18n="hero-eyebrow"><i class="ti ti-map-pin"></i>Ghaziabad · Delhi · Meerut</div>
-    <h1 data-i18n="hero-h1">Protecting, Educating<br>&amp; <span class="ac">Empowering</span><br>Every Child</h1>
-    <p class="hero-p" data-i18n="hero-p">Ved Daksha Foundation provides free education, yoga, dance, martial arts, and health camps to underprivileged children — because every child deserves a dignified future.</p>
+    <div class="eyebrow">
+      <i class="ti ti-map-pin"></i>
+      <span class="lang-en">Ghaziabad · Delhi · Meerut</span>
+      <span class="lang-hi">गाज़ियाबाद · दिल्ली · मेरठ</span>
+    </div>
+    <h1>
+      <span class="lang-en">Protecting, Educating<br>&amp; <span class="ac">Empowering</span><br>Every Child</span>
+      <span class="lang-hi">हर बच्चे की रक्षा,<br><span class="ac">शिक्षा</span> और<br>सशक्तिकरण</span>
+    </h1>
+    <p class="hero-p">
+      <span class="lang-en">Ved Daksha Foundation provides free education, yoga, dance, martial arts, and health camps to underprivileged children — because every child deserves a dignified future.</span>
+      <span class="lang-hi">वेद दक्षा फाउंडेशन वंचित बच्चों को मुफ्त शिक्षा, योग, नृत्य, मार्शल आर्ट और स्वास्थ्य शिविर प्रदान करती है — क्योंकि हर बच्चे को एक सम्मानजनक भविष्य का अधिकार है।</span>
+    </p>
     <div class="btns">
-      <button class="btn-p" onclick="goto('causes')" data-i18n="hero-btn-work"><i class="ti ti-arrow-right"></i>See Our Work</button>
-      <button class="btn-o" onclick="goto('donate')" data-i18n="hero-btn-donate"><i class="ti ti-coin"></i>Donate</button>
+      <button class="btn-p" onclick="goto('causes')"><i class="ti ti-arrow-right"></i><span class="lang-en">See Our Work</span><span class="lang-hi">हमारा कार्य देखें</span></button>
+      <button class="btn-o" onclick="goto('donate')"><i class="ti ti-coin"></i><span class="lang-en">Donate</span><span class="lang-hi">दान करें</span></button>
     </div>
     <div class="hero-stats">
-      <div><div class="stat-n" data-i18n="hero-stat1-val">3+</div><div class="stat-l" data-i18n="hero-stat1-lbl">Cities Reached</div></div>
+      <div><div class="stat-n">3+</div><div class="stat-l"><span class="lang-en">Cities Reached</span><span class="lang-hi">शहरों तक पहुँच</span></div></div>
       <div class="stat-div"></div>
-      <div><div class="stat-n" data-i18n="hero-stat2-val">5+</div><div class="stat-l" data-i18n="hero-stat2-lbl">Active Programs</div></div>
+      <div><div class="stat-n">5+</div><div class="stat-l"><span class="lang-en">Active Programs</span><span class="lang-hi">सक्रिय कार्यक्रम</span></div></div>
       <div class="stat-div"></div>
-      <div><div class="stat-n" data-i18n="hero-stat3-val">Daily</div><div class="stat-l" data-i18n="hero-stat3-lbl">Classes Running</div></div>
+      <div><div class="stat-n"><span class="lang-en">Daily</span><span class="lang-hi">प्रतिदिन</span></div><div class="stat-l"><span class="lang-en">Classes Running</span><span class="lang-hi">कक्षाएं चल रही हैं</span></div></div>
     </div>
   </div>
   <div class="hero-r">
-    <img src="images/1000087293.jpg.jpeg" alt="Children and team at Ved Daksha Foundation annual event"/>
+    <img src="images/1000179556.jpg.jpeg" alt="Children at Ved Daksha Foundation annual event"/>
     <div class="hero-badge"><i class="ti ti-award"></i>
-      <div><div class="badge-t" data-i18n="hero-badge-t">Annual Recognition Ceremony</div><div class="badge-s" data-i18n="hero-badge-s">Medals, school bags &amp; certificates</div></div>
+      <div>
+        <div class="badge-t"><span class="lang-en">Annual Recognition Ceremony</span><span class="lang-hi">वार्षिक सम्मान समारोह</span></div>
+        <div class="badge-s"><span class="lang-en">Medals, school bags &amp; certificates</span><span class="lang-hi">पदक, स्कूल बैग और प्रमाण पत्र</span></div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- MISSION -->
+<!-- ── MISSION ── -->
 <section id="mission">
   <div class="center fu">
-    <div class="sec-eye" data-i18n="mission-eye">Our Mission</div>
-    <h2 class="sec-h" data-i18n="mission-h">Three pillars of change</h2>
-    <p class="sec-sub" data-i18n="mission-sub">We work across education, health, and skill development — building confident, complete children who will shape a better nation.</p>
+    <div class="sec-eye"><span class="lang-en">Our Mission</span><span class="lang-hi">हमारा मिशन</span></div>
+    <h2 class="sec-h"><span class="lang-en">Three pillars of change</span><span class="lang-hi">परिवर्तन के तीन स्तंभ</span></h2>
+    <p class="sec-sub"><span class="lang-en">We work across education, health, and skill development — building complete, confident children who shape a better nation.</span><span class="lang-hi">हम शिक्षा, स्वास्थ्य और कौशल विकास में काम करते हैं — आत्मविश्वासी बच्चों का निर्माण करते हैं जो एक बेहतर राष्ट्र बनाते हैं।</span></p>
   </div>
   <div class="grid3 fu">
-    <div class="card"><div class="icon ig"><i class="ti ti-book-open"></i></div><h3 data-i18n="mission-card1-h">Free Education</h3><p data-i18n="mission-card1-p">Daily tutoring, reading programs, and academic support for children who cannot afford private schooling.</p></div>
-    <div class="card"><div class="icon io"><i class="ti ti-shield-check"></i></div><h3 data-i18n="mission-card2-h">Yoga &amp; Self-Defence</h3><p data-i18n="mission-card2-p">Yoga, Judo, Karate, and classical dance training builds discipline, confidence, and physical wellbeing — especially for girls' safety.</p></div>
-    <div class="card"><div class="icon ig"><i class="ti ti-heart-plus"></i></div><h3 data-i18n="mission-card3-h">Health &amp; Community</h3><p data-i18n="mission-card3-p">Medical camps, health awareness drives, and women's wellbeing programs extending our reach beyond classroom walls.</p></div>
+    <div class="card"><div class="icon ig"><i class="ti ti-book-open"></i></div>
+      <h3><span class="lang-en">Free Education</span><span class="lang-hi">मुफ्त शिक्षा</span></h3>
+      <p><span class="lang-en">Daily tutoring, reading programs, and academic support for children from low-income families who cannot afford private schooling.</span><span class="lang-hi">कम आय परिवारों के बच्चों के लिए दैनिक ट्यूशन, पठन कार्यक्रम और अकादमिक सहायता।</span></p>
+    </div>
+    <div class="card"><div class="icon io"><i class="ti ti-shield-check"></i></div>
+      <h3><span class="lang-en">Yoga &amp; Self-Defence</span><span class="lang-hi">योग और आत्मरक्षा</span></h3>
+      <p><span class="lang-en">Yoga, Judo, Karate, and classical dance training builds discipline, confidence, and physical wellbeing — especially for girls' safety.</span><span class="lang-hi">योग, जूडो, कराटे और शास्त्रीय नृत्य अनुशासन, आत्मविश्वास और शारीरिक स्वास्थ्य बनाता है — विशेषकर लड़कियों की सुरक्षा के लिए।</span></p>
+    </div>
+    <div class="card"><div class="icon ig"><i class="ti ti-heart-plus"></i></div>
+      <h3><span class="lang-en">Health &amp; Community</span><span class="lang-hi">स्वास्थ्य और समुदाय</span></h3>
+      <p><span class="lang-en">Medical camps, health awareness drives, and women's wellbeing programs extending our reach beyond classroom walls.</span><span class="lang-hi">चिकित्सा शिविर, स्वास्थ्य जागरूकता अभियान और महिला कल्याण कार्यक्रम कक्षा की दीवारों से परे।</span></p>
+    </div>
   </div>
 </section>
 
-<!-- ABOUT -->
+<!-- ── ABOUT ── -->
 <section id="about">
   <div class="about-grid">
     <div style="position:relative" class="fu">
-      <div class="about-img"><img src="images/1000087243.jpg.jpeg" alt="Dr. Usha Tyagi, Founder of Ved Daksha Foundation, lighting the ceremonial diya"/></div>
-      <div class="about-badge"><div class="badge-n">Since<br>2022</div><div class="badge-l">Serving the community</div></div>
+      <div class="about-img"><img src="images/1000087600.jpg.jpeg" alt="Dr. Usha Tyagi, Founder lighting the ceremonial diya"/></div>
+      <div class="about-badge"><div class="badge-n"><span class="lang-en">Since</span><span class="lang-hi">२०२2</span><br><span class="lang-en">2022</span></div><div class="badge-lb"><span class="lang-en">Serving the community</span><span class="lang-hi">समाज की सेवा में</span></div></div>
     </div>
     <div class="fu">
-      <div class="sec-eye">About Us</div>
-      <h2 class="sec-h">Rooted in Ghaziabad,<br>reaching every child</h2>
-      <p style="font-size:14px;color:var(--mid);line-height:1.7;margin-bottom:1.5rem">Founded at 7/56, Chiranjeev Vihar by <strong>Dr. Usha Tyagi</strong>, Ved Daksha Foundation was born from a single belief: no child should be denied a dignified future because of where they were born. From books and backpacks to yoga performances and community awards — we cover every dimension of a child's growth.</p>
+      <div class="sec-eye"><span class="lang-en">About Us</span><span class="lang-hi">हमारे बारे में</span></div>
+      <h2 class="sec-h"><span class="lang-en">Rooted in Ghaziabad,<br>reaching every child</span><span class="lang-hi">गाज़ियाबाद से जुड़े,<br>हर बच्चे तक पहुँचते हैं</span></h2>
+      <p style="font-size:14px;color:var(--mid);line-height:1.7;margin-bottom:1.5rem">
+        <span class="lang-en">Founded at 7/56, Chiranjeev Vihar by <strong style="color:var(--dark)">Dr. Usha Tyagi</strong>, Ved Daksha Foundation was born from a single belief: no child should be denied a dignified future because of where they were born.</span>
+        <span class="lang-hi">7/56, चिरंजीव विहार में <strong style="color:var(--dark)">डॉ. उषा त्यागी</strong> द्वारा स्थापित, वेद दक्षा फाउंडेशन एक विश्वास से जन्मी: किसी भी बच्चे को उनके जन्मस्थान के कारण सम्मानजनक भविष्य से वंचित नहीं किया जाना चाहिए।</span>
+      </p>
       <div class="checks">
-        <div class="chk"><i class="ti ti-circle-check-filled"></i><span>Registered NGO — Ghaziabad, Delhi &amp; Meerut</span></div>
-        <div class="chk"><i class="ti ti-circle-check-filled"></i><span>Free programs: education, yoga, dance, martial arts &amp; health</span></div>
-        <div class="chk"><i class="ti ti-circle-check-filled"></i><span>Annual felicitation with medals, bags &amp; certificates</span></div>
-        <div class="chk"><i class="ti ti-circle-check-filled"></i><span>Covered by local newspapers — Drishti Sagar &amp; others</span></div>
-        <div class="chk"><i class="ti ti-circle-check-filled"></i><span>Book &amp; stationery distribution to meritorious students</span></div>
+        <div class="chk"><i class="ti ti-circle-check-filled"></i><span><span class="lang-en">Registered NGO — Ghaziabad, Delhi &amp; Meerut</span><span class="lang-hi">पंजीकृत NGO — गाज़ियाबाद, दिल्ली और मेरठ</span></span></div>
+        <div class="chk"><i class="ti ti-circle-check-filled"></i><span><span class="lang-en">Free programs: education, yoga, dance, martial arts &amp; health</span><span class="lang-hi">मुफ्त कार्यक्रम: शिक्षा, योग, नृत्य, मार्शल आर्ट और स्वास्थ्य</span></span></div>
+        <div class="chk"><i class="ti ti-circle-check-filled"></i><span><span class="lang-en">Annual felicitation with medals, bags &amp; certificates</span><span class="lang-hi">पदक, बैग और प्रमाण पत्र के साथ वार्षिक सम्मान</span></span></div>
+        <div class="chk"><i class="ti ti-circle-check-filled"></i><span><span class="lang-en">Covered by local newspapers — Drishti Sagar &amp; others</span><span class="lang-hi">स्थानीय अखबारों में कवर — दृष्टि सागर और अन्य</span></span></div>
+        <div class="chk"><i class="ti ti-circle-check-filled"></i><span><span class="lang-en">Books &amp; stationery distribution to meritorious students</span><span class="lang-hi">मेधावी छात्रों को पुस्तक और स्टेशनरी वितरण</span></span></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- TEAM -->
+<!-- ── TEAM ── -->
 <section id="team">
   <div class="center fu">
-    <div class="sec-eye">Our People</div>
-    <h2 class="sec-h">The faces behind the mission</h2>
-    <p class="sec-sub">Led by Dr. Usha Tyagi and supported by volunteers, educators, and community leaders who believe every child matters.</p>
+    <div class="sec-eye"><span class="lang-en">Our People</span><span class="lang-hi">हमारी टीम</span></div>
+    <h2 class="sec-h"><span class="lang-en">The faces behind the mission</span><span class="lang-hi">मिशन के पीछे के चेहरे</span></h2>
+    <p class="sec-sub"><span class="lang-en">Led by Dr. Usha Tyagi and supported by volunteers, educators, and community leaders who believe every child matters.</span><span class="lang-hi">डॉ. उषा त्यागी के नेतृत्व में और स्वयंसेवकों, शिक्षकों और सामुदायिक नेताओं द्वारा समर्थित।</span></p>
   </div>
   <div class="team-grid fu">
     <div class="team-card">
-      <div class="team-img"><img src="images/1000087243.jpg.jpeg" alt="Dr. Usha Tyagi — Founder &amp; President"/></div>
-      <div class="team-name">Dr. Usha Tyagi</div>
-      <div class="team-role">Founder &amp; President</div>
-      <div class="team-bio">The driving force behind Ved Daksha Foundation. Dr. Usha Tyagi has dedicated years to providing free education and holistic development to underprivileged children of Ghaziabad.</div>
+      <div class="team-img"><img src="images/1000087600.jpg.jpeg" alt="Dr. Usha Tyagi Founder"/></div>
+      <div class="team-name"><span class="lang-en">Dr. Usha Tyagi</span><span class="lang-hi">डॉ. उषा त्यागी</span></div>
+      <div class="team-role"><span class="lang-en">Founder &amp; President</span><span class="lang-hi">संस्थापक एवं अध्यक्ष</span></div>
+      <div class="team-bio"><span class="lang-en">The driving force behind Ved Daksha Foundation. Dr. Usha Tyagi has dedicated years to providing free education to underprivileged children of Ghaziabad.</span><span class="lang-hi">वेद दक्षा फाउंडेशन की प्रेरणाशक्ति। डॉ. उषा त्यागी ने गाज़ियाबाद के वंचित बच्चों को मुफ्त शिक्षा देने में वर्षों समर्पित किए।</span></div>
     </div>
     <div class="team-card">
-      <div class="team-img"><img src="images/1000086285.jpg.jpeg" alt="Vishakha Tyagi — Program Head"/></div>
-      <div class="team-name">Vishakha Tyagi</div>
-      <div class="team-role">Program Head &amp; Anchor</div>
-      <div class="team-bio">Vishakha leads the on-ground programs and serves as the main event anchor. She coordinates daily classes, events, and volunteer management across all programs.</div>
+      <div class="team-img"><img src="images/1000179545.jpg.jpeg" alt="Vishakha Tyagi"/></div>
+      <div class="team-name"><span class="lang-en">Vishakha Tyagi</span><span class="lang-hi">विशाखा त्यागी</span></div>
+      <div class="team-role"><span class="lang-en">Program Head &amp; Anchor</span><span class="lang-hi">कार्यक्रम प्रमुख</span></div>
+      <div class="team-bio"><span class="lang-en">Vishakha leads daily programs and serves as the main event anchor, coordinating classes, events, and volunteer management.</span><span class="lang-hi">विशाखा दैनिक कार्यक्रमों का नेतृत्व करती हैं और कक्षाओं, कार्यक्रमों और स्वयंसेवक प्रबंधन का समन्वय करती हैं।</span></div>
     </div>
     <div class="team-card">
-      <div class="team-img"><img src="images/1000086482.jpg.jpeg" alt="Dr. Richa Sood — Education Advisor"/></div>
-      <div class="team-name">Dr. Richa Sood</div>
-      <div class="team-role">Education Advisor</div>
-      <div class="team-bio">A respected educationist and author, Dr. Richa Sood advises on curriculum, mentors students, and has been a keynote presence at the foundation's annual events.</div>
+      <div class="team-img"><img src="images/1000179518.jpg.jpeg" alt="Dr. Richa Sood"/></div>
+      <div class="team-name"><span class="lang-en">Dr. Richa Sood</span><span class="lang-hi">डॉ. रिचा सूद</span></div>
+      <div class="team-role"><span class="lang-en">Education Advisor</span><span class="lang-hi">शिक्षा सलाहकार</span></div>
+      <div class="team-bio"><span class="lang-en">A respected educationist and author, Dr. Richa Sood advises on curriculum and has been a keynote presence at the foundation's annual events.</span><span class="lang-hi">सम्मानित शिक्षाविद और लेखिका, डॉ. रिचा सूद पाठ्यक्रम पर सलाह देती हैं और वार्षिक कार्यक्रमों में मुख्य वक्ता हैं।</span></div>
     </div>
     <div class="team-card">
-      <div class="team-img"><img src="images/1000087283.jpg.jpeg" alt="Aryan Tyagi — Youth Coordinator"/></div>
-      <div class="team-name">Aryan Tyagi</div>
-      <div class="team-role">Youth Coordinator</div>
-      <div class="team-bio">Aryan bridges the gap between the foundation and younger volunteers, organizing youth participation in outreach events and educational programs.</div>
+      <div class="team-img"><img src="images/1000179580.jpg.jpeg" alt="Aryan Tyagi"/></div>
+      <div class="team-name"><span class="lang-en">Aryan Tyagi</span><span class="lang-hi">आर्यन त्यागी</span></div>
+      <div class="team-role"><span class="lang-en">Youth Coordinator</span><span class="lang-hi">युवा समन्वयक</span></div>
+      <div class="team-bio"><span class="lang-en">Aryan bridges the gap between the foundation and younger volunteers, organizing youth participation in outreach events.</span><span class="lang-hi">आर्यन फाउंडेशन और युवा स्वयंसेवकों के बीच समन्वय करते हैं।</span></div>
     </div>
     <div class="team-card">
-      <div class="team-img"><img src="images/1000087481.jpg.jpeg" alt="Kavita Singhal — Social Worker"/></div>
-      <div class="team-name">Kavita Singhal</div>
-      <div class="team-role">Senior Social Worker</div>
-      <div class="team-bio">A veteran community worker who extends the foundation's reach into low-income neighbourhoods, organising health camps and women's awareness programs.</div>
+      <div class="team-img"><img src="images/1000179574.jpg.jpeg" alt="Kavita Singhal"/></div>
+      <div class="team-name"><span class="lang-en">Kavita Singhal</span><span class="lang-hi">कविता सिंघल</span></div>
+      <div class="team-role"><span class="lang-en">Senior Social Worker</span><span class="lang-hi">वरिष्ठ समाजसेवी</span></div>
+      <div class="team-bio"><span class="lang-en">A veteran community worker who extends the foundation's reach into low-income neighbourhoods.</span><span class="lang-hi">अनुभवी सामुदायिक कार्यकर्ता जो फाउंडेशन की पहुँच कम आय वाले पड़ोस तक बढ़ाती हैं।</span></div>
     </div>
     <div class="team-card">
-      <div class="team-img"><img src="images/1000087431.jpg.jpeg" alt="Our Volunteer Team"/></div>
-      <div class="team-name">Our Volunteer Team</div>
-      <div class="team-role">Educators &amp; Coaches</div>
-      <div class="team-bio">Young educators, dance teachers, yoga instructors, and community volunteers who show up every day to make a difference in these children's lives.</div>
+      <div class="team-img"><img src="images/1000179556.jpg.jpeg" alt="Volunteer Team"/></div>
+      <div class="team-name"><span class="lang-en">Our Volunteer Team</span><span class="lang-hi">हमारी स्वयंसेवक टीम</span></div>
+      <div class="team-role"><span class="lang-en">Educators &amp; Coaches</span><span class="lang-hi">शिक्षक और प्रशिक्षक</span></div>
+      <div class="team-bio"><span class="lang-en">Young educators, dance teachers, yoga instructors who show up every day to make a difference.</span><span class="lang-hi">युवा शिक्षक, नृत्य प्रशिक्षक और योग गुरु जो हर दिन फर्क लाने के लिए आते हैं।</span></div>
     </div>
   </div>
 </section>
 
-<!-- PROGRAMS / CAUSES -->
+<!-- ── PROGRAMS ── -->
 <section id="causes">
   <div class="center fu">
-    <div class="sec-eye">What We Do</div>
-    <h2 class="sec-h">Programs that change lives</h2>
-    <p class="sec-sub">Designed around what our children actually need — not just textbooks, but confidence, health, expression, and joy.</p>
+    <div class="sec-eye"><span class="lang-en">What We Do</span><span class="lang-hi">हम क्या करते हैं</span></div>
+    <h2 class="sec-h"><span class="lang-en">Programs that change lives</span><span class="lang-hi">जीवन बदलने वाले कार्यक्रम</span></h2>
+    <p class="sec-sub"><span class="lang-en">Designed around what our children actually need — not just textbooks, but confidence, health, expression, and joy.</span><span class="lang-hi">हमारे बच्चों की वास्तविक जरूरतों के अनुसार बनाए गए — केवल पाठ्यपुस्तकें नहीं, बल्कि आत्मविश्वास, स्वास्थ्य और आनंद।</span></p>
   </div>
   <div class="causes-grid fu">
-    <div class="cause-card"><div class="cimg"><img src="images/1000086223.jpg.jpeg" alt="Free tutoring sessions"/></div><div class="cbody"><span class="ctag">Education</span><h3>Free Tutoring &amp; Literacy</h3><p>Daily classes for Class 1–10, covering core subjects and reading skills — completely free, at our Chiranjeev Vihar centre.</p></div></div>
-    <div class="cause-card"><div class="cimg"><img src="images/1000087479.jpg.jpeg" alt="Yoga and acrobatics performance"/></div><div class="cbody"><span class="ctag">Yoga &amp; Fitness</span><h3>Yoga &amp; Acrobatics</h3><p>Children train in yoga and acrobatics under expert guidance, performing at annual showcases and competing at district level.</p></div></div>
-    <div class="cause-card"><div class="cimg"><img src="images/1000087227.jpg.jpeg" alt="Dance performance"/></div><div class="cbody"><span class="ctag">Arts &amp; Culture</span><h3>Dance &amp; Performing Arts</h3><p>Classical and contemporary dance training that builds expression, discipline, and pride — showcased at every annual celebration.</p></div></div>
-    <div class="cause-card"><div class="cimg"><img src="images/1000087405.jpg.jpeg" alt="Book distribution to students"/></div><div class="cbody"><span class="ctag">Resources</span><h3>Books &amp; Stationery Drive</h3><p>Regular distribution of school books, notebooks, and stationery kits to deserving students who cannot afford them.</p></div></div>
+    <div class="cause-card"><div class="cimg"><img src="images/1000106080.jpg.jpeg" alt="Free tutoring"/></div><div class="cbody"><span class="ctag"><span class="lang-en">Education</span><span class="lang-hi">शिक्षा</span></span><h3><span class="lang-en">Free Tutoring &amp; Literacy</span><span class="lang-hi">मुफ्त ट्यूशन और साक्षरता</span></h3><p><span class="lang-en">Daily classes for Class 1–10, covering core subjects and reading skills — completely free of charge.</span><span class="lang-hi">कक्षा 1–10 के लिए दैनिक कक्षाएं, मूल विषय और पठन कौशल — पूरी तरह मुफ्त।</span></p></div></div>
+    <div class="cause-card"><div class="cimg"><img src="images/1000087433.jpg.jpeg" alt="Yoga"/></div><div class="cbody"><span class="ctag"><span class="lang-en">Yoga &amp; Fitness</span><span class="lang-hi">योग और फिटनेस</span></span><h3><span class="lang-en">Yoga &amp; Acrobatics</span><span class="lang-hi">योग और कलाबाजी</span></h3><p><span class="lang-en">Children train in yoga and acrobatics under expert guidance, performing at annual showcases.</span><span class="lang-hi">बच्चे विशेषज्ञ मार्गदर्शन में योग और कलाबाजी का प्रशिक्षण लेते हैं।</span></p></div></div>
+    <div class="cause-card"><div class="cimg"><img src="images/1000087283.jpg.jpeg" alt="Dance"/></div><div class="cbody"><span class="ctag"><span class="lang-en">Arts &amp; Culture</span><span class="lang-hi">कला और संस्कृति</span></span><h3><span class="lang-en">Dance &amp; Performing Arts</span><span class="lang-hi">नृत्य और प्रदर्शन कला</span></h3><p><span class="lang-en">Classical and contemporary dance training builds expression, discipline, and pride.</span><span class="lang-hi">शास्त्रीय और समकालीन नृत्य प्रशिक्षण अभिव्यक्ति, अनुशासन और गर्व बनाता है।</span></p></div></div>
+    <div class="cause-card"><div class="cimg"><img src="images/1000086285.jpg.jpeg" alt="Book distribution"/></div><div class="cbody"><span class="ctag"><span class="lang-en">Resources</span><span class="lang-hi">संसाधन</span></span><h3><span class="lang-en">Books &amp; Stationery Drive</span><span class="lang-hi">पुस्तक और स्टेशनरी वितरण</span></h3><p><span class="lang-en">Regular distribution of school books, notebooks, and stationery kits to deserving students.</span><span class="lang-hi">योग्य छात्रों को स्कूली पुस्तकें, नोटबुक और स्टेशनरी किट का नियमित वितरण।</span></p></div></div>
   </div>
 </section>
 
-<!-- PRESS / NEWSPAPER -->
+<!-- ── PRESS ── -->
 <section id="press">
   <div class="press-grid fu">
-    <div class="press-img"><img src="images/1000087237.jpg.jpeg" alt="Drishti Sagar newspaper coverage of Ved Daksha Foundation"/></div>
+    <div class="press-img"><img src="images/1000179906.jpg.jpeg" alt="Newspaper coverage Drishti Sagar" style="border-radius:var(--r)"/></div>
     <div>
-      <div class="sec-eye">In the News</div>
-      <h2 class="sec-h">Recognised by the community</h2>
-      <blockquote class="press-quote">The annual felicitation saw children showcase talents in dance, song, Sanskrit recitation, and martial arts — a moving display of the foundation's impact.</blockquote>
-      <p class="press-source">— <strong>Drishti Sagar</strong>, Local News Coverage · Ghaziabad</p>
-      <p style="font-size:13px;color:var(--mid);margin-top:1rem;line-height:1.7">The event was covered by local newspapers and attended by prominent figures including Advocate Rajkumar Gupta, BJP leader Om Rajput, poet Deepak Deep, and social workers Kavita Singhal and Aryan Tyagi.</p>
+      <div class="sec-eye"><span class="lang-en">In the News</span><span class="lang-hi">समाचार में</span></div>
+      <h2 class="sec-h"><span class="lang-en">Recognised by the community</span><span class="lang-hi">समुदाय द्वारा सम्मानित</span></h2>
+      <blockquote class="press-quote">
+        <span class="lang-en">The annual felicitation saw children showcase talents in dance, song, Sanskrit recitation, and martial arts — a moving display of the foundation's impact.</span>
+        <span class="lang-hi">वार्षिक समारोह में बच्चों ने नृत्य, गीत, संस्कृत पाठ और मार्शल आर्ट में अपनी प्रतिभा दिखाई।</span>
+      </blockquote>
+      <p style="font-size:13px;color:var(--mid)">— <strong style="color:var(--g)"><span class="lang-en">Drishti Sagar</span><span class="lang-hi">दृष्टि सागर</span></strong>, <span class="lang-en">Local News Coverage · Ghaziabad</span><span class="lang-hi">स्थानीय समाचार · गाज़ियाबाद</span></p>
     </div>
   </div>
 </section>
 
-<!-- IMPACT -->
+<!-- ── IMPACT ── -->
 <section id="impact">
   <div class="center fu">
-    <div class="sec-eye">Our Impact</div>
-    <h2 class="sec-h">Numbers that matter</h2>
-    <p class="sec-sub">Every number here is a real child, a real family, a real life changed by your support and our dedication.</p>
+    <div class="sec-eye"><span class="lang-en">Our Impact</span><span class="lang-hi">हमारा प्रभाव</span></div>
+    <h2 class="sec-h"><span class="lang-en">Numbers that matter</span><span class="lang-hi">महत्वपूर्ण संख्याएं</span></h2>
+    <p class="sec-sub"><span class="lang-en">Every number here is a real child, a real family, a real life changed by your support.</span><span class="lang-hi">यहाँ हर संख्या एक वास्तविक बच्चा, एक वास्तविक परिवार, आपके समर्थन से बदला एक वास्तविक जीवन है।</span></p>
   </div>
   <div class="impact-grid fu">
-    <div><div class="impact-n" data-t="3">0</div><div class="impact-l">Cities — Ghaziabad, Delhi &amp; Meerut</div></div>
-    <div><div class="impact-n" data-t="5">0</div><div class="impact-l">Active programs running daily</div></div>
-    <div><div class="impact-n" data-t="100">0</div><div class="impact-l">Children supported every year</div></div>
-    <div><div class="impact-n" data-t="2022">0</div><div class="impact-l">Founded — serving since</div></div>
+    <div><div class="impact-n" data-t="3">0</div><div class="impact-l"><span class="lang-en">Cities — Ghaziabad, Delhi &amp; Meerut</span><span class="lang-hi">शहर — गाज़ियाबाद, दिल्ली और मेरठ</span></div></div>
+    <div><div class="impact-n" data-t="5">0</div><div class="impact-l"><span class="lang-en">Active programs running daily</span><span class="lang-hi">प्रतिदिन चलने वाले सक्रिय कार्यक्रम</span></div></div>
+    <div><div class="impact-n" data-t="100">0</div><div class="impact-l"><span class="lang-en">Children supported every year</span><span class="lang-hi">हर साल समर्थित बच्चे</span></div></div>
+    <div><div class="impact-n" data-t="2022">0</div><div class="impact-l"><span class="lang-en">Founded — serving since</span><span class="lang-hi">स्थापित — तब से सेवा में</span></div></div>
   </div>
 </section>
 
-<!-- GALLERY -->
+<!-- ── GALLERY ── -->
 <section id="gallery">
   <div class="center fu">
-    <div class="sec-eye">Gallery</div>
-    <h2 class="sec-h">Moments of joy &amp; growth</h2>
-    <p class="sec-sub">Real photos from our events, performances, and celebrations — the proof is in these smiles.</p>
+    <div class="sec-eye"><span class="lang-en">Gallery</span><span class="lang-hi">गैलरी</span></div>
+    <h2 class="sec-h"><span class="lang-en">Moments of joy &amp; growth</span><span class="lang-hi">आनंद और विकास के पल</span></h2>
+    <p class="sec-sub"><span class="lang-en">Real photos from our events, performances, and celebrations.</span><span class="lang-hi">हमारे कार्यक्रमों, प्रदर्शनों और उत्सवों की वास्तविक तस्वीरें।</span></p>
   </div>
   <div class="gal-grid fu">
-    <div class="gi wide tall"><img src="images/1000087293.jpg.jpeg" alt="Annual event group photo"/><div class="gov"><span>Annual Felicitation Event</span></div></div>
-    <div class="gi"><img src="images/1000086285.jpg.jpeg" alt="Yoga performance"/><div class="gov"><span>Yoga Performance</span></div></div>
-    <div class="gi"><img src="images/1000087227.jpg.jpeg" alt="Dance performance"/><div class="gov"><span>Dance Showcase</span></div></div>
-    <div class="gi"><img src="images/1000087433.jpg.jpeg" alt="Acrobatics"/><div class="gov"><span>Acrobatics Display</span></div></div>
-    <div class="gi"><img src="images/1000087479.jpg.jpeg" alt="Yoga performance"/><div class="gov"><span>Yoga &amp; Fitness</span></div></div>
-    <div class="gi"><img src="images/1000087405.jpg.jpeg" alt="Book distribution"/><div class="gov"><span>Book Distribution</span></div></div>
-    <div class="gi"><img src="images/1000087431.jpg.jpeg" alt="Children and team"/><div class="gov"><span>Our Children</span></div></div>
-    <div class="gi"><img src="images/1000087407.jpg.jpeg" alt="Award ceremony"/><div class="gov"><span>Award Ceremony</span></div></div>
+    <div class="gi wide tall"><img src="images/1000179556.jpg.jpeg" alt="Annual event group"/><div class="gov"><span><span class="lang-en">Annual Felicitation Event</span><span class="lang-hi">वार्षिक सम्मान समारोह</span></span></div></div>
+    <div class="gi"><img src="images/1000087433.jpg.jpeg" alt="Yoga"/><div class="gov"><span><span class="lang-en">Yoga Performance</span><span class="lang-hi">योग प्रदर्शन</span></span></div></div>
+    <div class="gi"><img src="images/1000087283.jpg.jpeg" alt="Dance"/><div class="gov"><span><span class="lang-en">Dance Showcase</span><span class="lang-hi">नृत्य प्रदर्शन</span></span></div></div>
+    <div class="gi"><img src="images/1000179500.jpg.jpeg" alt="Bag distribution"/><div class="gov"><span><span class="lang-en">School Bag Distribution</span><span class="lang-hi">स्कूल बैग वितरण</span></span></div></div>
+    <div class="gi"><img src="images/1000087355.jpg.jpeg" alt="Medals"/><div class="gov"><span><span class="lang-en">Medal Ceremony</span><span class="lang-hi">पदक समारोह</span></span></div></div>
+    <div class="gi"><img src="images/1000087516.jpg.jpeg" alt="Award"/><div class="gov"><span><span class="lang-en">Award Ceremony</span><span class="lang-hi">पुरस्कार समारोह</span></span></div></div>
+    <div class="gi"><img src="images/1000086482.jpg.jpeg" alt="Children"/><div class="gov"><span><span class="lang-en">Our Children</span><span class="lang-hi">हमारे बच्चे</span></span></div></div>
+    <div class="gi"><img src="images/1000087355.jpg.jpeg" alt="Dignitaries"/><div class="gov"><span><span class="lang-en">Distinguished Guests</span><span class="lang-hi">विशिष्ट अतिथि</span></span></div></div>
   </div>
 </section>
 
-<!-- BLOG -->
+<!-- ── BLOG ── -->
 <section id="blog">
   <div class="center fu">
-    <div class="sec-eye">Blog &amp; Updates</div>
-    <h2 class="sec-h">Stories from the field</h2>
-    <p class="sec-sub">Read about our work, our children's journeys, and how education is changing lives in Ghaziabad.</p>
+    <div class="sec-eye"><span class="lang-en">Blog &amp; Updates</span><span class="lang-hi">ब्लॉग और अपडेट</span></div>
+    <h2 class="sec-h"><span class="lang-en">Stories from the field</span><span class="lang-hi">क्षेत्र से कहानियाँ</span></h2>
+    <p class="sec-sub"><span class="lang-en">Read about our work, our children's journeys, and how education is changing lives in Ghaziabad.</span><span class="lang-hi">हमारे काम, बच्चों की यात्राओं और गाज़ियाबाद में शिक्षा कैसे जीवन बदल रही है, इसके बारे में पढ़ें।</span></p>
   </div>
-  <div class="blog-grid fu">
-    <div class="blog-card">
-      <div class="blog-img"><img src="images/1000086285.jpg.jpeg" alt="Children performing yoga"/></div>
-      <div class="blog-body">
-        <div class="blog-cat">Education</div>
-        <h3>How Free Education Changes a Child's Trajectory in Ghaziabad</h3>
-        <p>When a child from a daily-wage family gets access to books, a classroom, and a caring teacher — everything changes. Here's what we've witnessed...</p>
-        <a class="blog-link" href="blog.html">Read More <i class="ti ti-arrow-right"></i></a>
-      </div>
-    </div>
-    <div class="blog-card">
-      <div class="blog-img"><img src="images/1000087271.jpg.jpeg" alt="Dance practice"/></div>
-      <div class="blog-body">
-        <div class="blog-cat">Arts &amp; Development</div>
-        <h3>Why Yoga and Dance Are as Important as Textbooks</h3>
-        <p>Physical expression, discipline, and artistry are not extracurricular — they are the core of holistic childhood development. Our children prove it every day.</p>
-        <a class="blog-link" href="blog.html">Read More <i class="ti ti-arrow-right"></i></a>
-      </div>
-    </div>
-    <div class="blog-card">
-      <div class="blog-img"><img src="images/1000087355.jpg.jpeg" alt="Children at event"/></div>
-      <div class="blog-body">
-        <div class="blog-cat">Community</div>
-        <h3>5 Ways You Can Support Underprivileged Children Without Donating Money</h3>
-        <p>Books, time, skills, connections, and presence — there are more ways to give than you think. Here's how our volunteers make the difference...</p>
-        <a class="blog-link" href="blog.html">Read More <i class="ti ti-arrow-right"></i></a>
-      </div>
-    </div>
+  <div class="blog-grid fu" id="blog-list">
+    <div class="blog-card"><div class="blog-img"><img src="images/1000087433.jpg.jpeg" alt="Blog 1"/></div><div class="blog-body"><div class="blog-cat"><span class="lang-en">Education</span><span class="lang-hi">शिक्षा</span></div><h3><span class="lang-en">How Free Education Changes a Child's Future</span><span class="lang-hi">मुफ्त शिक्षा कैसे एक बच्चे का भविष्य बदलती है</span></h3><p><span class="lang-en">Every child deserves access to quality education regardless of their background...</span><span class="lang-hi">हर बच्चे को उनकी पृष्ठभूमि की परवाह किए बिना गुणवत्तापूर्ण शिक्षा का अधिकार है...</span></p><a class="blog-link" href="blog.html"><span class="lang-en">Read More</span><span class="lang-hi">और पढ़ें</span> <i class="ti ti-arrow-right"></i></a></div></div>
+    <div class="blog-card"><div class="blog-img"><img src="images/1000087237.jpg.jpeg" alt="Blog 2"/></div><div class="blog-body"><div class="blog-cat"><span class="lang-en">Arts &amp; Development</span><span class="lang-hi">कला और विकास</span></div><h3><span class="lang-en">Why Yoga and Dance Are as Important as Textbooks</span><span class="lang-hi">योग और नृत्य पाठ्यपुस्तकों जितने ज़रूरी क्यों हैं</span></h3><p><span class="lang-en">Holistic development is not a privilege — it is a right for every child...</span><span class="lang-hi">समग्र विकास एक विशेषाधिकार नहीं है — यह हर बच्चे का अधिकार है...</span></p><a class="blog-link" href="blog.html"><span class="lang-en">Read More</span><span class="lang-hi">और पढ़ें</span> <i class="ti ti-arrow-right"></i></a></div></div>
+    <div class="blog-card"><div class="blog-img"><img src="images/1000179556.jpg.jpeg" alt="Blog 3"/></div><div class="blog-body"><div class="blog-cat"><span class="lang-en">Community</span><span class="lang-hi">समुदाय</span></div><h3><span class="lang-en">5 Ways to Support Children Without Donating Money</span><span class="lang-hi">पैसे दान किए बिना बच्चों को समर्थन देने के 5 तरीके</span></h3><p><span class="lang-en">Books, time, skills, connections — there are more ways to give than you think...</span><span class="lang-hi">पुस्तकें, समय, कौशल — देने के आपके विचार से अधिक तरीके हैं...</span></p><a class="blog-link" href="blog.html"><span class="lang-en">Read More</span><span class="lang-hi">और पढ़ें</span> <i class="ti ti-arrow-right"></i></a></div></div>
   </div>
-  <div style="text-align:center;margin-top:2rem"><a href="blog.html" class="btn-o">View All Posts <i class="ti ti-arrow-right"></i></a></div>
+  <div style="text-align:center;margin-top:2rem"><a href="blog.html" class="btn-o"><span class="lang-en">View All Posts</span><span class="lang-hi">सभी पोस्ट देखें</span> <i class="ti ti-arrow-right"></i></a></div>
 </section>
 
-<!-- EVENTS -->
+<!-- ── EVENTS ── -->
 <section id="events">
   <div class="center fu">
-    <div class="sec-eye">Events</div>
-    <h2 class="sec-h">Past highlights &amp; upcoming</h2>
-    <p class="sec-sub">From annual celebrations to community outreach — stay connected with what we're doing.</p>
+    <div class="sec-eye"><span class="lang-en">Events</span><span class="lang-hi">कार्यक्रम</span></div>
+    <h2 class="sec-h"><span class="lang-en">Past highlights &amp; upcoming</span><span class="lang-hi">पिछली झलकियाँ और आगामी</span></h2>
+    <p class="sec-sub"><span class="lang-en">Stay connected with what we're doing.</span><span class="lang-hi">हम जो कर रहे हैं उससे जुड़े रहें।</span></p>
   </div>
   <div class="events-grid fu" id="events-container">
-    <!-- Populated by API or fallback below -->
-    <div class="ev-card">
-      <div class="ev-img"><img src="images/1000087293.jpg.jpeg" alt="Annual event"/></div>
-      <div class="ev-body">
-        <div class="ev-date"><i class="ti ti-calendar"></i>Annual Event</div>
-        <h3>वार्षिकोत्सव व सम्मान समारोह</h3>
-        <p>Annual felicitation — medals, school bags, and certificates. Performances in yoga, dance &amp; Sanskrit recitation. Attended by dignitaries and parents.</p>
-      </div>
-    </div>
-    <div class="ev-card">
-      <div class="ev-img"><img src="images/1000086285.jpg.jpeg" alt="Yoga showcase"/></div>
-      <div class="ev-body">
-        <div class="ev-date"><i class="ti ti-music"></i>Cultural Program</div>
-        <h3>Yoga &amp; Dance Showcase</h3>
-        <p>Children performed yoga, acrobatics, and classical dance in front of parents and dignitaries — months of practice on full display.</p>
-      </div>
-    </div>
-    <div class="ev-card">
-      <div class="ev-img"><img src="images/1000087405.jpg.jpeg" alt="Book distribution"/></div>
-      <div class="ev-body">
-        <div class="ev-date"><i class="ti ti-book"></i>Education Drive</div>
-        <h3>Books &amp; Stationery Distribution</h3>
-        <p>Meritorious students from the foundation received books, stationery kits, and encouragement to continue their studies.</p>
-        <div class="countdown"><i class="ti ti-clock"></i><span id="next-event-countdown">Next event coming soon</span></div>
-      </div>
-    </div>
+    <div class="ev-card"><div class="ev-img"><img src="images/1000179556.jpg.jpeg" alt="Annual event"/></div><div class="ev-body"><div class="ev-date"><i class="ti ti-calendar"></i><span class="lang-en">Annual Event</span><span class="lang-hi">वार्षिक कार्यक्रम</span></div><h3><span class="lang-en">Annual Varshikotsav &amp; Samman Samaroh</span><span class="lang-hi">वार्षिकोत्सव और सम्मान समारोह</span></h3><p><span class="lang-en">Annual felicitation with medals, school bags, and certificates. Yoga, dance &amp; Sanskrit performances.</span><span class="lang-hi">पदक, स्कूल बैग और प्रमाण पत्र के साथ वार्षिक सम्मान। योग, नृत्य और संस्कृत प्रदर्शन।</span></p></div></div>
+    <div class="ev-card"><div class="ev-img"><img src="images/1000087433.jpg.jpeg" alt="Yoga showcase"/></div><div class="ev-body"><div class="ev-date"><i class="ti ti-music"></i><span class="lang-en">Cultural Program</span><span class="lang-hi">सांस्कृतिक कार्यक्रम</span></div><h3><span class="lang-en">Yoga &amp; Dance Showcase</span><span class="lang-hi">योग और नृत्य प्रदर्शन</span></h3><p><span class="lang-en">Children performed yoga, acrobatics, and classical dance — months of dedicated practice on full display.</span><span class="lang-hi">बच्चों ने योग, कलाबाजी और शास्त्रीय नृत्य का प्रदर्शन किया — महीनों का समर्पित अभ्यास।</span></p></div></div>
+    <div class="ev-card"><div class="ev-img"><img src="images/1000086285.jpg.jpeg" alt="Book distribution"/></div><div class="ev-body"><div class="ev-date"><i class="ti ti-book"></i><span class="lang-en">Education Drive</span><span class="lang-hi">शिक्षा अभियान</span></div><h3><span class="lang-en">Books &amp; Stationery Distribution</span><span class="lang-hi">पुस्तक और स्टेशनरी वितरण</span></h3><p><span class="lang-en">Meritorious students received books, stationery kits, and encouragement to continue their studies.</span><span class="lang-hi">मेधावी छात्रों को पुस्तकें, स्टेशनरी किट और अपनी पढ़ाई जारी रखने के लिए प्रोत्साहन मिला।</span></p></div></div>
   </div>
 </section>
 
-<!-- GET INVOLVED -->
+<!-- ── GET INVOLVED ── -->
 <section id="involve">
   <div class="center fu">
-    <div class="sec-eye">Get Involved</div>
-    <h2 class="sec-h">Join the movement</h2>
-    <p class="sec-sub">Time, skills, or resources — every contribution makes a real difference in a child's life.</p>
+    <div class="sec-eye"><span class="lang-en">Get Involved</span><span class="lang-hi">जुड़ें</span></div>
+    <h2 class="sec-h"><span class="lang-en">Join the movement</span><span class="lang-hi">आंदोलन में शामिल हों</span></h2>
+    <p class="sec-sub"><span class="lang-en">Time, skills, or resources — every contribution makes a real difference.</span><span class="lang-hi">समय, कौशल या संसाधन — हर योगदान वास्तविक फर्क डालता है।</span></p>
   </div>
   <div class="inv-grid fu">
-    <div class="inv-card"><div class="inv-icon" style="color:var(--g)"><i class="ti ti-coin"></i></div><h3>Donate</h3><p>Fund stationery, school bags, yoga gear, or health camp supplies. Every rupee goes directly to the children.</p><a class="inv-link" href="#donate">Donate now <i class="ti ti-arrow-right"></i></a></div>
-    <div class="inv-card"><div class="inv-icon" style="color:var(--o)"><i class="ti ti-hand-stop"></i></div><h3>Volunteer</h3><p>Teach a skill, run a workshop, assist at events, or mentor a child. Doctors, teachers, artists — all welcome.</p><a class="inv-link" href="#contact" style="color:var(--o)">Get in touch <i class="ti ti-arrow-right"></i></a></div>
-    <div class="inv-card"><div class="inv-icon" style="color:#2563EB"><i class="ti ti-building"></i></div><h3>CSR / Partnership</h3><p>Partner for CSR initiatives, in-kind donations, or sponsored programs. Open to schools, businesses &amp; institutions.</p><a class="inv-link" href="mailto:veddakshafoundation22@gmail.com" style="color:#2563EB">Email us <i class="ti ti-arrow-right"></i></a></div>
+    <div class="inv-card"><div class="inv-icon" style="color:var(--g)"><i class="ti ti-coin"></i></div><h3><span class="lang-en">Donate</span><span class="lang-hi">दान करें</span></h3><p><span class="lang-en">Fund stationery, school bags, yoga gear, or health camp supplies. Every rupee goes directly to the children.</span><span class="lang-hi">स्टेशनरी, स्कूल बैग, योग उपकरण या स्वास्थ्य शिविर की आपूर्ति के लिए धन दें।</span></p><a class="inv-link" href="#donate"><span class="lang-en">Donate now</span><span class="lang-hi">अभी दान करें</span> <i class="ti ti-arrow-right"></i></a></div>
+    <div class="inv-card"><div class="inv-icon" style="color:var(--o)"><i class="ti ti-hand-stop"></i></div><h3><span class="lang-en">Volunteer</span><span class="lang-hi">स्वयंसेवक बनें</span></h3><p><span class="lang-en">Teach a skill, run a workshop, assist at events, or mentor a child. Doctors, teachers, artists — all welcome.</span><span class="lang-hi">कोई कौशल सिखाएं, कार्यशाला चलाएं, कार्यक्रमों में सहायता करें या बच्चे को मार्गदर्शन दें।</span></p><a class="inv-link" href="#contact" style="color:var(--o)"><span class="lang-en">Get in touch</span><span class="lang-hi">संपर्क करें</span> <i class="ti ti-arrow-right"></i></a></div>
+    <div class="inv-card"><div class="inv-icon" style="color:#2563EB"><i class="ti ti-building"></i></div><h3><span class="lang-en">CSR / Partnership</span><span class="lang-hi">CSR / साझेदारी</span></h3><p><span class="lang-en">Partner for CSR initiatives, in-kind donations, or sponsored programs.</span><span class="lang-hi">CSR पहल, वस्तु दान या प्रायोजित कार्यक्रमों के लिए साझेदार बनें।</span></p><a class="inv-link" href="mailto:veddakshafoundation22@gmail.com" style="color:#2563EB"><span class="lang-en">Email us</span><span class="lang-hi">ईमेल करें</span> <i class="ti ti-arrow-right"></i></a></div>
   </div>
 </section>
 
-<!-- DONATE -->
+<!-- ── DONATE ── -->
 <section id="donate">
   <div class="fu">
-    <div class="sec-eye">Donate</div>
-    <h2 class="sec-h">Every rupee reaches a child</h2>
-    <p class="sec-sub">Choose an amount or enter your own. Your donation funds education, health, and opportunity.</p>
+    <div class="sec-eye"><span class="lang-en">Donate</span><span class="lang-hi">दान करें</span></div>
+    <h2 class="sec-h"><span class="lang-en">Every rupee reaches a child</span><span class="lang-hi">हर रुपया एक बच्चे तक पहुँचता है</span></h2>
+    <p class="sec-sub"><span class="lang-en">Choose an amount or enter your own. Your donation funds education, health, and opportunity.</span><span class="lang-hi">राशि चुनें या अपनी दर्ज करें। आपका दान शिक्षा, स्वास्थ्य और अवसर को वित्त पोषित करता है।</span></p>
   </div>
   <div class="don-wrap fu">
     <div>
       <div class="tiers">
-        <div class="tier sel" onclick="selTier(this,500)"><div class="tier-amt">₹500</div><div class="tier-lbl">Stationery kit for one child</div></div>
-        <div class="tier" onclick="selTier(this,1000)"><div class="tier-amt">₹1,000</div><div class="tier-lbl">A week of yoga/dance training</div></div>
-        <div class="tier" onclick="selTier(this,2500)"><div class="tier-amt">₹2,500</div><div class="tier-lbl">One complete school bag kit</div></div>
-        <div class="tier" onclick="selTier(this,5000)"><div class="tier-amt">₹5,000+</div><div class="tier-lbl">CSR / custom contribution</div></div>
-        <div class="tier" onclick="selTier(this,0)" style="border-style:dashed"><div class="tier-amt" style="font-size:14px">Custom ✎</div><div class="tier-lbl">Enter your own amount below</div></div>
+        <div class="tier sel" onclick="selTier(this,500)"><div class="tier-amt">₹500</div><div class="tier-lbl"><span class="lang-en">Stationery kit for one child</span><span class="lang-hi">एक बच्चे के लिए स्टेशनरी किट</span></div></div>
+        <div class="tier" onclick="selTier(this,1000)"><div class="tier-amt">₹1,000</div><div class="tier-lbl"><span class="lang-en">A week of yoga/dance training</span><span class="lang-hi">एक सप्ताह का योग/नृत्य प्रशिक्षण</span></div></div>
+        <div class="tier" onclick="selTier(this,2500)"><div class="tier-amt">₹2,500</div><div class="tier-lbl"><span class="lang-en">One complete school bag kit</span><span class="lang-hi">एक पूर्ण स्कूल बैग किट</span></div></div>
+        <div class="tier" onclick="selTier(this,5000)"><div class="tier-amt">₹5,000+</div><div class="tier-lbl"><span class="lang-en">CSR / custom contribution</span><span class="lang-hi">CSR / विशेष योगदान</span></div></div>
       </div>
       <div class="upi-box" style="margin-top:1.5rem">
-        <!-- Live amount badge -->
-        <div id="qr-amount-badge" style="background:var(--g);color:#fff;border-radius:20px;padding:4px 14px;font-size:13px;font-weight:600;margin-bottom:.5rem;display:inline-block">Paying ₹500</div>
-        <!-- QR code auto-generated from UPI ID — updates with amount -->
-        <div id="upi-qr-wrap" style="display:flex;flex-direction:column;align-items:center;gap:.5rem">
-          <div style="position:relative">
-            <img id="upi-qr-img" src="" alt="Scan to Pay" style="width:160px;height:160px;border-radius:12px;border:3px solid var(--g);display:none"/>
-            <i id="upi-qr-icon" class="ti ti-qrcode" style="font-size:48px;color:var(--g)"></i>
-          </div>
-        </div>
-        <p style="font-size:12px;color:var(--mid);margin-top:.4rem;text-align:center">Scan with PhonePe / Google Pay / Paytm</p>
-        <div class="upi-id" id="donate-upi-id" style="cursor:pointer;user-select:all" title="Tap to copy">kbhavishya682-1@oksbi</div>
-        <div style="display:flex;gap:.5rem;margin-top:.5rem;flex-wrap:wrap;justify-content:center">
-          <button onclick="copyUPI()" style="background:var(--gl);border:1px solid var(--bd);border-radius:8px;padding:5px 14px;font-size:12px;color:var(--g);cursor:pointer;font-family:Poppins,sans-serif"><i class="ti ti-copy" style="margin-right:4px"></i>Copy UPI ID</button>
-          <a id="upi-deep-link" href="#" target="_blank" style="display:inline-flex;align-items:center;background:var(--g);color:#fff;border-radius:8px;padding:5px 14px;font-size:12px;text-decoration:none"><i class="ti ti-external-link" style="margin-right:4px"></i>Open Pay App</a>
-        </div>
-        <p style="margin-top:.5rem;font-size:11px;color:var(--mid);text-align:center">After payment, WhatsApp receipt to <strong id="donate-phone-number">9068188593</strong></p>
-      </div>
-      <div style="background:var(--gl);border-radius:var(--r);padding:14px 18px;margin-top:1rem;font-size:13px;color:var(--mid);display:flex;gap:10px;align-items:flex-start">
-        <i class="ti ti-receipt" style="color:var(--g);font-size:18px;flex-shrink:0;margin-top:1px"></i>
-        <span>Bank Transfer: Contact us at <a href="tel:8700785399" id="bank-phone-link" style="color:var(--g);font-weight:600">8700785399</a> for NEFT/RTGS account details. 80G tax benefit available.</span>
+        <i class="ti ti-qrcode" style="font-size:32px;color:var(--g)"></i>
+        <p style="font-size:12px;color:var(--mid);margin-top:.5rem"><span class="lang-en">Scan &amp; Pay via UPI / PhonePe / Google Pay</span><span class="lang-hi">UPI / PhonePe / Google Pay से स्कैन करें और भुगतान करें</span></p>
+        <div class="upi-id" id="upi-display">veddakshafoundation22@gmail.com</div>
+        <p style="margin-top:.5rem;font-size:11px;color:var(--mid)"><span class="lang-en">After payment, WhatsApp receipt to <strong>8700785399</strong></span><span class="lang-hi">भुगतान के बाद, रसीद WhatsApp करें <strong>8700785399</strong> पर</span></p>
       </div>
     </div>
     <div class="don-form">
-      <h3>Send your details</h3>
-      <div class="frow"><label for="dn">Your Name</label><input type="text" id="dn" placeholder="Full name"/></div>
-      <div class="frow"><label for="dp">Mobile / WhatsApp</label><input type="tel" id="dp" placeholder="+91 "/></div>
-      <div class="frow"><label for="de">Email (optional)</label><input type="email" id="de" placeholder="your@email.com"/></div>
-      <div class="frow"><label for="da">Amount (₹)</label><input type="number" id="da" value="500" min="1" oninput="onAmountInput(this.value)" placeholder="Enter amount"/></div>
-      <div class="frow"><label for="dpu">Purpose</label>
+      <h3><span class="lang-en">Send your details</span><span class="lang-hi">अपनी जानकारी भेजें</span></h3>
+      <div class="frow"><label><span class="lang-en">Your Name</span><span class="lang-hi">आपका नाम</span></label><input type="text" id="dn" placeholder="Full name / पूरा नाम"/></div>
+      <div class="frow"><label><span class="lang-en">Mobile / WhatsApp</span><span class="lang-hi">मोबाइल / WhatsApp</span></label><input type="tel" id="dp" placeholder="+91 "/></div>
+      <div class="frow"><label><span class="lang-en">Email (optional)</span><span class="lang-hi">ईमेल (वैकल्पिक)</span></label><input type="email" id="de" placeholder="your@email.com"/></div>
+      <div class="frow"><label><span class="lang-en">Amount (₹)</span><span class="lang-hi">राशि (₹)</span></label><input type="number" id="da" value="500"/></div>
+      <div class="frow"><label><span class="lang-en">Purpose</span><span class="lang-hi">उद्देश्य</span></label>
         <select id="dpu">
-          <option>General donation</option>
-          <option>Stationery &amp; books</option>
-          <option>Yoga / dance training</option>
-          <option>School bags</option>
-          <option>Health camp</option>
-          <option>CSR partnership</option>
+          <option><span class="lang-en">General donation</span></option>
+          <option>Stationery &amp; books / स्टेशनरी और पुस्तकें</option>
+          <option>Yoga / dance training / योग / नृत्य प्रशिक्षण</option>
+          <option>School bags / स्कूल बैग</option>
+          <option>Health camp / स्वास्थ्य शिविर</option>
         </select>
       </div>
-      <button class="btn-p" style="width:100%;justify-content:center;margin-top:.5rem" onclick="sendWA()"><i class="ti ti-brand-whatsapp"></i>Send via WhatsApp</button>
-      <button id="rzp-btn" class="btn-o" style="width:100%;justify-content:center;margin-top:.7rem;display:none" onclick="payRazorpay()"><i class="ti ti-credit-card"></i>Pay Online via Razorpay</button>
-      <p style="font-size:11px;color:var(--mid);margin-top:.8rem;text-align:center">WhatsApp opens with details pre-filled. Online payment processes instantly.</p>
+      <button class="btn-p" style="width:100%;justify-content:center;margin-top:.5rem" onclick="sendWA()"><i class="ti ti-brand-whatsapp"></i><span class="lang-en">Send via WhatsApp</span><span class="lang-hi">WhatsApp से भेजें</span></button>
+      <p style="font-size:11px;color:var(--mid);margin-top:.8rem;text-align:center"><span class="lang-en">Opens WhatsApp with your details pre-filled.</span><span class="lang-hi">आपकी जानकारी भरे हुए WhatsApp खोलेगा।</span></p>
     </div>
   </div>
 </section>
 
-<!-- CONTACT -->
+<!-- ── CONTACT ── -->
 <section id="contact">
   <div class="con-grid fu">
     <div>
-      <div class="sec-eye">Contact</div>
-      <h2 class="sec-h">We're right here<br>in Ghaziabad</h2>
-      <p style="font-size:14px;color:var(--mid);line-height:1.7;margin-bottom:2rem">Visit us, call us, or send a WhatsApp. We're a small, hands-on team and we personally respond to every message.</p>
-      <div class="con-det"><div class="con-icon"><i class="ti ti-map-pin"></i></div><div><div class="con-lbl">Address</div><div class="con-val">7/56, Chiranjeev Vihar, Ghaziabad, UP – 201002</div></div></div>
-      <div class="con-det"><div class="con-icon"><i class="ti ti-phone"></i></div><div><div class="con-lbl">Call / WhatsApp</div><div class="con-val"><a href="tel:8700785399">8700785399</a> &nbsp;|&nbsp; <a href="tel:8595656658">8595656658</a></div></div></div>
-      <div class="con-det"><div class="con-icon"><i class="ti ti-mail"></i></div><div><div class="con-lbl">Email</div><div class="con-val"><a href="mailto:veddakshafoundation22@gmail.com">veddakshafoundation22@gmail.com</a></div></div></div>
+      <div class="sec-eye"><span class="lang-en">Contact</span><span class="lang-hi">संपर्क</span></div>
+      <h2 class="sec-h"><span class="lang-en">We're right here<br>in Ghaziabad</span><span class="lang-hi">हम यहाँ हैं<br>गाज़ियाबाद में</span></h2>
+      <p style="font-size:14px;color:var(--mid);line-height:1.7;margin-bottom:2rem">
+        <span class="lang-en">Visit us, call us, or send a WhatsApp. We personally respond to every message.</span>
+        <span class="lang-hi">हमसे मिलें, हमें कॉल करें, या WhatsApp भेजें। हम व्यक्तिगत रूप से हर संदेश का जवाब देते हैं।</span>
+      </p>
+      <div class="con-det"><div class="con-icon"><i class="ti ti-map-pin"></i></div><div><div class="con-lbl"><span class="lang-en">Address</span><span class="lang-hi">पता</span></div><div class="con-val">7/56, <span class="lang-en">Chiranjeev Vihar, Ghaziabad, UP – 201002</span><span class="lang-hi">चिरंजीव विहार, गाज़ियाबाद, UP – 201002</span></div></div></div>
+      <div class="con-det"><div class="con-icon"><i class="ti ti-phone"></i></div><div><div class="con-lbl"><span class="lang-en">Call / WhatsApp</span><span class="lang-hi">कॉल / WhatsApp</span></div><div class="con-val"><a href="tel:8700785399">8700785399</a> &nbsp;|&nbsp; <a href="tel:8595656658">8595656658</a></div></div></div>
+      <div class="con-det"><div class="con-icon"><i class="ti ti-mail"></i></div><div><div class="con-lbl"><span class="lang-en">Email</span><span class="lang-hi">ईमेल</span></div><div class="con-val"><a href="mailto:veddakshafoundation22@gmail.com">veddakshafoundation22@gmail.com</a></div></div></div>
       <div class="soc-row">
         <a class="soc" href="https://facebook.com/VedDakshaFoundation" target="_blank"><i class="ti ti-brand-facebook"></i></a>
         <a class="soc" href="https://instagram.com/veddakshafoundation" target="_blank"><i class="ti ti-brand-instagram"></i></a>
         <a class="soc" href="https://youtube.com/@veddakshafoundation22" target="_blank"><i class="ti ti-brand-youtube"></i></a>
         <a class="soc" href="https://wa.me/918700785399" target="_blank"><i class="ti ti-brand-whatsapp"></i></a>
       </div>
-      <!-- Contact form -->
-      <div style="margin-top:2rem;background:var(--gl);border-radius:var(--r);padding:20px">
-        <h3 style="font-size:16px;font-weight:600;margin-bottom:1rem">Send us a message</h3>
-        <div class="frow"><label for="cn">Name</label><input type="text" id="cn" placeholder="Your name"/></div>
-        <div class="frow"><label for="cc">Phone / Email</label><input type="text" id="cc" placeholder="Phone or email"/></div>
-        <div class="frow"><label for="cm2">Message</label><textarea id="cm2" rows="3" style="border:1px solid var(--bd);border-radius:8px;padding:10px 14px;font-size:14px;font-family:Poppins,sans-serif;outline:none;background:#fff;resize:vertical;width:100%"></textarea></div>
-        <button class="btn-p" style="margin-top:.5rem" onclick="sendContact()"><i class="ti ti-send"></i>Send Message</button>
+      <div class="con-form">
+        <h3><span class="lang-en">Send us a message</span><span class="lang-hi">हमें संदेश भेजें</span></h3>
+        <div class="frow"><label><span class="lang-en">Name</span><span class="lang-hi">नाम</span></label><input type="text" id="cn" placeholder="Your name / आपका नाम"/></div>
+        <div class="frow"><label><span class="lang-en">Phone / Email</span><span class="lang-hi">फ़ोन / ईमेल</span></label><input type="text" id="cc" placeholder="Phone or email"/></div>
+        <div class="frow"><label><span class="lang-en">Message</span><span class="lang-hi">संदेश</span></label><textarea id="cm2" rows="3" style="border:1px solid var(--bd);border-radius:8px;padding:10px 14px;font-size:14px;font-family:inherit;outline:none;background:var(--bg);color:var(--dark);resize:vertical;width:100%"></textarea></div>
+        <button class="btn-p" style="margin-top:.5rem" onclick="sendContact()"><i class="ti ti-send"></i><span class="lang-en">Send Message</span><span class="lang-hi">संदेश भेजें</span></button>
       </div>
     </div>
     <div>
-      <div class="map-box">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3499!2d77.4733!3d28.6703!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce5c3a6666667%3A0x0!2sChiranjeev+Vihar%2C+Ghaziabad!5e0!3m2!1sen!2sin!4v1" allowfullscreen loading="lazy" title="Ved Daksha Foundation Map"></iframe>
-      </div>
+      <div class="map-box"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3499!2d77.4733!3d28.6703!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce5c3a6666667%3A0x0!2sChiranjeev+Vihar%2C+Ghaziabad!5e0!3m2!1sen!2sin!4v1" allowfullscreen loading="lazy" title="Map"></iframe></div>
       <div style="background:var(--gl);border-radius:var(--r);padding:16px 18px;margin-top:1rem;display:flex;align-items:flex-start;gap:12px">
         <i class="ti ti-info-circle" style="color:var(--g);font-size:20px;flex-shrink:0;margin-top:2px"></i>
-        <p style="font-size:13px;color:var(--mid);line-height:1.6">Located in Chiranjeev Vihar near House No. 56. Look for the green NGO banners on the wall!</p>
+        <p style="font-size:13px;color:var(--mid);line-height:1.6"><span class="lang-en">Located in Chiranjeev Vihar near House No. 56. Look for the green NGO banners on the wall!</span><span class="lang-hi">चिरंजीव विहार में मकान नं. 56 के पास। दीवार पर हरे NGO बैनर देखें!</span></p>
       </div>
-      <div style="margin-top:1rem">
-        <img src="images/1000087287.jpg.jpeg" style="border-radius:var(--r);height:200px;width:100%;object-fit:cover" alt="Ved Daksha Foundation office entrance"/>
-      </div>
+      <div style="margin-top:1rem"><img src="images/1000191716.jpg.jpeg" style="border-radius:var(--r);height:200px;width:100%;object-fit:cover" alt="Office exterior"/></div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ── FOOTER ── -->
 <footer>
   <div class="foot-grid">
     <div>
-      <div class="foot-brand" style="display:flex;align-items:center;gap:10px">
-        <img src="images/logo.png" alt="Ved Daksha Foundation Logo" style="width:36px;height:36px;border-radius:50%;object-fit:cover"/>
-        <span>Ved Daksha Foundation</span>
-      </div>
-      <p class="foot-tag" style="margin-top:.6rem">वय राष्ट्रे जागृयाम — We rise for the nation. Empowering underprivileged children through education, yoga, arts, and self-defence.</p>
+      <div class="foot-brand"><span class="lang-en">Ved Daksha Foundation</span><span class="lang-hi">वेद दक्षा फाउंडेशन</span></div>
+      <p style="font-size:12px;line-height:1.6;max-width:240px;margin-top:.4rem"><span class="lang-en">वयं राष्ट्रे जागृयाम — We Rise for the Nation. Empowering underprivileged children through education, yoga, arts, and self-defence.</span><span class="lang-hi">वयं राष्ट्रे जागृयाम — हम राष्ट्र के लिए उठते हैं। शिक्षा, योग, कला और आत्मरक्षा के माध्यम से वंचित बच्चों का सशक्तिकरण।</span></p>
       <div class="soc-row" style="margin-top:1.2rem">
         <a class="soc" href="https://facebook.com/VedDakshaFoundation" target="_blank" style="border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.6)"><i class="ti ti-brand-facebook"></i></a>
         <a class="soc" href="https://instagram.com/veddakshafoundation" target="_blank" style="border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.6)"><i class="ti ti-brand-instagram"></i></a>
@@ -679,43 +670,87 @@
       </div>
     </div>
     <div>
-      <div class="foot-h">Programs</div>
-      <div class="foot-links"><a href="#causes">Free Education</a><a href="#causes">Yoga &amp; Martial Arts</a><a href="#causes">Dance &amp; Arts</a><a href="#causes">Health Camps</a><a href="#causes">Book Distribution</a></div>
+      <div class="foot-h"><span class="lang-en">Programs</span><span class="lang-hi">कार्यक्रम</span></div>
+      <div class="foot-links">
+        <a href="#causes"><span class="lang-en">Free Education</span><span class="lang-hi">मुफ्त शिक्षा</span></a>
+        <a href="#causes"><span class="lang-en">Yoga &amp; Martial Arts</span><span class="lang-hi">योग और मार्शल आर्ट</span></a>
+        <a href="#causes"><span class="lang-en">Dance &amp; Arts</span><span class="lang-hi">नृत्य और कला</span></a>
+        <a href="#causes"><span class="lang-en">Health Camps</span><span class="lang-hi">स्वास्थ्य शिविर</span></a>
+        <a href="#causes"><span class="lang-en">Book Distribution</span><span class="lang-hi">पुस्तक वितरण</span></a>
+      </div>
     </div>
     <div>
-      <div class="foot-h">Organisation</div>
-      <div class="foot-links"><a href="#about">About Us</a><a href="#team">Our Team</a><a href="#impact">Impact</a><a href="#gallery">Gallery</a><a href="#blog">Blog</a><a href="admin/index.html">Admin</a></div>
+      <div class="foot-h"><span class="lang-en">Organisation</span><span class="lang-hi">संगठन</span></div>
+      <div class="foot-links">
+        <a href="#about"><span class="lang-en">About Us</span><span class="lang-hi">हमारे बारे में</span></a>
+        <a href="#team"><span class="lang-en">Our Team</span><span class="lang-hi">हमारी टीम</span></a>
+        <a href="#impact"><span class="lang-en">Impact</span><span class="lang-hi">प्रभाव</span></a>
+        <a href="#gallery"><span class="lang-en">Gallery</span><span class="lang-hi">गैलरी</span></a>
+        <a href="blog.html"><span class="lang-en">Blog</span><span class="lang-hi">ब्लॉग</span></a>
+      </div>
     </div>
     <div>
-      <div class="foot-h">Contact</div>
-      <div class="foot-links"><a href="tel:8700785399">8700785399</a><a href="tel:8595656658">8595656658</a><a href="mailto:veddakshafoundation22@gmail.com">veddakshafoundation22@gmail.com</a><a href="#contact">7/56, Chiranjeev Vihar,<br>Ghaziabad – 201002</a></div>
+      <div class="foot-h"><span class="lang-en">Contact</span><span class="lang-hi">संपर्क</span></div>
+      <div class="foot-links">
+        <a href="tel:8700785399">8700785399</a>
+        <a href="tel:8595656658">8595656658</a>
+        <a href="mailto:veddakshafoundation22@gmail.com">veddakshafoundation22@gmail.com</a>
+        <a href="#contact">7/56, <span class="lang-en">Chiranjeev Vihar, Ghaziabad</span><span class="lang-hi">चिरंजीव विहार, गाज़ियाबाद</span></a>
+      </div>
     </div>
   </div>
   <div class="foot-bot">
-    <div class="foot-copy">© 2024 Ved Daksha Foundation. All rights reserved.</div>
-    <div class="foot-copy">Built with ❤️ for a better India</div>
+    <div class="foot-copy">© 2024 <span class="lang-en">Ved Daksha Foundation. All rights reserved.</span><span class="lang-hi">वेद दक्षा फाउंडेशन। सर्वाधिकार सुरक्षित।</span></div>
+    <div class="foot-copy"><span class="lang-en">Built with ❤️ for a better India</span><span class="lang-hi">बेहतर भारत के लिए ❤️ के साथ बनाया गया</span></div>
   </div>
 </footer>
 
-<!-- WA FLOAT -->
-<a id="wa" href="https://wa.me/918700785399?text=Hi%2C%20I%20want%20to%20know%20more%20about%20Ved%20Daksha%20Foundation" target="_blank">
-  <i class="ti ti-brand-whatsapp"></i>
-</a>
+<a id="wa" href="https://wa.me/918700785399?text=Hi%2C%20I%20want%20to%20know%20more%20about%20Ved%20Daksha%20Foundation" target="_blank"><i class="ti ti-brand-whatsapp"></i></a>
 
 <script>
-const API = 'https://veddakshafoundation-production.up.railway.app/api';
+const API = 'http://localhost:5000/api';
 
-// Nav
+// ── THEME ──
+function toggleTheme(){
+  const html=document.documentElement;
+  const isDark=html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme',isDark?'light':'dark');
+  const icon=document.getElementById('theme-icon');
+  const btn=document.getElementById('theme-btn');
+  icon.className=isDark?'ti ti-moon':'ti ti-sun';
+  localStorage.setItem('vdf-theme',isDark?'light':'dark');
+}
+function toggleLang(){
+  const html=document.documentElement;
+  const isEn=html.getAttribute('data-lang')==='en';
+  const newLang=isEn?'hi':'en';
+  html.setAttribute('data-lang',newLang);
+  document.getElementById('lang-label').textContent=isEn?'English':'हिन्दी';
+  document.getElementById('lang-btn').classList.toggle('lang-toggle-active',isEn);
+  localStorage.setItem('vdf-lang',newLang);
+}
+
+// Load saved preferences
+(function(){
+  const theme=localStorage.getItem('vdf-theme')||'light';
+  const lang=localStorage.getItem('vdf-lang')||'en';
+  document.documentElement.setAttribute('data-theme',theme);
+  document.documentElement.setAttribute('data-lang',lang);
+  if(theme==='dark'){document.getElementById('theme-icon').className='ti ti-sun'}
+  if(lang==='hi'){document.getElementById('lang-label').textContent='English';document.getElementById('lang-btn').classList.add('lang-toggle-active')}
+})();
+
+// ── NAV ──
 document.getElementById('ham').addEventListener('click',()=>document.getElementById('mob').classList.toggle('open'));
 function cm(){document.getElementById('mob').classList.remove('open')}
 function goto(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth'})}
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>20));
 
-// Fade-up
+// ── FADE-UP ──
 const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('vis');io.unobserve(x.target)}}),{threshold:.1});
 document.querySelectorAll('.fu').forEach(el=>io.observe(el));
 
-// CountUp
+// ── COUNT-UP ──
 const co=new IntersectionObserver(e=>e.forEach(x=>{
   if(x.isIntersecting){
     const el=x.target,t=+el.dataset.t,d=t>1000?1800:1200,step=t/(d/16);let c=0;
@@ -725,334 +760,54 @@ const co=new IntersectionObserver(e=>e.forEach(x=>{
 }),{threshold:.3});
 document.querySelectorAll('.impact-n[data-t]').forEach(el=>co.observe(el));
 
-// Tier select
-function selTier(card,amt){
-  document.querySelectorAll('.tier').forEach(c=>c.classList.remove('sel'));
-  card.classList.add('sel');
-  const daEl = document.getElementById('da');
-  if (amt > 0) {
-    daEl.value = amt;
-    onAmountInput(amt);
-  } else {
-    daEl.value = '';
-    daEl.focus();
-    onAmountInput(0);
-  }
-}
-
-// Handle manual or automatic amount changes
-function onAmountInput(val){
-  const amount = parseFloat(val) || 0;
-  const badge = document.getElementById('qr-amount-badge');
-  if (badge) {
-    if (amount > 0) {
-      badge.textContent = `Paying ₹${amount}`;
-    } else {
-      badge.textContent = `Enter custom amount`;
-    }
-  }
-  const upiId = document.getElementById('donate-upi-id')?.textContent.trim() || 'kbhavishya682-1@oksbi';
-  generateUPIQR(upiId, amount > 0 ? amount : null);
-
-  // If the user typed an amount, update the tier card selection state to match it
-  const tiers = document.querySelectorAll('.tier');
-  let matched = false;
-  if (amount > 0) {
-    tiers.forEach((t, idx) => {
-      if (idx === 4) return; // Skip custom tier card
-      const amtEl = t.querySelector('.tier-amt');
-      if (amtEl) {
-        const tVal = parseInt(amtEl.textContent.replace(/[^0-9]/g, ''));
-        if (tVal === amount) {
-          document.querySelectorAll('.tier').forEach(c => c.classList.remove('sel'));
-          t.classList.add('sel');
-          matched = true;
-        }
-      }
-    });
-  }
-  if (!matched && amount > 0 && tiers[4]) {
-    document.querySelectorAll('.tier').forEach(c => c.classList.remove('sel'));
-    tiers[4].classList.add('sel');
-  }
-}
-
-// Copy UPI ID to clipboard
-function copyUPI(){
-  const upiId=document.getElementById('donate-upi-id').textContent.trim();
-  navigator.clipboard.writeText(upiId).then(()=>alert('✅ UPI ID copied!\n\n'+upiId+'\n\nOpen PhonePe / Google Pay / Paytm and paste this to pay.')).catch(()=>{
-    prompt('Copy this UPI ID:',upiId);
-  });
-}
-
-// Generate QR code from UPI ID using Google Charts API
-function generateUPIQR(upiId, amount){
-  const amtPart = amount ? `&am=${amount}` : '';
-  const upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=Ved+Daksha+Foundation&cu=INR${amtPart}`;
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl)}`;
-  const img = document.getElementById('upi-qr-img');
-  const icon = document.getElementById('upi-qr-icon');
-  const deepLink = document.getElementById('upi-deep-link');
-  if(img){
-    img.src = qrUrl;
-    img.style.display = 'block';
-    if(icon) icon.style.display = 'none';
-  }
-  if(deepLink) deepLink.href = upiUrl;
-}
-
-// Donate via WhatsApp
+// ── DONATE ──
+function selTier(card,amt){document.querySelectorAll('.tier').forEach(c=>c.classList.remove('sel'));card.classList.add('sel');document.getElementById('da').value=amt}
 function sendWA(){
   const n=document.getElementById('dn').value||'A supporter';
   const p=document.getElementById('dp').value||'Not provided';
   const a=document.getElementById('da').value||'500';
   const pu=document.getElementById('dpu').value;
-  const upiId=document.getElementById('donate-upi-id')?.textContent.trim()||'kbhavishya682-1@oksbi';
-  const msg=encodeURIComponent(`Hello Ved Daksha Foundation! 🙏\n\nI'd like to donate ₹${a} for: ${pu}\n\nName: ${n}\nMobile: ${p}\nUPI ID to pay: ${upiId}\n\nPlease confirm receipt. Thank you!`);
-  const waPhone = window._donationPhone || '9068188593';
-  window.open(`https://wa.me/91${waPhone}?text=${msg}`,'_blank');
+  const msg=encodeURIComponent(`Hello Ved Daksha Foundation! 🙏\n\nI'd like to donate ₹${a} for: ${pu}\n\nName: ${n}\nMobile: ${p}\n\nPlease share payment details. Thank you!`);
+  window.open(`https://wa.me/918700785399?text=${msg}`,'_blank');
   fetch(`${API}/donations`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:n,phone:p,email:document.getElementById('de').value,amount:+a,purpose:pu,method:'whatsapp'})}).catch(()=>{});
 }
 
-// Donate via Razorpay
-function payRazorpay(){
-  const rzpKey = window._razorpayKey;
-  if(!rzpKey){
-    alert('Razorpay is loading, please wait a moment and try again.');
-    return;
-  }
-  const n=document.getElementById('dn').value.trim()||'Donor';
-  const p=document.getElementById('dp').value.trim()||'';
-  const e=document.getElementById('de').value.trim()||'';
-  const a=+(document.getElementById('da').value||500);
-  const pu=document.getElementById('dpu').value;
-  if(!n||n==='Donor'){alert('Please enter your name before paying.');return;}
-  if(a<1){alert('Please enter a valid donation amount.');return;}
-  const options={
-    key: rzpKey,
-    amount: a*100,
-    currency: 'INR',
-    name: 'Ved Daksha Foundation',
-    description: pu,
-    image: 'images/logo.png',
-    handler: function(response){
-      fetch(`${API}/donations`,{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({name:n,phone:p,email:e,amount:a,purpose:pu,method:'razorpay',txnId:response.razorpay_payment_id})
-      }).catch(()=>{});
-      alert(`✅ Payment of ₹${a} successful!\nPayment ID: ${response.razorpay_payment_id}\nThank you for supporting Ved Daksha Foundation!`);
-    },
-    prefill:{name:n,email:e,contact:p},
-    notes:{purpose:pu},
-    theme:{color:'#1B6B3A'}
-  };
-  try{
-    const rzp=new Razorpay(options);
-    rzp.on('payment.failed',function(r){
-      alert('Payment failed: '+(r.error?.description||'Unknown error')+'\nPlease try again or donate via UPI/WhatsApp.');
-    });
-    rzp.open();
-  } catch(err){
-    alert('Could not open payment. Please ensure you have a stable internet connection.\n\nYou can also donate via UPI: '+( document.getElementById('donate-upi-id')?.textContent.trim()||'kbhavishya682-1@oksbi'));
-  }
-}
-
-// Contact form
+// ── CONTACT ──
 function sendContact(){
   const n=document.getElementById('cn').value;
   const c=document.getElementById('cc').value;
   const m=document.getElementById('cm2').value;
-  if(!n||!m){alert('Please fill in name and message');return}
+  if(!n||!m){alert('Please fill in name and message / नाम और संदेश भरें');return}
   fetch(`${API}/contact`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:n,phone:c,message:m})})
-    .then(()=>{alert('✅ Message sent! We will contact you soon.');document.getElementById('cn').value='';document.getElementById('cc').value='';document.getElementById('cm2').value=''})
-    .catch(()=>alert('✅ Message noted! Call us at ' + (window._donationPhone || '8700785399')));
+    .then(()=>alert('✅ Message sent! / संदेश भेजा गया!'))
+    .catch(()=>alert('✅ Message noted! Call us at 8700785399'));
 }
 
-// Load upcoming events from API
-let fetchedEvents = [];
-function renderEventsList() {
-  if(!fetchedEvents.length) return;
-  const c=document.getElementById('events-container');
-  c.innerHTML=fetchedEvents.map(ev=>{
-    const d=new Date(ev.date);
-    const diff=Math.ceil((d-Date.now())/(1000*60*60*24));
-    
-    // Select language title and description
-    const title = (vdf_lang === 'hi' && ev.titleHindi) ? ev.titleHindi : ev.title;
-    const desc = (vdf_lang === 'hi' && ev.descriptionHindi) ? ev.descriptionHindi : ev.description;
-    
-    // Bilingual countdown formatting
-    const dayWord = vdf_lang === 'hi' ? 'दिन' : `day${diff===1?'':'s'}`;
-    const inWord = vdf_lang === 'hi' ? '' : 'In ';
-    const inSuffix = vdf_lang === 'hi' ? ' में' : '';
-    const countdown = diff > 0 ? `<div class="countdown"><i class="ti ti-clock"></i><span>${inWord}${diff} ${dayWord}${inSuffix}</span></div>` : '';
-    
-    const formattedDate = d.toLocaleDateString(vdf_lang === 'hi' ? 'hi-IN' : 'en-IN', {day:'numeric',month:'long',year:'numeric'});
-    
-    return `<div class="ev-card">
-      ${ev.coverImage?`<div class="ev-img"><img src="${ev.coverImage}" alt="${title}"/></div>`:''}
-      <div class="ev-body">
-        <div class="ev-date"><i class="ti ti-calendar"></i>${formattedDate}</div>
-        <h3>${title}</h3>
-        <p>${desc.substring(0,120)}...</p>
-        ${countdown}
-      </div>
-    </div>`;
-  }).join('');
-}
-
-fetch(`${API}/events?upcoming=true&limit=3`)
-  .then(r=>r.json())
-  .then(events=>{
-    if(!events.length)return;
-    fetchedEvents = events;
-    renderEventsList();
-  }).catch(()=>{}); // fallback to static content already in HTML
-
-// Fetch donation config dynamically
-fetch(`${API}/donations/config`)
-  .then(r=>r.json())
-  .then(cfg=>{
-    const upiId = cfg.upi_id || 'kbhavishya682-1@oksbi';
-    const upiEl = document.getElementById('donate-upi-id');
-    if (upiEl) upiEl.textContent = upiId;
-    
-    // Get initial amount
-    const initialAmt = parseFloat(document.getElementById('da').value) || 500;
-    // Generate QR code for UPI
-    generateUPIQR(upiId, initialAmt);
-    if (cfg.email) {
-      document.querySelectorAll('a[href^="mailto:"]').forEach(el => {
-        if (el.href.includes('veddakshafoundation22@gmail.com')) {
-          el.href = `mailto:${cfg.email}`;
-          el.textContent = cfg.email;
-        }
-      });
-    }
-    if (cfg.phone) {
-      window._donationPhone = cfg.phone;
-      const phoneEl = document.getElementById('donate-phone-number');
-      if (phoneEl) phoneEl.textContent = cfg.phone;
-      const bankLink = document.getElementById('bank-phone-link');
-      if (bankLink) { bankLink.href = `tel:${cfg.phone}`; bankLink.textContent = cfg.phone; }
-      document.querySelectorAll('a[href^="tel:8700785399"]').forEach(el => { el.href = `tel:${cfg.phone}`; el.textContent = cfg.phone; });
-      document.querySelectorAll('a[href*="wa.me/918700785399"]').forEach(el => { el.href = el.href.replace('8700785399', cfg.phone); });
-      const waFloat = document.getElementById('wa');
-      if (waFloat) waFloat.href = `https://wa.me/91${cfg.phone}?text=Hi%2C%20I%20want%20to%20know%20more%20about%20Ved%20Daksha%20Foundation`;
-    }
-    if (cfg.second_phone) {
-      document.querySelectorAll('a[href^="tel:8595656658"]').forEach(el => { el.href = `tel:${cfg.second_phone}`; el.textContent = cfg.second_phone; });
-    }
-    // Always show Razorpay button if a key exists (test or live)
-    if (cfg.razorpay_key_id) {
-      window._razorpayKey = cfg.razorpay_key_id;
-      const rzpBtn = document.getElementById('rzp-btn');
-      if (rzpBtn) rzpBtn.style.display = 'flex';
-    }
-  }).catch(()=>{
-    // Fallback: generate QR with default UPI and show Rzp button
-    const initialAmt = parseFloat(document.getElementById('da').value) || 500;
-    generateUPIQR('kbhavishya682-1@oksbi', initialAmt);
-  });
-
-// ── MULTI-LANGUAGE SYSTEM ──
-const dictionary = {
-  en: {
-    "nav-tagline": "वय राष्ट्रे जागृयाम",
-    "nav-about": "About",
-    "nav-team": "Team",
-    "nav-causes": "Programs",
-    "nav-gallery": "Gallery",
-    "nav-blog": "Blog",
-    "nav-events": "Events",
-    "nav-contact": "Contact",
-    "nav-donate": "Donate Now",
-    "hero-eyebrow": "Ghaziabad · Delhi · Meerut",
-    "hero-h1": "Protecting, Educating<br>&amp; <span class=\"ac\">Empowering</span><br>Every Child",
-    "hero-p": "Ved Daksha Foundation provides free education, yoga, dance, martial arts, and health camps to underprivileged children — because every child deserves a dignified future.",
-    "hero-btn-work": "See Our Work",
-    "hero-btn-donate": "Donate",
-    "hero-stat1-val": "3+",
-    "hero-stat1-lbl": "Cities Reached",
-    "hero-stat2-val": "5+",
-    "hero-stat2-lbl": "Active Programs",
-    "hero-stat3-val": "Daily",
-    "hero-stat3-lbl": "Classes Running",
-    "hero-badge-t": "Annual Recognition Ceremony",
-    "hero-badge-s": "Medals, school bags &amp; certificates",
-    "mission-eye": "Our Mission",
-    "mission-h": "Three pillars of change",
-    "mission-sub": "We work across education, health, and skill development — building confident, complete children who will shape a better nation.",
-    "mission-card1-h": "Free Education",
-    "mission-card1-p": "Daily tutoring, reading programs, and academic support for children who cannot afford private schooling.",
-    "mission-card2-h": "Yoga &amp; Self-Defence",
-    "mission-card2-p": "Yoga, Judo, Karate, and classical dance training builds discipline, confidence, and physical wellbeing — especially for girls' safety.",
-    "mission-card3-h": "Health &amp; Community",
-    "mission-card3-p": "Medical camps, health awareness drives, and women's wellbeing programs extending our reach beyond classroom walls."
-  },
-  hi: {
-    "nav-tagline": "वय राष्ट्रे जागृयाम — हम राष्ट्र के लिए जागते हैं",
-    "nav-about": "हमारे बारे में",
-    "nav-team": "हमारी टीम",
-    "nav-causes": "कार्यक्रम",
-    "nav-gallery": "गैलरी",
-    "nav-blog": "ब्लॉग",
-    "nav-events": "इवेंट्स",
-    "nav-contact": "संपर्क",
-    "nav-donate": "दान करें",
-    "hero-eyebrow": "गाजियाबाद · दिल्ली · मेरठ",
-    "hero-h1": "हर बच्चे की<br>सुरक्षा, शिक्षा<br>और <span class=\"ac\">सशक्तिकरण</span>",
-    "hero-p": "वेद दक्ष फाउंडेशन वंचित बच्चों को मुफ्त शिक्षा, योग, नृत्य, मार्शल आर्ट और स्वास्थ्य शिविर प्रदान करता है — क्योंकि हर बच्चा एक गरिमापूर्ण भविष्य का हकदार है।",
-    "hero-btn-work": "हमारा काम देखें",
-    "hero-btn-donate": "दान करें",
-    "hero-stat1-val": "3+",
-    "hero-stat1-lbl": "पहुंचे शहर",
-    "hero-stat2-val": "5+",
-    "hero-stat2-lbl": "सक्रिय कार्यक्रम",
-    "hero-stat3-val": "दैनिक",
-    "hero-stat3-lbl": "चलने वाली कक्षाएं",
-    "hero-badge-t": "वार्षिक सम्मान समारोह",
-    "hero-badge-s": "मेडल, स्कूल बैग और प्रमाण पत्र",
-    "mission-eye": "हमारा उद्देश्य",
-    "mission-h": "बदलाव के तीन स्तंभ",
-    "mission-sub": "हम शिक्षा, स्वास्थ्य और कौशल विकास के क्षेत्र में काम करते हैं — आत्मविश्वासी और पूर्ण बच्चों का निर्माण करते हैं जो एक बेहतर राष्ट्र का निर्माण करेंगे।",
-    "mission-card1-h": "मुफ्त शिक्षा",
-    "mission-card1-p": "दैनिक ट्यूशन, पठन कार्यक्रम और उन बच्चों के लिए शैक्षणिक सहायता जो निजी स्कूल का खर्च नहीं उठा सकते।",
-    "mission-card2-h": "योग और आत्म-रक्षा",
-    "mission-card2-p": "योग, जूडो, कराटे और शास्त्रीय नृत्य प्रशिक्षण अनुशासन, आत्मविश्वास और शारीरिक कल्याण का निर्माण करते हैं — विशेष रूप से बालिकाओं की सुरक्षा हेतु।",
-    "mission-card3-h": "स्वास्थ्य और समुदाय",
-    "mission-card3-p": "चिकित्सा शिविर, स्वास्थ्य जागरूकता अभियान और महिला कल्याण कार्यक्रम जो हमारी पहुंच को कक्षा की दीवारों से आगे ले जाते हैं।"
+// ── LOAD DONATION CONFIG FROM API ──
+fetch(`${API}/health`).then(r=>r.json()).then(d=>{
+  if(d.status==='ok'){
+    // Load dynamic donation UPI from backend if available
   }
-};
+}).catch(()=>{});
 
-let vdf_lang = localStorage.getItem('vdf_lang') || 'en';
-
-function applyLanguage() {
-  const trans = dictionary[vdf_lang];
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (trans[key]) {
-      el.innerHTML = trans[key];
-    }
-  });
-  
-  // Update select dropdowns
-  const sw = document.getElementById('lang-switch');
-  if (sw) sw.value = vdf_lang;
-  const swm = document.getElementById('lang-switch-mob');
-  if (swm) swm.value = vdf_lang;
-  
-  // Re-render events
-  renderEventsList();
-}
-
-function switchLanguage(lang) {
-  vdf_lang = lang;
-  localStorage.setItem('vdf_lang', lang);
-  applyLanguage();
-}
-
-// Initial application
-applyLanguage();
+// ── LOAD EVENTS FROM API ──
+fetch(`${API}/events?upcoming=true&limit=3`)
+  .then(r=>r.json()).then(events=>{
+    if(!events.length)return;
+    const c=document.getElementById('events-container');
+    c.innerHTML=events.map(ev=>{
+      const d=new Date(ev.date);
+      const diff=Math.ceil((d-Date.now())/(1000*60*60*24));
+      const countdown=diff>0?`<div class="countdown"><i class="ti ti-clock"></i><span>${diff} days / दिन</span></div>`:'';
+      return `<div class="ev-card">
+        ${ev.coverImage?`<div class="ev-img"><img src="${ev.coverImage}" alt="${ev.title}"/></div>`:''}
+        <div class="ev-body">
+          <div class="ev-date"><i class="ti ti-calendar"></i>${d.toLocaleDateString('hi-IN')}</div>
+          <h3>${ev.title}${ev.titleHindi?`<br><small style="font-weight:400;font-size:13px;color:var(--mid)">${ev.titleHindi}</small>`:''}</h3>
+          <p>${ev.description.substring(0,120)}...</p>${countdown}
+        </div></div>`;
+    }).join('');
+  }).catch(()=>{});
 </script>
 </body>
 </html>

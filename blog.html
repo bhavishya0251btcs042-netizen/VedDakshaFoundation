@@ -7,31 +7,45 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"/>
   <style>
-    :root{--g:#1B6B3A;--gl:#E8F5EE;--o:#E07B2A;--bg:#FDFAF6;--dark:#1C1C1A;--mid:#5A5A56;--bd:#E2DDD6}
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--dark)}
-    a{color:inherit;text-decoration:none}
-    nav{background:#fff;border-bottom:1px solid var(--bd);padding:1rem 6vw;display:flex;align-items:center;justify-content:space-between}
-    .nav-brand{font-family:'Playfair Display',serif;font-size:18px;color:var(--g);font-weight:700}
-    nav a{font-size:13px;color:var(--mid)}
-    nav a:hover{color:var(--g)}
-    .hero-blog{background:var(--g);color:#fff;padding:60px 6vw;text-align:center}
-    .hero-blog h1{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,48px);font-weight:700;margin-bottom:.8rem}
-    .hero-blog p{font-size:15px;opacity:.8;max-width:500px;margin:0 auto}
-    .blog-main{padding:60px 6vw;max-width:1200px;margin:0 auto}
-    /* SEED BLOGS */
-    .seed-blogs{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-bottom:3rem}
-    .blog-card{background:#fff;border:1px solid var(--bd);border-radius:16px;overflow:hidden}
-    .blog-card:hover{box-shadow:0 10px 30px rgba(0,0,0,.09)}
-    .bimg{height:200px;overflow:hidden}
-    .bimg img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
-    .blog-card:hover .bimg img{transform:scale(1.05)}
-    .bbody{padding:22px}
-    .bcat{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--o);margin-bottom:.5rem}
-    .bbody h2{font-size:17px;font-weight:600;margin-bottom:.5rem;line-height:1.4}
-    .bbody p{font-size:13px;color:var(--mid);line-height:1.65;margin-bottom:1.2rem}
-    .blink{font-size:13px;font-weight:600;color:var(--g);display:inline-flex;align-items:center;gap:5px}
-    footer{background:#1C1C1A;color:rgba(255,255,255,.6);text-align:center;padding:2rem;font-size:13px}
+  :root{--g:#1B6B3A;--gl:#E8F5EE;--o:#E07B2A;--bg:#FDFAF6;--dark:#1C1C1A;--mid:#5A5A56;--bd:#E2DDD6}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--dark);transition:background 0.3s,color 0.3s}
+  a{color:inherit;text-decoration:none}
+
+  /* DARK THEME */
+  body.dark-theme{--bg:#121212;--dark:#f3f4f6;--mid:#a3a3a3;--bd:#2d2d2d;--gl:#18281d;}
+  body.dark-theme nav{background:#1a1a1a;border-bottom-color:#2d2d2d}
+  body.dark-theme .blog-card{background:#1c1c1e;border-color:#2d2d2d}
+  body.dark-theme .blog-main{background:#121212}
+  body.dark-theme .hero-blog{background:#0f3d22}
+  body.dark-theme footer{background:#0a0a0a}
+  body.dark-theme #blog-modal > div > div:first-of-type > div{background:#1a1a1a !important}
+  body.dark-theme #modal-title,body.dark-theme #modal-content{color:#f3f4f6}
+  body.dark-theme #blog-modal>div>div>div:last-of-type{background:#1c1c1e}
+
+  nav{background:#fff;border-bottom:1px solid var(--bd);padding:1rem 6vw;display:flex;align-items:center;justify-content:space-between}
+  .nav-brand{font-family:'Playfair Display',serif;font-size:18px;color:var(--g);font-weight:700}
+  nav a{font-size:13px;color:var(--mid)}
+  nav a:hover{color:var(--g)}
+  .theme-btn{background:none;border:1px solid var(--bd);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:13px;color:var(--dark);display:inline-flex;align-items:center;gap:5px;font-family:'Poppins',sans-serif;transition:all 0.2s}
+  .theme-btn:hover{border-color:var(--g);color:var(--g)}
+  .hero-blog{background:var(--g);color:#fff;padding:60px 6vw;text-align:center}
+  .hero-blog h1{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,48px);font-weight:700;margin-bottom:.8rem}
+  .hero-blog p{font-size:15px;opacity:.8;max-width:500px;margin:0 auto}
+  .blog-main{padding:60px 6vw;max-width:1200px;margin:0 auto}
+  /* SEED BLOGS */
+  .seed-blogs{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-bottom:3rem}
+  .blog-card{background:#fff;border:1px solid var(--bd);border-radius:16px;overflow:hidden}
+  .blog-card:hover{box-shadow:0 10px 30px rgba(0,0,0,.09)}
+  .bimg{height:200px;overflow:hidden}
+  .bimg img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+  .blog-card:hover .bimg img{transform:scale(1.05)}
+  .bbody{padding:22px}
+  .bcat{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--o);margin-bottom:.5rem}
+  .bbody h2{font-size:17px;font-weight:600;margin-bottom:.5rem;line-height:1.4}
+  .bbody p{font-size:13px;color:var(--mid);line-height:1.65;margin-bottom:1.2rem}
+  .blink{font-size:13px;font-weight:600;color:var(--g);display:inline-flex;align-items:center;gap:5px}
+  footer{background:#1C1C1A;color:rgba(255,255,255,.6);text-align:center;padding:2rem;font-size:13px}
   </style>
 </head>
 <body>
@@ -44,10 +58,13 @@
     <a href="index.html" data-i18n="nav-home">Home</a>
     <a href="#blog" data-i18n="nav-blog">Blog</a>
     <a href="index.html#contact" data-i18n="nav-contact">Contact</a>
-    <select id="lang-switch" class="lang-switch" onchange="switchLanguage(this.value)" style="padding: 6px 12px; border-radius: 8px; border: 1px solid var(--bd); font-family: 'Poppins', sans-serif; font-size: 13px; background: #fff; cursor: pointer; outline: none;">
+    <select id="lang-switch" class="lang-switch" onchange="switchLanguage(this.value)" style="padding: 6px 12px; border-radius: 8px; border: 1px solid var(--bd); font-family: 'Poppins', sans-serif; font-size: 13px; background: var(--bg); color: var(--dark); cursor: pointer; outline: none;">
       <option value="en">English</option>
       <option value="hi">हिन्दी</option>
     </select>
+    <button class="theme-btn" id="theme-toggle" onclick="toggleTheme()" title="Toggle Theme">
+      <i class="ti ti-moon"></i><span id="theme-label">Dark</span>
+    </button>
   </div>
 </nav>
 <div class="hero-blog">
@@ -316,6 +333,11 @@ function applyLanguage() {
   const sw = document.getElementById('lang-switch');
   if (sw) sw.value = vdf_lang;
 
+  // Update theme label
+  const isDark = document.body.classList.contains('dark-theme');
+  const lbl = document.getElementById('theme-label');
+  if (lbl) lbl.textContent = isDark ? (vdf_lang === 'hi' ? 'लाइट' : 'Light') : (vdf_lang === 'hi' ? 'डार्क' : 'Dark');
+
   // Re-render blog listings
   if (loadedPosts && loadedPosts.length > 0) {
     renderPosts(loadedPosts);
@@ -329,6 +351,28 @@ function switchLanguage(lang) {
   localStorage.setItem('vdf_lang', lang);
   applyLanguage();
 }
+
+// ── THEME ──
+function toggleTheme() {
+  const isDark = document.body.classList.toggle('dark-theme');
+  localStorage.setItem('vdf_theme', isDark ? 'dark' : 'light');
+  const icon = document.querySelector('#theme-toggle i');
+  if (icon) icon.className = isDark ? 'ti ti-sun' : 'ti ti-moon';
+  const lbl = document.getElementById('theme-label');
+  if (lbl) lbl.textContent = isDark ? (vdf_lang === 'hi' ? 'लाइट' : 'Light') : (vdf_lang === 'hi' ? 'डार्क' : 'Dark');
+}
+
+// Apply saved theme
+(function(){
+  const saved = localStorage.getItem('vdf_theme');
+  if (saved === 'dark') {
+    document.body.classList.add('dark-theme');
+    const icon = document.querySelector('#theme-toggle i');
+    if (icon) icon.className = 'ti ti-sun';
+    const lbl = document.getElementById('theme-label');
+    if (lbl) lbl.textContent = 'Light';
+  }
+})();
 
 function renderPosts(posts) {
   activePosts = posts;

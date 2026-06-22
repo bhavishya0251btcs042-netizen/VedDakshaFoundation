@@ -1,492 +1,382 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light" data-lang="en">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Admin Portal — Ved Daksha Foundation</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"/>
   <style>
-    :root {
-      --g: #0d9488;
-      --gl: #ccfbf1;
-      --g-dark: #0f766e;
-      --o: #f59e0b;
-      --dark: #0f172a;
-      --mid: #64748b;
-      --bd: #e2e8f0;
-      --bg: #f8fafc;
-      --white: #ffffff;
-      --red: #ef4444;
-      --sidebar: 280px;
-      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-      --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
-      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    /* ── LIGHT THEME ── */
+    :root{
+      --g:#1B6B3A;--gl:#E8F5EE;--o:#E07B2A;--red:#DC2626;
+      --bg:#F5F5F3;--card:#FFFFFF;--dark:#1C1C1A;--mid:#5A5A56;
+      --bd:#E2DDD6;--sidebar:#1C2B1C;--sidebar-txt:rgba(255,255,255,.75);
+      --sidebar-active:rgba(255,255,255,.12);--input-bg:#F5F5F3;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Poppins', sans-serif; background: #f1f5f9; color: var(--dark); -webkit-font-smoothing: antialiased; min-height: 100vh; }
-    
-    /* LOGIN SCREEN */
-    #login-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: url('https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop') center/cover; position: relative; overflow: hidden; }
-    #login-screen::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(15,23,42,0.92) 0%, rgba(13,148,136,0.88) 100%); z-index: 1; }
-    .login-box { background: rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 48px 40px; width: 420px; box-shadow: 0 30px 60px rgba(0,0,0,0.3); border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(20px); position: relative; z-index: 10; color: #fff; }
-    .login-logo { text-align: center; margin-bottom: 2rem; }
-    .login-logo i { font-size: 48px; color: #fff; background: linear-gradient(135deg, var(--g) 0%, var(--g-dark) 100%); width: 80px; height: 80px; display: inline-flex; align-items: center; justify-content: center; border-radius: 24px; box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
-    .login-box h2 { font-size: 24px; font-weight: 600; text-align: center; margin-bottom: 2rem; color: #fff; line-height: 1.4; }
-    .fi { display: flex; flex-direction: column; gap: .4rem; margin-bottom: 1.2rem; }
-    .fi label { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.8); }
-    .fi input { border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; padding: 14px 16px; font-size: 14px; font-family: 'Poppins', sans-serif; outline: none; transition: all .3s; background: rgba(0,0,0,0.2); color: #fff; }
-    .fi input::placeholder { color: rgba(255,255,255,0.4); }
-    .fi input:focus { border-color: var(--g); background: rgba(0,0,0,0.4); box-shadow: 0 0 0 4px rgba(13,148,136,0.2); }
-    .btn-g { width: 100%; background: linear-gradient(135deg, var(--g) 0%, var(--g-dark) 100%); border: none; border-radius: 12px; padding: 14px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: 'Poppins', sans-serif; transition: all .3s; margin-top: .8rem; display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: #fff; box-shadow: 0 4px 12px rgba(13,148,136,0.3); }
-    .btn-g:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(13,148,136,0.4); }
-    .btn-g:active { transform: translateY(0); }
-    #login-err { color: #fca5a5; font-size: 13px; text-align: center; margin-top: .8rem; display: none; padding: 8px; background: rgba(239, 68, 68, 0.2); border-radius: 8px; border: 1px solid rgba(239, 68, 68, 0.3); }
-    
-    /* LAYOUT */
-    #app { display: none; min-height: 100vh; }
-    .sidebar { position: fixed; left: 0; top: 0; width: var(--sidebar); height: 100vh; background: #1e293b; padding: 2rem 0; overflow-y: auto; z-index: 50; display: flex; flex-direction: column; color: #fff; box-shadow: 4px 0 24px rgba(0,0,0,0.04); }
-    .sb-brand { padding: 0 1.8rem 1.8rem; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 1.5rem; }
-    .sb-logo { font-size: 17px; font-weight: 600; color: #fff; line-height: 1.3; }
-    .sb-sub { font-size: 12px; color: var(--g); margin-top: 4px; letter-spacing: 0.05em; font-weight: 500; }
-    .sb-item { display: flex; align-items: center; gap: 14px; padding: 1rem 1.8rem; font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.7); cursor: pointer; transition: all .3s cubic-bezier(0.4, 0, 0.2, 1); border-left: 4px solid transparent; }
-    .sb-item i { font-size: 22px; }
-    .sb-item:hover { color: #fff; background: rgba(255,255,255,0.06); transform: translateX(4px); }
-    .sb-item.active { background: linear-gradient(90deg, rgba(13,148,136,0.15) 0%, transparent 100%); color: #fff; border-left-color: var(--g); font-weight: 600; }
-    .sb-section { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: rgba(255,255,255,0.3); padding: 1.5rem 1.8rem .5rem; }
-    .sb-bot { padding: 1.5rem 1.8rem; border-top: 1px solid rgba(255,255,255,0.06); margin-top: auto; }
-    .main { margin-left: var(--sidebar); padding: 3rem; min-height: 100vh; }
-    
-    /* TOPBAR */
-    .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem; }
-    .page-title { font-size: 26px; font-weight: 600; color: var(--dark); letter-spacing: -0.02em; }
-    .topbar-right { display: flex; align-items: center; gap: 1rem; }
-    .badge-count { background: var(--red); color: #fff; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
-    
-    /* CARDS */
-    .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 2.5rem; }
-    .stat-card { background: #fff; border-radius: 20px; padding: 24px; border: 1px solid var(--bd); box-shadow: var(--shadow); transition: all .3s ease-in-out; }
-    .stat-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: rgba(13,148,136,0.2); }
-    .sc-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
-    .sc-icon { width: 52px; height: 52px; border-radius: 16px; display: flex; align-items: center; justify-content: center; }
-    .sc-g { background: var(--gl); }.sc-g i { color: var(--g); }
-    .sc-o { background: #FFFBEB; }.sc-o i { color: var(--o); }
-    .sc-b { background: #EFF6FF; }.sc-b i { color: #3B82F6; }
-    .sc-r { background: #FEF2F2; }.sc-r i { color: var(--red); }
-    .sc-icon i { font-size: 24px; }
-    .sc-num { font-size: 34px; font-weight: 700; color: var(--dark); letter-spacing: -0.03em; }
-    .sc-lbl { font-size: 14px; color: var(--mid); font-weight: 500; margin-top: 4px; }
-    
-    /* PANELS */
-    .panel { background: #fff; border-radius: 20px; border: 1px solid var(--bd); overflow: hidden; margin-bottom: 2rem; box-shadow: var(--shadow-md); }
-    .panel-head { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 1.8rem; border-bottom: 1px solid var(--bd); background: #f8fafc; }
-    .panel-head h3 { font-size: 17px; font-weight: 600; color: var(--dark); }
-    
-    /* TABLES */
-    table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 1.2rem 1.8rem; text-align: left; font-size: 14px; border-bottom: 1px solid var(--bd); }
-    th { background: #f8fafc; font-weight: 600; color: var(--mid); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
-    tr:last-child td { border-bottom: none; }
-    tr:hover td { background: #f8fafc; }
-    
-    /* FORMS */
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-    .full { grid-column: 1 / -1; }
-    .form-g { display: flex; flex-direction: column; gap: .5rem; }
-    .form-g label { font-size: 13px; font-weight: 600; color: var(--mid); }
-    .form-g input, .form-g textarea, .form-g select { border: 1px solid var(--bd); border-radius: 12px; padding: 12px 16px; font-size: 14px; font-family: 'Poppins', sans-serif; outline: none; background: #fff; transition: all .3s; width: 100%; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
-    .form-g input:focus, .form-g textarea:focus, .form-g select:focus { border-color: var(--g); background: #fff; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02), 0 0 0 4px rgba(13,148,136,0.15); }
-    .form-g textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
-    
-    /* BUTTONS */
-    .btn-sm { padding: 10px 20px; border-radius: 10px; font-size: 13.5px; font-weight: 500; cursor: pointer; border: none; font-family: 'Poppins', sans-serif; transition: all .3s; display: inline-flex; align-items: center; gap: 8px; }
-    .btn-green { background: var(--g); color: #fff; box-shadow: 0 4px 10px rgba(13,148,136,0.2); }.btn-green:hover { background: var(--g-dark); transform: translateY(-2px); box-shadow: 0 6px 14px rgba(13,148,136,0.3); }
-    .btn-orange { background: var(--o); color: #fff; box-shadow: 0 4px 10px rgba(245, 158, 11, 0.2); }.btn-orange:hover { background: #d97706; transform: translateY(-2px); box-shadow: 0 6px 14px rgba(245, 158, 11, 0.3); }
-    .btn-red { background: var(--red); color: #fff; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2); }.btn-red:hover { background: #dc2626; transform: translateY(-2px); box-shadow: 0 6px 14px rgba(239, 68, 68, 0.3); }
-    .btn-ghost { background: transparent; color: var(--dark); border: 1px solid var(--bd); }.btn-ghost:hover { border-color: var(--g); color: var(--g); background: var(--gl); transform: translateY(-2px); }
-    
-    /* STATUS CHIPS */
-    .status { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 24px; font-size: 12px; font-weight: 600; text-transform: capitalize; letter-spacing: 0.02em; }
-    .s-p { background: #fef3c7; color: #b45309; }
-    .s-c { background: var(--gl); color: var(--g-dark); }
-    .s-f { background: #fee2e2; color: #b91c1c; }
-    
-    /* COUNTDOWN */
-    .ev-countdown { display: inline-flex; gap: .8rem; margin-top: .8rem; }
-    .cd-box { background: var(--g); color: #fff; border-radius: 12px; padding: 10px 14px; text-align: center; min-width: 60px; box-shadow: 0 4px 12px rgba(13,148,136,0.25); }
-    .cd-n { font-size: 24px; font-weight: 700; line-height: 1; }
-    .cd-l { font-size: 10px; opacity: .9; font-weight: 600; margin-top: 4px; letter-spacing: 0.05em; }
-    
-    /* ALERTS */
-    .alert { padding: 14px 20px; border-radius: 12px; font-size: 14px; margin-bottom: 1.5rem; display: none; border: 1px solid transparent; font-weight: 500; }
-    .alert-g { background: var(--gl); color: var(--g-dark); border-color: #99f6e4; }
-    .alert-r { background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
-    
-    /* TABS */
-    .tab-bar { display: flex; gap: .8rem; margin-bottom: 2rem; }
-    .tab { padding: 10px 24px; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; background: #fff; border: 1px solid var(--bd); color: var(--mid); transition: all .3s; box-shadow: var(--shadow); }
-    .tab:hover { border-color: var(--g); color: var(--g); transform: translateY(-1px); box-shadow: var(--shadow-md); }
-    .tab.on { background: var(--g); color: #fff; border-color: var(--g); box-shadow: 0 6px 14px rgba(13,148,136,0.25); }
-    
-    /* UPLOAD ZONE */
-    .upload-zone { border: 2px dashed var(--bd); border-radius: 16px; padding: 40px 24px; text-align: center; cursor: pointer; transition: all .3s; background: var(--bg); }
-    .upload-zone:hover { border-color: var(--g); background: var(--gl); }
-    .upload-zone i { font-size: 42px; color: var(--mid); margin-bottom: 1rem; transition: all .3s; }
-    .upload-zone:hover i { color: var(--g); transform: scale(1.1); }
-    .upload-zone p { font-size: 14px; color: var(--mid); font-weight: 500; }
-    
-    /* GALLERY & PREVIEWS */
-    .img-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
-    .img-thumb { position: relative; aspect-ratio: 16/10; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-md); border: 1px solid var(--bd); transition: all .3s; }
-    .img-thumb:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-    .img-thumb img { width: 100%; height: 100%; object-fit: cover; }
-    .img-del { position: absolute; top: 10px; right: 10px; background: rgba(220, 38, 38, 0.9); color: #fff; border: none; border-radius: 8px; padding: 6px 10px; cursor: pointer; font-size: 14px; transition: all .3s; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-    .img-del:hover { background: #dc2626; transform: scale(1.1); }
-    
-    /* RESPONSIVE */
-    @media(max-width: 768px) {
-      .stat-row { grid-template-columns: 1fr 1fr; }
-      .sidebar { width: 80px; }
-      .sb-brand { padding: 0 0 1rem; display: flex; justify-content: center; border-bottom: none; }
-      .sb-brand img { width: 40px !important; height: 40px !important; }
-      .main { margin-left: 80px; padding: 1.5rem; }
-      .sb-logo, .sb-sub, .sb-section, .sb-item span { display: none; }
-      .form-grid { grid-template-columns: 1fr; }
+    /* ── DARK THEME ── */
+    [data-theme="dark"]{
+      --bg:#0D120D;--card:#151E15;--dark:#E0EBE0;--mid:#8A9A8A;
+      --bd:#243024;--sidebar:#0A100A;--sidebar-txt:rgba(255,255,255,.7);
+      --input-bg:#0D120D;
     }
-    
-    /* Mic/Voice Typing Button Styles */
-    .btn-mic {
-      background: transparent;
-      border: none;
-      color: var(--mid);
-      cursor: pointer;
-      font-size: 16px;
-      padding: 4px;
-      border-radius: 50%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
+    /* ── HINDI FONT ── */
+    [data-lang="hi"] body,[data-lang="hi"] button,[data-lang="hi"] input,[data-lang="hi"] select,[data-lang="hi"] textarea{
+      font-family:'Noto Sans Devanagari','Poppins',sans-serif;
     }
-    .btn-mic:hover {
-      color: var(--g);
-      background: var(--gl);
-    }
-    .btn-mic.listening {
-      background: #fee2e2;
-      box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.2);
-    }
-    @keyframes pulse-mic {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.2); opacity: 0.7; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    .btn-mic.listening i {
-      animation: pulse-mic 1s infinite;
-      color: var(--red);
-    }
+    [data-lang="en"] .lang-hi,[data-lang="hi"] .lang-en{display:none!important}
+    [data-lang="hi"] .lang-hi,[data-lang="en"] .lang-en{display:revert}
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh;transition:background .3s,color .3s}
+
+    /* ── TOP CONTROLS ── */
+    .top-ctrl{position:fixed;top:14px;right:14px;z-index:300;display:flex;gap:8px}
+    .ctrl-btn{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;color:var(--dark);transition:all .2s;display:flex;align-items:center;gap:5px;font-family:inherit}
+    .ctrl-btn:hover{background:var(--g);color:#fff;border-color:var(--g)}
+    .ctrl-on{background:var(--g);color:#fff;border-color:var(--g)}
+
+    /* ── LOGIN ── */
+    #login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--g)}
+    [data-theme="dark"] #login-screen{background:#0D3D20}
+    .login-box{background:var(--card);border-radius:16px;padding:40px;width:380px;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+    .login-logo{text-align:center;margin-bottom:1.5rem}
+    .login-logo i{font-size:40px;color:var(--g)}
+    .login-box h2{font-size:18px;font-weight:600;text-align:center;margin-bottom:1.5rem;color:var(--dark)}
+    .fi{display:flex;flex-direction:column;gap:.3rem;margin-bottom:1rem}
+    .fi label{font-size:12px;font-weight:500;color:var(--mid)}
+    .fi input{border:1px solid var(--bd);border-radius:8px;padding:10px 14px;font-size:14px;font-family:inherit;outline:none;background:var(--input-bg);color:var(--dark);transition:border-color .2s}
+    .fi input:focus{border-color:var(--g)}
+    .btn-g{width:100%;background:var(--g);color:#fff;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;transition:background .2s;margin-top:.5rem}
+    .btn-g:hover{background:#154f2c}
+    #login-err{color:var(--red);font-size:13px;text-align:center;margin-top:.5rem;display:none}
+
+    /* ── LAYOUT ── */
+    #app{display:none;min-height:100vh}
+    .sidebar{position:fixed;left:0;top:0;width:240px;height:100vh;background:var(--sidebar);padding:1.5rem 0;overflow-y:auto;z-index:50;transition:background .3s}
+    .sb-brand{padding:0 1.2rem 1.5rem;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:1rem}
+    .sb-logo{font-size:13px;font-weight:600;color:#fff;line-height:1.3}
+    .sb-sub{font-size:10px;color:rgba(255,255,255,.4);margin-top:3px}
+    .sb-item{display:flex;align-items:center;gap:10px;padding:.65rem 1.2rem;font-size:13px;font-weight:500;color:var(--sidebar-txt);cursor:pointer;transition:all .2s}
+    .sb-item i{font-size:18px}
+    .sb-item:hover,.sb-item.active{background:var(--sidebar-active);color:#fff}
+    .sb-item.active{border-left:3px solid var(--g)}
+    .sb-section{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);padding:.8rem 1.2rem .3rem}
+    .main{margin-left:240px;padding:2rem;min-height:100vh}
+
+    /* ── TOP BAR ── */
+    .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;padding-right:160px}
+    .page-title{font-size:22px;font-weight:600;color:var(--dark)}
+    .topbar-right{display:flex;align-items:center;gap:1rem}
+
+    /* ── STAT CARDS ── */
+    .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+    .stat-card{background:var(--card);border-radius:12px;padding:20px;border:1px solid var(--bd);transition:background .3s}
+    .sc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem}
+    .sc-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+    .sc-g{background:var(--gl)}.sc-g i{color:var(--g)}
+    .sc-o{background:#FFF3E8}.sc-o i{color:var(--o)}
+    .sc-b{background:#EFF6FF}.sc-b i{color:#2563EB}
+    .sc-r{background:#FEF2F2}.sc-r i{color:var(--red)}
+    [data-theme="dark"] .sc-o{background:#2E1E0A}
+    [data-theme="dark"] .sc-b{background:#0D1E35}
+    [data-theme="dark"] .sc-r{background:#2E0A0A}
+    .sc-icon i{font-size:20px}
+    .sc-num{font-size:28px;font-weight:700;color:var(--dark)}
+    .sc-lbl{font-size:12px;color:var(--mid)}
+
+    /* ── PANEL / TABLE ── */
+    .panel{background:var(--card);border-radius:12px;border:1px solid var(--bd);overflow:hidden;margin-bottom:1.5rem;transition:background .3s}
+    .panel-head{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.2rem;border-bottom:1px solid var(--bd)}
+    .panel-head h3{font-size:15px;font-weight:600;color:var(--dark)}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:.7rem 1rem;text-align:left;font-size:13px;border-bottom:1px solid var(--bd);color:var(--dark)}
+    th{background:var(--bg);font-weight:600;color:var(--mid);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:var(--gl)}
+    [data-theme="dark"] tr:hover td{background:rgba(27,107,58,.08)}
+
+    /* ── FORMS ── */
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .full{grid-column:1/-1}
+    .form-g{display:flex;flex-direction:column;gap:.3rem}
+    .form-g label{font-size:12px;font-weight:500;color:var(--mid)}
+    .form-g input,.form-g textarea,.form-g select{border:1px solid var(--bd);border-radius:8px;padding:10px 14px;font-size:13px;font-family:inherit;outline:none;background:var(--input-bg);color:var(--dark);transition:border-color .2s;width:100%}
+    .form-g input:focus,.form-g textarea:focus,.form-g select:focus{border-color:var(--g)}
+    .form-g textarea{resize:vertical;min-height:80px}
+
+    /* ── BUTTONS ── */
+    .btn-sm{padding:6px 14px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;border:none;font-family:inherit;transition:all .2s;display:inline-flex;align-items:center;gap:5px}
+    .btn-green{background:var(--g);color:#fff}.btn-green:hover{background:#154f2c}
+    .btn-orange{background:var(--o);color:#fff}.btn-orange:hover{background:#c96b20}
+    .btn-red{background:var(--red);color:#fff}.btn-red:hover{background:#b91c1c}
+    .btn-ghost{background:transparent;color:var(--mid);border:1px solid var(--bd)}.btn-ghost:hover{border-color:var(--g);color:var(--g)}
+
+    /* ── STATUS BADGES ── */
+    .status{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500}
+    .s-p{background:#FEF9C3;color:#854D0E}
+    .s-c{background:var(--gl);color:var(--g)}
+    .s-f{background:#FEE2E2;color:var(--red)}
+    [data-theme="dark"] .s-p{background:#2E2400;color:#F59E0B}
+
+    /* ── COUNTDOWN ── */
+    .ev-countdown{display:inline-flex;gap:.5rem;margin-top:.5rem}
+    .cd-box{background:var(--g);color:#fff;border-radius:6px;padding:4px 8px;text-align:center;min-width:44px}
+    .cd-n{font-size:18px;font-weight:700;line-height:1}
+    .cd-l{font-size:9px;opacity:.8}
+
+    /* ── ALERTS ── */
+    .alert{padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:1rem;display:none}
+    .alert-g{background:var(--gl);color:var(--g)}
+    .alert-r{background:#FEE2E2;color:var(--red)}
+
+    /* ── TABS ── */
+    .tab-bar{display:flex;gap:.5rem;margin-bottom:1.5rem}
+    .tab{padding:7px 16px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;background:transparent;border:1px solid var(--bd);color:var(--mid);transition:all .2s;font-family:inherit}
+    .tab.on{background:var(--g);color:#fff;border-color:var(--g)}
+
+    /* ── UPLOAD ZONE ── */
+    .upload-zone{border:2px dashed var(--bd);border-radius:8px;padding:24px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg)}
+    .upload-zone:hover{border-color:var(--g);background:var(--gl)}
+    .upload-zone i{font-size:32px;color:var(--mid);margin-bottom:.5rem}
+
+    /* ── GALLERY GRID ── */
+    .img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.8rem;margin-top:1rem}
+    .img-thumb{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden}
+    .img-thumb img{width:100%;height:100%;object-fit:cover}
+    .img-del{position:absolute;top:4px;right:4px;background:rgba(0,0,0,.6);color:#fff;border:none;border-radius:4px;padding:3px 6px;cursor:pointer;font-size:11px}
+
+    @media(max-width:768px){.stat-row{grid-template-columns:1fr 1fr}.sidebar{width:60px}.main{margin-left:60px}.sb-logo,.sb-sub,.sb-section,.sb-item span{display:none}.form-grid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
+<!-- ── TOP CONTROLS ── -->
+<div class="top-ctrl">
+  <button class="ctrl-btn" onclick="toggleTheme()"><i class="ti ti-moon" id="adm-theme-icon"></i><span id="adm-theme-lbl"><span class="lang-en">Dark</span><span class="lang-hi">डार्क</span></span></button>
+  <button class="ctrl-btn" id="adm-lang-btn" onclick="toggleLang()"><i class="ti ti-language"></i><span id="adm-lang-lbl">हिन्दी</span></button>
+</div>
+
+<!-- ── LOGIN ── -->
 <div id="login-screen">
   <div class="login-box">
-    <div class="login-logo"><img src="../images/logo.png" alt="Ved Daksha Foundation Logo" style="width:80px;height:80px;border-radius:50%;object-fit:cover;box-shadow: 0 8px 16px rgba(0,0,0,0.2)"/></div>
-    <h2>Ved Daksha Foundation<br><span style="font-size:14px;color:rgba(255,255,255,0.7)">Admin Portal</span></h2>
-    <div class="fi"><label for="l-email">Email</label><input type="email" id="l-email" placeholder="admin@veddakshafoundation.org"/></div>
-    <div class="fi"><label for="l-pass">Password</label><input type="password" id="l-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/></div>
-    <button class="btn-g" onclick="doLogin()"><i class="ti ti-login"></i> Sign In</button>
-    <div id="login-err">Invalid email or password</div>
-    <p style="font-size:12px;color:rgba(255,255,255,0.5);text-align:center;margin-top:1.5rem">First time? Call: 8700785399 to get credentials</p>
+    <div class="login-logo"><i class="ti ti-heart-handshake"></i></div>
+    <h2><span class="lang-en">Ved Daksha Foundation<br><span style="font-size:14px;color:var(--mid);font-weight:400">Admin Portal</span></span><span class="lang-hi">वेद दक्षा फाउंडेशन<br><span style="font-size:14px;color:var(--mid);font-weight:400">प्रशासन पोर्टल</span></span></h2>
+    <div class="fi"><label><span class="lang-en">Email</span><span class="lang-hi">ईमेल</span></label><input type="email" id="l-email" placeholder="admin@veddaksha.org"/></div>
+    <div class="fi"><label><span class="lang-en">Password</span><span class="lang-hi">पासवर्ड</span></label><input type="password" id="l-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <button class="btn-g" onclick="doLogin()"><i class="ti ti-login"></i> <span class="lang-en">Sign In</span><span class="lang-hi">लॉगिन करें</span></button>
+    <div id="login-err"><span class="lang-en">Invalid credentials</span><span class="lang-hi">अमान्य क्रेडेंशियल</span></div>
   </div>
 </div>
 
-<!-- MAIN APP -->
+<!-- ── APP ── -->
 <div id="app">
-  <!-- Sidebar -->
   <aside class="sidebar">
-    <div class="sb-brand" style="display:flex;align-items:center;gap:10px">
-      <img src="../images/logo.png" alt="Ved Daksha Foundation Logo" style="width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0"/>
-      <div>
-        <div class="sb-logo">Ved Daksha Foundation</div>
-        <div class="sb-sub">Admin Portal v1.0</div>
-      </div>
+    <div class="sb-brand">
+      <div class="sb-logo"><span class="lang-en">Ved Daksha Foundation</span><span class="lang-hi">वेद दक्षा फाउंडेशन</span></div>
+      <div class="sb-sub">Admin v1.0</div>
     </div>
-    <div class="sb-section">Main</div>
-    <div class="sb-item active" onclick="showPage('dashboard')"><i class="ti ti-dashboard"></i><span>Dashboard</span></div>
-    <div class="sb-item" onclick="showPage('events')"><i class="ti ti-calendar-event"></i><span>Events</span></div>
-    <div class="sb-item" onclick="showPage('gallery')"><i class="ti ti-photo"></i><span>Gallery</span></div>
-    <div class="sb-item" onclick="showPage('blog')"><i class="ti ti-article"></i><span>Blog Posts</span></div>
-    <div class="sb-section">Finance</div>
-    <div class="sb-item" onclick="showPage('donations')"><i class="ti ti-coin"></i><span>Donations</span></div>
-    <div class="sb-section">Communication</div>
-    <div class="sb-item" onclick="showPage('messages')"><i class="ti ti-message"></i><span>Messages <span id="unread-badge" class="badge-count" style="display:none">0</span></span></div>
-    <div class="sb-section">Settings</div>
-    <div class="sb-item" onclick="showPage('settings')"><i class="ti ti-settings"></i><span>Settings</span></div>
+    <div class="sb-section"><span class="lang-en">Main</span><span class="lang-hi">मुख्य</span></div>
+    <div class="sb-item active" onclick="showPage('dashboard')"><i class="ti ti-dashboard"></i><span><span class="lang-en">Dashboard</span><span class="lang-hi">डैशबोर्ड</span></span></div>
+    <div class="sb-item" onclick="showPage('events')"><i class="ti ti-calendar-event"></i><span><span class="lang-en">Events</span><span class="lang-hi">कार्यक्रम</span></span></div>
+    <div class="sb-item" onclick="showPage('gallery')"><i class="ti ti-photo"></i><span><span class="lang-en">Gallery</span><span class="lang-hi">गैलरी</span></span></div>
+    <div class="sb-item" onclick="showPage('blog')"><i class="ti ti-article"></i><span><span class="lang-en">Blog Posts</span><span class="lang-hi">ब्लॉग पोस्ट</span></span></div>
+    <div class="sb-section"><span class="lang-en">Finance</span><span class="lang-hi">वित्त</span></div>
+    <div class="sb-item" onclick="showPage('donations')"><i class="ti ti-coin"></i><span><span class="lang-en">Donations</span><span class="lang-hi">दान</span></span></div>
+    <div class="sb-section"><span class="lang-en">Communication</span><span class="lang-hi">संचार</span></div>
+    <div class="sb-item" onclick="showPage('messages')"><i class="ti ti-message"></i><span><span class="lang-en">Messages</span><span class="lang-hi">संदेश</span> <span id="unread-badge" style="background:var(--red);color:#fff;font-size:10px;font-weight:600;padding:2px 6px;border-radius:10px;display:none">0</span></span></div>
+    <div class="sb-section"><span class="lang-en">Settings</span><span class="lang-hi">सेटिंग</span></div>
+    <div class="sb-item" onclick="showPage('settings')"><i class="ti ti-settings"></i><span><span class="lang-en">Settings</span><span class="lang-hi">सेटिंग</span></span></div>
     <div style="height:2rem"></div>
-    <div class="sb-bot">
-      <div class="sb-item" onclick="logout()" style="color:rgba(255,100,100,.8)"><i class="ti ti-logout"></i><span>Logout</span></div>
-    </div>
+    <div class="sb-item" onclick="logout()" style="color:rgba(255,120,120,.8)"><i class="ti ti-logout"></i><span><span class="lang-en">Logout</span><span class="lang-hi">लॉगआउट</span></span></div>
   </aside>
 
-  <!-- Main Content -->
   <main class="main">
 
     <!-- DASHBOARD -->
     <div id="page-dashboard" class="page">
       <div class="topbar">
-        <div>
-          <div class="page-title">Dashboard</div>
-          <p style="font-size:13px;color:var(--mid)" id="dash-greeting">Good morning, Admin</p>
-        </div>
+        <div><div class="page-title"><span class="lang-en">Dashboard</span><span class="lang-hi">डैशबोर्ड</span></div>
+          <p style="font-size:13px;color:var(--mid)" id="dash-greeting"><span class="lang-en">Good morning, Admin</span><span class="lang-hi">नमस्ते, Admin</span></p></div>
         <div class="topbar-right">
-          <a href="../index.html" target="_blank" class="btn-sm btn-ghost"><i class="ti ti-external-link"></i>View Website</a>
-          <button class="btn-sm btn-green" onclick="showPage('events');setTimeout(()=>openEventForm(),300)"><i class="ti ti-plus"></i>Add Event</button>
+          <a href="../index.html" target="_blank" class="btn-sm btn-ghost"><i class="ti ti-external-link"></i><span class="lang-en">View Website</span><span class="lang-hi">वेबसाइट देखें</span></a>
+          <button class="btn-sm btn-green" onclick="showPage('events');setTimeout(()=>openEventForm(),300)"><i class="ti ti-plus"></i><span class="lang-en">Add Event</span><span class="lang-hi">कार्यक्रम जोड़ें</span></button>
         </div>
       </div>
       <div class="stat-row">
-        <div class="stat-card"><div class="sc-top"><span class="sc-icon sc-g"><i class="ti ti-calendar"></i></span></div><div class="sc-num" id="d-events">—</div><div class="sc-lbl">Total Events</div></div>
-        <div class="stat-card"><div class="sc-top"><span class="sc-icon sc-o"><i class="ti ti-coin"></i></span></div><div class="sc-num" id="d-donations">—</div><div class="sc-lbl">Donations Received</div></div>
-        <div class="stat-card"><div class="sc-top"><span class="sc-icon sc-b"><i class="ti ti-message"></i></span></div><div class="sc-num" id="d-messages">—</div><div class="sc-lbl">Unread Messages</div></div>
-        <div class="stat-card"><div class="sc-top"><span class="sc-icon sc-r"><i class="ti ti-photo"></i></span></div><div class="sc-num" id="d-gallery">—</div><div class="sc-lbl">Gallery Images</div></div>
+        <div class="stat-card"><div class="sc-top"><span class="sc-icon sc-g"><i class="ti ti-calendar"></i></span></div><div class="sc-num" id="d-events">—</div><div class="sc-lbl"><span class="lang-en">Total Events</span><span class="lang-hi">कुल कार्यक्रम</span></div></div>
+        <div class="stat-card"><div class="sc-top"><span class="sc-icon sc-o"><i class="ti ti-coin"></i></span></div><div class="sc-num" id="d-donations">—</div><div class="sc-lbl"><span class="lang-en">Total Donations</span><span class="lang-hi">कुल दान</span></div></div>
+        <div class="stat-card"><div class="sc-top"><span class="sc-icon sc-b"><i class="ti ti-message"></i></span></div><div class="sc-num" id="d-messages">—</div><div class="sc-lbl"><span class="lang-en">Unread Messages</span><span class="lang-hi">अपठित संदेश</span></div></div>
+        <div class="stat-card"><div class="sc-top"><span class="sc-icon sc-r"><i class="ti ti-photo"></i></span></div><div class="sc-num" id="d-gallery">—</div><div class="sc-lbl"><span class="lang-en">Gallery Images</span><span class="lang-hi">गैलरी छवियाँ</span></div></div>
       </div>
-      <!-- Upcoming event countdown -->
+      <!-- Event countdown -->
       <div class="panel" id="upcoming-panel" style="display:none">
-        <div class="panel-head"><h3><i class="ti ti-clock" style="color:var(--g)"></i> Next Upcoming Event</h3></div>
+        <div class="panel-head"><h3><i class="ti ti-clock" style="color:var(--g)"></i> <span class="lang-en">Next Upcoming Event</span><span class="lang-hi">अगला आगामी कार्यक्रम</span></h3></div>
         <div style="padding:1.2rem">
-          <h4 id="cd-event-title" style="font-size:16px;margin-bottom:.3rem"></h4>
+          <h4 id="cd-event-title" style="font-size:16px;margin-bottom:.3rem;color:var(--dark)"></h4>
           <p id="cd-event-date" style="font-size:12px;color:var(--mid);margin-bottom:1rem"></p>
           <div class="ev-countdown">
-            <div class="cd-box"><div class="cd-n" id="cd-d">00</div><div class="cd-l">DAYS</div></div>
-            <div class="cd-box"><div class="cd-n" id="cd-h">00</div><div class="cd-l">HRS</div></div>
-            <div class="cd-box"><div class="cd-n" id="cd-m">00</div><div class="cd-l">MIN</div></div>
-            <div class="cd-box"><div class="cd-n" id="cd-s">00</div><div class="cd-l">SEC</div></div>
+            <div class="cd-box"><div class="cd-n" id="cd-d">00</div><div class="cd-l"><span class="lang-en">DAYS</span><span class="lang-hi">दिन</span></div></div>
+            <div class="cd-box"><div class="cd-n" id="cd-h">00</div><div class="cd-l"><span class="lang-en">HRS</span><span class="lang-hi">घंटे</span></div></div>
+            <div class="cd-box"><div class="cd-n" id="cd-m">00</div><div class="cd-l"><span class="lang-en">MIN</span><span class="lang-hi">मिनट</span></div></div>
+            <div class="cd-box"><div class="cd-n" id="cd-s">00</div><div class="cd-l"><span class="lang-en">SEC</span><span class="lang-hi">सेकंड</span></div></div>
           </div>
         </div>
       </div>
       <!-- Recent donations -->
       <div class="panel">
-        <div class="panel-head"><h3>Recent Donations</h3><button class="btn-sm btn-ghost" onclick="showPage('donations')">View All</button></div>
-        <table><thead><tr><th>Name</th><th>Amount</th><th>Purpose</th><th>Status</th><th>Date</th></tr></thead>
-        <tbody id="dash-donations"><tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--mid)">Loading...</td></tr></tbody></table>
+        <div class="panel-head"><h3><span class="lang-en">Recent Donations</span><span class="lang-hi">हालिया दान</span></h3><button class="btn-sm btn-ghost" onclick="showPage('donations')"><span class="lang-en">View All</span><span class="lang-hi">सभी देखें</span></button></div>
+        <table><thead><tr><th><span class="lang-en">Name</span><span class="lang-hi">नाम</span></th><th><span class="lang-en">Amount</span><span class="lang-hi">राशि</span></th><th><span class="lang-en">Purpose</span><span class="lang-hi">उद्देश्य</span></th><th><span class="lang-en">Status</span><span class="lang-hi">स्थिति</span></th><th><span class="lang-en">Date</span><span class="lang-hi">तारीख</span></th></tr></thead>
+        <tbody id="dash-donations"><tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--mid)"><span class="lang-en">Loading...</span><span class="lang-hi">लोड हो रहा है...</span></td></tr></tbody></table>
       </div>
     </div>
 
-    <!-- EVENTS PAGE -->
+    <!-- EVENTS -->
     <div id="page-events" class="page" style="display:none">
       <div class="topbar">
-        <div class="page-title">Events Management</div>
-        <button class="btn-sm btn-green" onclick="openEventForm()"><i class="ti ti-plus"></i>Add New Event</button>
+        <div class="page-title"><span class="lang-en">Events Management</span><span class="lang-hi">कार्यक्रम प्रबंधन</span></div>
+        <button class="btn-sm btn-green" onclick="openEventForm()"><i class="ti ti-plus"></i><span class="lang-en">Add New Event</span><span class="lang-hi">नया कार्यक्रम जोड़ें</span></button>
       </div>
       <div class="tab-bar">
-        <button class="tab on" onclick="filterEvents('all',this)">All Events</button>
-        <button class="tab" onclick="filterEvents('upcoming',this)">Upcoming</button>
-        <button class="tab" onclick="filterEvents('past',this)">Past</button>
+        <button class="tab on" onclick="filterEvents('all',this)"><span class="lang-en">All</span><span class="lang-hi">सभी</span></button>
+        <button class="tab" onclick="filterEvents('upcoming',this)"><span class="lang-en">Upcoming</span><span class="lang-hi">आगामी</span></button>
+        <button class="tab" onclick="filterEvents('past',this)"><span class="lang-en">Past</span><span class="lang-hi">पिछले</span></button>
       </div>
-      <!-- Add/Edit Event Form -->
+      <!-- Add/Edit Form -->
       <div class="panel" id="event-form-panel" style="display:none">
-        <div class="panel-head"><h3 id="ef-title">Add New Event</h3><button class="btn-sm btn-ghost" onclick="closeEventForm()"><i class="ti ti-x"></i>Cancel</button></div>
+        <div class="panel-head"><h3 id="ef-title"><span class="lang-en">Add New Event</span><span class="lang-hi">नया कार्यक्रम जोड़ें</span></h3><button class="btn-sm btn-ghost" onclick="closeEventForm()"><i class="ti ti-x"></i></button></div>
         <div style="padding:1.2rem">
           <div id="ev-alert" class="alert"></div>
           <div class="form-grid">
-            <div class="form-g">
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <label for="ev-title">Event Title *</label>
-                <button type="button" class="btn-mic" onclick="startVoiceInput('ev-title', 'en-IN')" title="Voice typing"><i class="ti ti-microphone"></i></button>
-              </div>
-              <input type="text" id="ev-title" placeholder="e.g. Annual Varshikotsav 2025"/>
+            <div class="form-g"><label><span class="lang-en">Event Title *</span><span class="lang-hi">कार्यक्रम का शीर्षक *</span></label><input type="text" id="ev-title" placeholder="e.g. Annual Varshikotsav 2025"/></div>
+            <div class="form-g"><label><span class="lang-en">Title in Hindi</span><span class="lang-hi">हिंदी में शीर्षक</span></label><input type="text" id="ev-titlehi" placeholder="वार्षिकोत्सव व सम्मान समारोह"/></div>
+            <div class="form-g"><label><span class="lang-en">Date *</span><span class="lang-hi">तारीख *</span></label><input type="date" id="ev-date"/></div>
+            <div class="form-g"><label><span class="lang-en">Time</span><span class="lang-hi">समय</span></label><input type="time" id="ev-time"/></div>
+            <div class="form-g"><label><span class="lang-en">Location</span><span class="lang-hi">स्थान</span></label><input type="text" id="ev-loc" value="7/56, Chiranjeev Vihar, Ghaziabad"/></div>
+            <div class="form-g"><label><span class="lang-en">Category</span><span class="lang-hi">श्रेणी</span></label>
+              <select id="ev-cat">
+                <option value="cultural"><span class="lang-en">Cultural</span><span class="lang-hi">सांस्कृतिक</span></option>
+                <option value="education"><span class="lang-en">Education</span><span class="lang-hi">शिक्षा</span></option>
+                <option value="health"><span class="lang-en">Health</span><span class="lang-hi">स्वास्थ्य</span></option>
+                <option value="awards"><span class="lang-en">Awards</span><span class="lang-hi">पुरस्कार</span></option>
+                <option value="outreach"><span class="lang-en">Outreach</span><span class="lang-hi">आउटरीच</span></option>
+              </select>
             </div>
-            <div class="form-g">
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <label for="ev-titlehi">Title in Hindi</label>
-                <button type="button" class="btn-mic" onclick="startVoiceInput('ev-titlehi', 'hi-IN')" title="Voice typing"><i class="ti ti-microphone"></i></button>
-              </div>
-              <input type="text" id="ev-titlehi" placeholder="वार्षिकोत्सव व सम्मान समारोह"/>
+            <div class="form-g full"><label><span class="lang-en">Description *</span><span class="lang-hi">विवरण *</span></label><textarea id="ev-desc" rows="4" placeholder="Event description / कार्यक्रम का विवरण..."></textarea></div>
+            <div class="form-g"><label><span class="lang-en">Attendees</span><span class="lang-hi">उपस्थितजन</span></label><input type="number" id="ev-att" placeholder="50"/></div>
+            <div class="form-g"><label><span class="lang-en">Status</span><span class="lang-hi">स्थिति</span></label>
+              <select id="ev-upcoming">
+                <option value="true"><span class="lang-en">Upcoming</span><span class="lang-hi">आगामी</span></option>
+                <option value="false"><span class="lang-en">Past Event</span><span class="lang-hi">पिछला कार्यक्रम</span></option>
+              </select>
             </div>
-            <div class="form-g"><label for="ev-date">Date *</label><input type="date" id="ev-date"/></div>
-            <div class="form-g"><label for="ev-time">Time</label><input type="time" id="ev-time"/></div>
-            <div class="form-g"><label for="ev-loc">Location</label><input type="text" id="ev-loc" value="7/56, Chiranjeev Vihar, Ghaziabad"/></div>
-            <div class="form-g"><label for="ev-cat">Category</label>
-              <select id="ev-cat"><option value="cultural">Cultural</option><option value="education">Education</option><option value="health">Health</option><option value="awards">Awards</option><option value="outreach">Outreach</option><option value="other">Other</option></select>
-            </div>
-            <div class="form-g full">
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <label for="ev-desc">Description *</label>
-                <button type="button" class="btn-mic" onclick="startVoiceInput('ev-desc', 'en-IN')" title="Voice typing"><i class="ti ti-microphone"></i></button>
-              </div>
-              <textarea id="ev-desc" rows="4" placeholder="Describe the event..."></textarea>
-            </div>
-            <div class="form-g full">
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <label for="ev-deschi">Description in Hindi</label>
-                <button type="button" class="btn-mic" onclick="startVoiceInput('ev-deschi', 'hi-IN')" title="Voice typing"><i class="ti ti-microphone"></i></button>
-              </div>
-              <textarea id="ev-deschi" rows="4" placeholder="हिंदी में विवरण..."></textarea>
-            </div>
-            <div class="form-g"><label for="ev-att">Expected/Actual Attendees</label><input type="number" id="ev-att" placeholder="50"/></div>
-            <div class="form-g"><label for="ev-upcoming">Is this an upcoming event?</label>
-              <select id="ev-upcoming"><option value="true">Yes — Upcoming</option><option value="false">No — Past Event</option></select>
-            </div>
-            <div class="form-g full"><label for="ev-imgs">Event Photos (up to 10)</label>
+            <div class="form-g full"><label><span class="lang-en">Event Photos</span><span class="lang-hi">कार्यक्रम की तस्वीरें</span></label>
               <div class="upload-zone" onclick="document.getElementById('ev-imgs').click()">
                 <i class="ti ti-cloud-upload"></i>
-                <p>Click to upload images (JPG, PNG — max 10MB each)</p>
+                <p><span class="lang-en">Click to upload images</span><span class="lang-hi">तस्वीरें अपलोड करने के लिए क्लिक करें</span></p>
               </div>
               <input type="file" id="ev-imgs" multiple accept="image/*" style="display:none" onchange="previewImages(this)"/>
               <div id="img-preview" class="img-grid"></div>
             </div>
           </div>
           <div style="display:flex;gap:.8rem;margin-top:1rem;justify-content:flex-end">
-            <button class="btn-sm btn-ghost" onclick="closeEventForm()">Cancel</button>
-            <button class="btn-sm btn-green" onclick="saveEvent()"><i class="ti ti-device-floppy"></i>Save Event</button>
+            <button class="btn-sm btn-ghost" onclick="closeEventForm()"><span class="lang-en">Cancel</span><span class="lang-hi">रद्द करें</span></button>
+            <button class="btn-sm btn-green" onclick="saveEvent()"><i class="ti ti-device-floppy"></i><span class="lang-en">Save</span><span class="lang-hi">सहेजें</span></button>
           </div>
         </div>
       </div>
-      <!-- Events List -->
       <div class="panel">
-        <table><thead><tr><th>Title</th><th>Date</th><th>Category</th><th>Status</th><th>Attendees</th><th>Actions</th></tr></thead>
-        <tbody id="events-table"><tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)">Loading events...</td></tr></tbody></table>
+        <table><thead><tr><th><span class="lang-en">Title</span><span class="lang-hi">शीर्षक</span></th><th><span class="lang-en">Date</span><span class="lang-hi">तारीख</span></th><th><span class="lang-en">Category</span><span class="lang-hi">श्रेणी</span></th><th><span class="lang-en">Status</span><span class="lang-hi">स्थिति</span></th><th><span class="lang-en">Actions</span><span class="lang-hi">क्रियाएं</span></th></tr></thead>
+        <tbody id="events-table"><tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--mid)"><span class="lang-en">Loading events...</span><span class="lang-hi">कार्यक्रम लोड हो रहे हैं...</span></td></tr></tbody></table>
       </div>
     </div>
 
-    <!-- GALLERY PAGE -->
+    <!-- GALLERY -->
     <div id="page-gallery" class="page" style="display:none">
       <div class="topbar">
-        <div class="page-title">Gallery Management</div>
-        <button class="btn-sm btn-green" onclick="document.getElementById('gal-upload').click()"><i class="ti ti-plus"></i>Upload Images</button>
+        <div class="page-title"><span class="lang-en">Gallery Management</span><span class="lang-hi">गैलरी प्रबंधन</span></div>
+        <button class="btn-sm btn-green" onclick="document.getElementById('gal-upload').click()"><i class="ti ti-plus"></i><span class="lang-en">Upload Images</span><span class="lang-hi">तस्वीरें अपलोड करें</span></button>
         <input type="file" id="gal-upload" multiple accept="image/*" style="display:none" onchange="uploadGallery(this)"/>
       </div>
       <div id="gal-alert" class="alert"></div>
       <div class="panel">
-        <div class="panel-head"><h3>All Gallery Images</h3></div>
-        <div style="padding:1rem">
-          <div class="img-grid" id="gallery-grid">
-            <p style="color:var(--mid);font-size:13px">Loading gallery...</p>
-          </div>
-        </div>
+        <div class="panel-head"><h3><span class="lang-en">All Gallery Images</span><span class="lang-hi">सभी गैलरी छवियाँ</span></h3></div>
+        <div style="padding:1rem"><div class="img-grid" id="gallery-grid"><p style="color:var(--mid);font-size:13px"><span class="lang-en">Loading gallery...</span><span class="lang-hi">गैलरी लोड हो रही है...</span></p></div></div>
       </div>
     </div>
 
-    <!-- BLOG PAGE -->
+    <!-- BLOG -->
     <div id="page-blog" class="page" style="display:none">
       <div class="topbar">
-        <div class="page-title">Blog Posts</div>
-        <button class="btn-sm btn-green" onclick="openBlogForm()"><i class="ti ti-plus"></i>New Post</button>
+        <div class="page-title"><span class="lang-en">Blog Posts</span><span class="lang-hi">ब्लॉग पोस्ट</span></div>
+        <button class="btn-sm btn-green" onclick="openBlogForm()"><i class="ti ti-plus"></i><span class="lang-en">New Post</span><span class="lang-hi">नई पोस्ट</span></button>
       </div>
-      <!-- Blog Form -->
       <div class="panel" id="blog-form-panel" style="display:none">
-        <div class="panel-head"><h3>Write Blog Post</h3><button class="btn-sm btn-ghost" onclick="document.getElementById('blog-form-panel').style.display='none'"><i class="ti ti-x"></i></button></div>
+        <div class="panel-head"><h3><span class="lang-en">Write Blog Post</span><span class="lang-hi">ब्लॉग पोस्ट लिखें</span></h3><button class="btn-sm btn-ghost" onclick="document.getElementById('blog-form-panel').style.display='none'"><i class="ti ti-x"></i></button></div>
         <div style="padding:1.2rem">
           <div class="form-grid">
-            <div class="form-g">
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <label for="bl-title">Post Title *</label>
-                <button type="button" class="btn-mic" onclick="startVoiceInput('bl-title', 'en-IN')" title="Voice typing"><i class="ti ti-microphone"></i></button>
-              </div>
-              <input type="text" id="bl-title" placeholder="Post title"/>
+            <div class="form-g"><label><span class="lang-en">Post Title *</span><span class="lang-hi">पोस्ट शीर्षक *</span></label><input type="text" id="bl-title" placeholder="Post title / पोस्ट शीर्षक"/></div>
+            <div class="form-g"><label><span class="lang-en">Category</span><span class="lang-hi">श्रेणी</span></label>
+              <select id="bl-cat"><option>Education / शिक्षा</option><option>Health / स्वास्थ्य</option><option>Community / समुदाय</option><option>Events / कार्यक्रम</option><option>Impact Stories / प्रभाव कहानियाँ</option></select>
             </div>
-            <div class="form-g">
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <label for="bl-titlehi">Post Title in Hindi</label>
-                <button type="button" class="btn-mic" onclick="startVoiceInput('bl-titlehi', 'hi-IN')" title="Voice typing"><i class="ti ti-microphone"></i></button>
-              </div>
-              <input type="text" id="bl-titlehi" placeholder="हिंदी में शीर्षक"/>
-            </div>
-            <div class="form-g"><label for="bl-cat">Category</label><select id="bl-cat"><option>Education</option><option>Health</option><option>Community</option><option>Events</option><option>Impact Stories</option><option>Volunteering</option></select></div>
-            <div class="form-g"><label for="bl-author">Author</label><input type="text" id="bl-author" value="Dr. Usha Tyagi" placeholder="Author name"/></div>
-            <div class="form-g"><label for="bl-tags">Tags (comma separated)</label><input type="text" id="bl-tags" placeholder="education, children, ghaziabad"/></div>
-            <div class="form-g full">
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <label for="bl-exc">Excerpt (short summary)</label>
-                <button type="button" class="btn-mic" onclick="startVoiceInput('bl-exc', 'en-IN')" title="Voice typing"><i class="ti ti-microphone"></i></button>
-              </div>
-              <textarea id="bl-exc" rows="2" placeholder="Brief description shown in blog listing..."></textarea>
-            </div>
-            <div class="form-g full">
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <label for="bl-exchi">Excerpt in Hindi</label>
-                <button type="button" class="btn-mic" onclick="startVoiceInput('bl-exchi', 'hi-IN')" title="Voice typing"><i class="ti ti-microphone"></i></button>
-              </div>
-              <textarea id="bl-exchi" rows="2" placeholder="संक्षिप्त विवरण हिंदी में..."></textarea>
-            </div>
-            <div class="form-g full">
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <label for="bl-content">Full Content *</label>
-                <button type="button" class="btn-mic" onclick="startVoiceInput('bl-content', 'en-IN')" title="Voice typing"><i class="ti ti-microphone"></i></button>
-              </div>
-              <textarea id="bl-content" rows="10" placeholder="Write the full blog post here..."></textarea>
-            </div>
-            <div class="form-g full">
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <label for="bl-contenthi">Full Content in Hindi</label>
-                <button type="button" class="btn-mic" onclick="startVoiceInput('bl-contenthi', 'hi-IN')" title="Voice typing"><i class="ti ti-microphone"></i></button>
-              </div>
-              <textarea id="bl-contenthi" rows="10" placeholder="पूरा ब्लॉग हिंदी में..."></textarea>
-            </div>
-            <div class="form-g full"><label for="bl-img">Blog Cover Image</label>
-              <div class="upload-zone" onclick="document.getElementById('bl-img').click()">
-                <i class="ti ti-cloud-upload"></i>
-                <p>Click to upload cover image (JPG, PNG)</p>
-              </div>
-              <input type="file" id="bl-img" accept="image/*" style="display:none" onchange="previewBlogImage(this)"/>
-              <div id="blog-img-preview" class="img-grid"></div>
-            </div>
+            <div class="form-g"><label><span class="lang-en">Author</span><span class="lang-hi">लेखक</span></label><input type="text" id="bl-author" value="Dr. Usha Tyagi"/></div>
+            <div class="form-g"><label><span class="lang-en">Tags</span><span class="lang-hi">टैग</span></label><input type="text" id="bl-tags" placeholder="education, children, ghaziabad"/></div>
+            <div class="form-g full"><label><span class="lang-en">Excerpt</span><span class="lang-hi">सारांश</span></label><textarea id="bl-exc" rows="2" placeholder="Brief summary / संक्षिप्त सारांश..."></textarea></div>
+            <div class="form-g full"><label><span class="lang-en">Full Content *</span><span class="lang-hi">पूर्ण सामग्री *</span></label><textarea id="bl-content" rows="10" placeholder="Write the full blog post here... / यहाँ पूरी पोस्ट लिखें..."></textarea></div>
           </div>
           <div style="display:flex;gap:.8rem;margin-top:1rem;justify-content:flex-end">
-            <button class="btn-sm btn-ghost" onclick="document.getElementById('blog-form-panel').style.display='none'">Cancel</button>
-            <button class="btn-sm btn-green" onclick="saveBlog()"><i class="ti ti-device-floppy"></i>Publish Post</button>
+            <button class="btn-sm btn-ghost" onclick="document.getElementById('blog-form-panel').style.display='none'"><span class="lang-en">Cancel</span><span class="lang-hi">रद्द करें</span></button>
+            <button class="btn-sm btn-green" onclick="saveBlog()"><i class="ti ti-device-floppy"></i><span class="lang-en">Publish</span><span class="lang-hi">प्रकाशित करें</span></button>
           </div>
         </div>
       </div>
       <div class="panel">
-        <table><thead><tr><th>Title</th><th>Category</th><th>Author</th><th>Views</th><th>Date</th><th>Actions</th></tr></thead>
-        <tbody id="blog-table"><tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)">Loading posts...</td></tr></tbody></table>
+        <table><thead><tr><th><span class="lang-en">Title</span><span class="lang-hi">शीर्षक</span></th><th><span class="lang-en">Category</span><span class="lang-hi">श्रेणी</span></th><th><span class="lang-en">Author</span><span class="lang-hi">लेखक</span></th><th><span class="lang-en">Views</span><span class="lang-hi">दृश्य</span></th><th><span class="lang-en">Date</span><span class="lang-hi">तारीख</span></th><th><span class="lang-en">Actions</span><span class="lang-hi">क्रियाएं</span></th></tr></thead>
+        <tbody id="blog-table"><tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)"><span class="lang-en">Loading posts...</span><span class="lang-hi">पोस्ट लोड हो रही हैं...</span></td></tr></tbody></table>
       </div>
     </div>
 
-    <!-- DONATIONS PAGE -->
+    <!-- DONATIONS -->
     <div id="page-donations" class="page" style="display:none">
       <div class="topbar">
-        <div class="page-title">Donations</div>
-        <div id="don-total" style="font-size:14px;color:var(--mid)">Total confirmed: loading...</div>
+        <div class="page-title"><span class="lang-en">Donations</span><span class="lang-hi">दान</span></div>
+        <div id="don-total" style="font-size:14px;color:var(--mid)"><span class="lang-en">Loading...</span><span class="lang-hi">लोड हो रहा है...</span></div>
       </div>
       <div class="panel">
-        <table><thead><tr><th>Name</th><th>Phone</th><th>Amount</th><th>Purpose</th><th>Method</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>
-        <tbody id="don-table"><tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--mid)">Loading...</td></tr></tbody></table>
+        <table><thead><tr><th><span class="lang-en">Name</span><span class="lang-hi">नाम</span></th><th><span class="lang-en">Phone</span><span class="lang-hi">फ़ोन</span></th><th><span class="lang-en">Amount</span><span class="lang-hi">राशि</span></th><th><span class="lang-en">Purpose</span><span class="lang-hi">उद्देश्य</span></th><th><span class="lang-en">Status</span><span class="lang-hi">स्थिति</span></th><th><span class="lang-en">Date</span><span class="lang-hi">तारीख</span></th><th><span class="lang-en">Action</span><span class="lang-hi">क्रिया</span></th></tr></thead>
+        <tbody id="don-table"><tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--mid)"><span class="lang-en">Loading...</span><span class="lang-hi">लोड हो रहा है...</span></td></tr></tbody></table>
       </div>
     </div>
 
-    <!-- MESSAGES PAGE -->
+    <!-- MESSAGES -->
     <div id="page-messages" class="page" style="display:none">
-      <div class="topbar"><div class="page-title">Contact Messages</div></div>
+      <div class="topbar"><div class="page-title"><span class="lang-en">Contact Messages</span><span class="lang-hi">संपर्क संदेश</span></div></div>
       <div class="panel">
-        <table><thead><tr><th>Name</th><th>Contact</th><th>Message</th><th>Type</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>
-        <tbody id="msg-table"><tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--mid)">Loading...</td></tr></tbody></table>
+        <table><thead><tr><th><span class="lang-en">Name</span><span class="lang-hi">नाम</span></th><th><span class="lang-en">Contact</span><span class="lang-hi">संपर्क</span></th><th><span class="lang-en">Message</span><span class="lang-hi">संदेश</span></th><th><span class="lang-en">Status</span><span class="lang-hi">स्थिति</span></th><th><span class="lang-en">Date</span><span class="lang-hi">तारीख</span></th><th><span class="lang-en">Action</span><span class="lang-hi">क्रिया</span></th></tr></thead>
+        <tbody id="msg-table"><tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)"><span class="lang-en">Loading...</span><span class="lang-hi">लोड हो रहा है...</span></td></tr></tbody></table>
       </div>
     </div>
 
-    <!-- SETTINGS PAGE -->
+    <!-- SETTINGS -->
     <div id="page-settings" class="page" style="display:none">
-      <div class="topbar"><div class="page-title">Settings</div></div>
+      <div class="topbar"><div class="page-title"><span class="lang-en">Settings</span><span class="lang-hi">सेटिंग</span></div></div>
       <div class="panel">
-        <div class="panel-head"><h3>Change Password</h3></div>
+        <div class="panel-head"><h3><span class="lang-en">Change Password</span><span class="lang-hi">पासवर्ड बदलें</span></h3></div>
         <div style="padding:1.2rem;max-width:400px">
           <div id="set-alert" class="alert"></div>
-          <div class="form-g" style="margin-bottom:1rem"><label for="op">Current Password</label><input type="password" id="op"/></div>
-          <div class="form-g" style="margin-bottom:1rem"><label for="np">New Password</label><input type="password" id="np"/></div>
-          <div class="form-g" style="margin-bottom:1rem"><label for="cp">Confirm New Password</label><input type="password" id="cp"/></div>
-          <button class="btn-sm btn-green" onclick="changePwd()"><i class="ti ti-lock"></i>Update Password</button>
+          <div class="form-g" style="margin-bottom:1rem"><label><span class="lang-en">Current Password</span><span class="lang-hi">वर्तमान पासवर्ड</span></label><input type="password" id="op"/></div>
+          <div class="form-g" style="margin-bottom:1rem"><label><span class="lang-en">New Password</span><span class="lang-hi">नया पासवर्ड</span></label><input type="password" id="np"/></div>
+          <div class="form-g" style="margin-bottom:1rem"><label><span class="lang-en">Confirm Password</span><span class="lang-hi">पासवर्ड की पुष्टि करें</span></label><input type="password" id="cp"/></div>
+          <button class="btn-sm btn-green" onclick="changePwd()"><i class="ti ti-lock"></i><span class="lang-en">Update Password</span><span class="lang-hi">पासवर्ड अपडेट करें</span></button>
         </div>
       </div>
       <div class="panel" style="margin-top:1.5rem">
-        <div class="panel-head"><h3>Foundation Info</h3></div>
+        <div class="panel-head"><h3><span class="lang-en">Foundation Info</span><span class="lang-hi">फाउंडेशन जानकारी</span></h3></div>
         <div style="padding:1.2rem;font-size:13px;color:var(--mid);line-height:1.8">
-          <strong style="color:var(--dark)">Ved Daksha Foundation</strong><br>
-          7/56, Chiranjeev Vihar, Ghaziabad – 201002<br>
-          Phone: 8700785399 | 8595656658<br>
-          Email: veddakshafoundation22@gmail.com<br>
-          Social: @veddakshafoundation | @ved.dakshafoundation | @veddakshafoundation22
+          <strong style="color:var(--dark)">Ved Daksha Foundation / वेद दक्षा फाउंडेशन</strong><br>
+          7/56, Chiranjeev Vihar / चिरंजीव विहार, Ghaziabad – 201002<br>
+          📞 8700785399 | 8595656658<br>
+          ✉️ veddakshafoundation22@gmail.com
         </div>
       </div>
     </div>
@@ -495,43 +385,63 @@
 </div>
 
 <script>
-const API = 'https://veddakshafoundation-production.up.railway.app/api';
-let TOKEN = localStorage.getItem('vdf_token') || '';
-let currentEditId = null;
+const API='http://localhost:5000/api';
+let TOKEN=localStorage.getItem('vdf_token')||'';
+let currentEditId=null;
+let allEvents=[];
+
+// ── THEME / LANG ──
+function toggleTheme(){
+  const html=document.documentElement;
+  const isDark=html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme',isDark?'light':'dark');
+  document.getElementById('adm-theme-icon').className=isDark?'ti ti-moon':'ti ti-sun';
+  localStorage.setItem('vdf-theme',isDark?'light':'dark');
+}
+function toggleLang(){
+  const html=document.documentElement;
+  const isEn=html.getAttribute('data-lang')==='en';
+  const newLang=isEn?'hi':'en';
+  html.setAttribute('data-lang',newLang);
+  document.getElementById('adm-lang-lbl').textContent=isEn?'English':'हिन्दी';
+  document.getElementById('adm-lang-btn').classList.toggle('ctrl-on',isEn);
+  localStorage.setItem('vdf-lang',newLang);
+}
+
+// Load saved preferences
+(function(){
+  const theme=localStorage.getItem('vdf-theme')||'light';
+  const lang=localStorage.getItem('vdf-lang')||'en';
+  document.documentElement.setAttribute('data-theme',theme);
+  document.documentElement.setAttribute('data-lang',lang);
+  if(theme==='dark')document.getElementById('adm-theme-icon').className='ti ti-sun';
+  if(lang==='hi'){document.getElementById('adm-lang-lbl').textContent='English';document.getElementById('adm-lang-btn').classList.add('ctrl-on')}
+})();
 
 // ── AUTH ──
 async function doLogin(){
-  const email = document.getElementById('l-email').value;
-  const pass = document.getElementById('l-pass').value;
-  const err = document.getElementById('login-err');
+  const email=document.getElementById('l-email').value;
+  const pass=document.getElementById('l-pass').value;
+  const err=document.getElementById('login-err');
   err.style.display='none';
-  try {
-    const r = await fetch(`${API}/auth/login`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pass})});
-    const d = await r.json();
-    if(!r.ok)throw new Error(d.error);
-    TOKEN = d.token;
-    localStorage.setItem('vdf_token', TOKEN);
+  try{
+    const r=await fetch(`${API}/auth/login`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pass})});
+    const d=await r.json();
+    if(!r.ok)throw new Error(d.detail||d.error||'Login failed');
+    TOKEN=d.token||d.access_token;
+    localStorage.setItem('vdf_token',TOKEN);
     showApp();
-  } catch(e) { err.textContent=e.message||'Login failed'; err.style.display='block'; }
+  }catch(e){err.style.display='block'}
 }
-
-function logout(){
-  localStorage.removeItem('vdf_token');
-  TOKEN='';
-  document.getElementById('app').style.display='none';
-  document.getElementById('login-screen').style.display='flex';
-}
-
-function authH(){ return { 'Content-Type':'application/json', 'Authorization':'Bearer '+TOKEN } }
+function logout(){localStorage.removeItem('vdf_token');TOKEN='';document.getElementById('app').style.display='none';document.getElementById('login-screen').style.display='flex'}
+function authH(){return{'Content-Type':'application/json','Authorization':'Bearer '+TOKEN}}
 
 // ── INIT ──
-if(TOKEN){ showApp(); } else { document.getElementById('login-screen').style.display='flex'; }
+if(TOKEN){showApp()}else{document.getElementById('login-screen').style.display='flex'}
 
 function showApp(){
   document.getElementById('login-screen').style.display='none';
   document.getElementById('app').style.display='block';
-  const h=new Date().getHours();
-  document.getElementById('dash-greeting').textContent=(h<12?'Good morning':(h<17?'Good afternoon':'Good evening'))+', Admin';
   loadDashboard();
 }
 
@@ -541,41 +451,35 @@ function showPage(id){
   document.getElementById('page-'+id).style.display='block';
   document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
   document.querySelector(`[onclick="showPage('${id}')"]`)?.classList.add('active');
-  const loaders={events:loadEvents,donations:loadDonations,messages:loadMessages,gallery:loadGallery,blog:loadBlog};
-  loaders[id]?.();
+  ({events:loadEvents,donations:loadDonations,messages:loadMessages,gallery:loadGallery,blog:loadBlog})[id]?.();
 }
 
 // ── DASHBOARD ──
 async function loadDashboard(){
-  try {
-    const [evR, donR, msgR] = await Promise.all([
+  try{
+    const [evR,donR,msgR]=await Promise.all([
       fetch(`${API}/events`,{headers:authH()}),
       fetch(`${API}/donations`,{headers:authH()}),
       fetch(`${API}/contact`,{headers:authH()})
     ]);
-    const ev=await evR.json(), don=await donR.json(), msg=await msgR.json();
-    document.getElementById('d-events').textContent=Array.isArray(ev)?ev.length:'—';
-    document.getElementById('d-donations').textContent='₹'+(don.totalConfirmed||0).toLocaleString('en-IN');
-    document.getElementById('d-messages').textContent=msg.unread||0;
-    if(msg.unread>0){document.getElementById('unread-badge').textContent=msg.unread;document.getElementById('unread-badge').style.display='inline'}
-    // Recent donations
-    const tbody=document.getElementById('dash-donations');
+    const ev=await evR.json(),don=await donR.json(),msg=await msgR.json();
+    document.getElementById('d-events').textContent=Array.isArray(ev)?ev.length:(ev.total||'—');
+    const confirmed=don.totalConfirmed||0;
+    document.getElementById('d-donations').textContent='₹'+confirmed.toLocaleString('en-IN');
+    const unread=msg.unread||0;
+    document.getElementById('d-messages').textContent=unread;
+    if(unread>0){document.getElementById('unread-badge').textContent=unread;document.getElementById('unread-badge').style.display='inline'}
     const dons=don.donations?.slice(0,5)||[];
-    tbody.innerHTML=dons.map(d=>`<tr>
-      <td>${d.name}</td><td>₹${d.amount.toLocaleString('en-IN')}</td>
-      <td>${d.purpose||'—'}</td>
-      <td><span class="status ${d.status==='confirmed'?'s-c':d.status==='failed'?'s-f':'s-p'}">${d.status}</span></td>
-      <td>${new Date(d.createdAt).toLocaleDateString('en-IN')}</td>
-    </tr>`).join('')||'<tr><td colspan="5" style="text-align:center;color:var(--mid)">No donations yet</td></tr>';
-    // Upcoming event countdown
-    const upcoming=Array.isArray(ev)?ev.filter(e=>e.isUpcoming&&new Date(e.date)>new Date()).sort((a,b)=>new Date(a.date)-new Date(b.date))[0]:null;
+    document.getElementById('dash-donations').innerHTML=dons.map(d=>`<tr><td>${d.name}</td><td>₹${d.amount.toLocaleString('en-IN')}</td><td>${d.purpose||'—'}</td><td><span class="status ${d.status==='confirmed'?'s-c':d.status==='failed'?'s-f':'s-p'}">${d.status}</span></td><td>${new Date(d.createdAt||d.created_at).toLocaleDateString('en-IN')}</td></tr>`).join('')||'<tr><td colspan="5" style="text-align:center;color:var(--mid)">No donations yet</td></tr>';
+    const evArr=Array.isArray(ev)?ev:(ev.events||[]);
+    const upcoming=evArr.filter(e=>e.isUpcoming&&new Date(e.date||e.event_date)>new Date()).sort((a,b)=>new Date(a.date||a.event_date)-new Date(b.date||b.event_date))[0];
     if(upcoming){
       document.getElementById('upcoming-panel').style.display='block';
       document.getElementById('cd-event-title').textContent=upcoming.title;
-      document.getElementById('cd-event-date').textContent=new Date(upcoming.date).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})+(upcoming.time?' at '+upcoming.time:'');
-      startCountdown(new Date(upcoming.date));
+      document.getElementById('cd-event-date').textContent=new Date(upcoming.date||upcoming.event_date).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'});
+      startCountdown(new Date(upcoming.date||upcoming.event_date));
     }
-  } catch(e){ console.error(e); }
+  }catch(e){console.error(e)}
 }
 
 function startCountdown(target){
@@ -589,42 +493,31 @@ function startCountdown(target){
 }
 
 // ── EVENTS ──
-let allEvents=[];
 async function loadEvents(){
   const r=await fetch(`${API}/events`,{headers:authH()});
-  allEvents=await r.json();
+  const data=await r.json();
+  allEvents=Array.isArray(data)?data:(data.events||[]);
   renderEvents(allEvents);
 }
 function filterEvents(type,btn){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
-  btn.classList.add('on');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));btn.classList.add('on');
   if(type==='all')renderEvents(allEvents);
   else if(type==='upcoming')renderEvents(allEvents.filter(e=>e.isUpcoming));
   else renderEvents(allEvents.filter(e=>!e.isUpcoming));
 }
 function renderEvents(events){
-  const cats={education:'Education',health:'Health',cultural:'Cultural',awards:'Awards',outreach:'Outreach',other:'Other'};
   document.getElementById('events-table').innerHTML=events.length?events.map(e=>`<tr>
-    <td><strong>${e.title}</strong>${e.titleHindi?`<br><span style="font-size:11px;color:var(--mid)">${e.titleHindi}</span>`:''}</td>
-    <td>${new Date(e.date).toLocaleDateString('en-IN')}</td>
-    <td>${cats[e.category]||e.category}</td>
+    <td><strong>${e.title}</strong>${e.titleHindi?`<br><small style="color:var(--mid)">${e.titleHindi}</small>`:''}</td>
+    <td>${new Date(e.date||e.event_date).toLocaleDateString('en-IN')}</td>
+    <td>${e.category}</td>
     <td><span class="status ${e.isUpcoming?'s-p':'s-c'}">${e.isUpcoming?'Upcoming':'Past'}</span></td>
-    <td>${e.attendees||'—'}</td>
     <td style="display:flex;gap:6px">
-      <button class="btn-sm btn-ghost" onclick="editEvent('${e._id}')"><i class="ti ti-edit"></i></button>
-      <button class="btn-sm btn-red" onclick="deleteEvent('${e._id}')"><i class="ti ti-trash"></i></button>
-    </td>
-  </tr>`).join(''):'<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)">No events yet. Add your first event!</td></tr>';
+      <button class="btn-sm btn-ghost" onclick="editEvent('${e._id||e.id}')"><i class="ti ti-edit"></i></button>
+      <button class="btn-sm btn-red" onclick="deleteEvent('${e._id||e.id}')"><i class="ti ti-trash"></i></button>
+    </td></tr>`).join(''):'<tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--mid)">No events yet</td></tr>';
 }
-function openEventForm(){
-  document.getElementById('event-form-panel').style.display='block';
-  currentEditId=null;
-  document.getElementById('ef-title').textContent='Add New Event';
-  clearEventForm();
-  document.getElementById('ev-date').min = new Date().toISOString().split('T')[0];
-}
+function openEventForm(){document.getElementById('event-form-panel').style.display='block';currentEditId=null;document.getElementById('ev-title').value='';document.getElementById('ev-titlehi').value='';document.getElementById('ev-desc').value='';document.getElementById('ev-att').value=''}
 function closeEventForm(){document.getElementById('event-form-panel').style.display='none';currentEditId=null}
-function clearEventForm(){['ev-title','ev-titlehi','ev-date','ev-time','ev-desc','ev-deschi','ev-att'].forEach(id=>document.getElementById(id).value='');document.getElementById('ev-loc').value='7/56, Chiranjeev Vihar, Ghaziabad';document.getElementById('img-preview').innerHTML=''}
 async function saveEvent(){
   const title=document.getElementById('ev-title').value;
   const desc=document.getElementById('ev-desc').value;
@@ -632,313 +525,111 @@ async function saveEvent(){
   const alert=document.getElementById('ev-alert');
   if(!title||!desc||!date){alert.className='alert alert-r';alert.textContent='Title, description and date are required';alert.style.display='block';return}
   const fd=new FormData();
-  fd.append('title',title);
-  fd.append('titleHindi',document.getElementById('ev-titlehi').value);
-  fd.append('description',desc);
-  fd.append('descriptionHindi',document.getElementById('ev-deschi').value);
-  fd.append('date',date);
-  fd.append('time',document.getElementById('ev-time').value);
-  fd.append('location',document.getElementById('ev-loc').value);
-  fd.append('category',document.getElementById('ev-cat').value);
+  fd.append('title',title);fd.append('title_hindi',document.getElementById('ev-titlehi').value);
+  fd.append('description',desc);fd.append('event_date',date);fd.append('event_time',document.getElementById('ev-time').value);
+  fd.append('location',document.getElementById('ev-loc').value);fd.append('category',document.getElementById('ev-cat').value);
   fd.append('attendees',document.getElementById('ev-att').value||0);
-  fd.append('isUpcoming',document.getElementById('ev-upcoming').value);
+  fd.append('is_upcoming',document.getElementById('ev-upcoming').value);
   const imgs=document.getElementById('ev-imgs').files;
   for(let f of imgs)fd.append('images',f);
-  try {
+  try{
     const url=currentEditId?`${API}/events/${currentEditId}`:`${API}/events`;
     const method=currentEditId?'PUT':'POST';
     const r=await fetch(url,{method,headers:{'Authorization':'Bearer '+TOKEN},body:fd});
     if(!r.ok)throw new Error('Save failed');
-    alert.className='alert alert-g';alert.textContent='✅ Event saved successfully!';alert.style.display='block';
-    setTimeout(()=>{closeEventForm();loadEvents();},1000);
-  } catch(e){alert.className='alert alert-r';alert.textContent='Error: '+e.message;alert.style.display='block'}
+    alert.className='alert alert-g';alert.textContent='✅ Event saved!';alert.style.display='block';
+    setTimeout(()=>{closeEventForm();loadEvents()},1000);
+  }catch(e){alert.className='alert alert-r';alert.textContent='Error: '+e.message;alert.style.display='block'}
 }
 function editEvent(id){
-  const ev=allEvents.find(e=>e._id===id);
-  if(!ev)return;
+  const ev=allEvents.find(e=>(e._id||e.id)===id);if(!ev)return;
   currentEditId=id;
-  document.getElementById('ef-title').textContent='Edit Event';
   document.getElementById('ev-title').value=ev.title;
-  document.getElementById('ev-titlehi').value=ev.titleHindi||'';
-  document.getElementById('ev-date').value=ev.date.split('T')[0];
-  document.getElementById('ev-date').removeAttribute('min');
-  document.getElementById('ev-time').value=ev.time||'';
+  document.getElementById('ev-titlehi').value=ev.titleHindi||ev.title_hindi||'';
+  document.getElementById('ev-date').value=(ev.date||ev.event_date||'').split('T')[0];
+  document.getElementById('ev-time').value=ev.time||ev.event_time||'';
   document.getElementById('ev-loc').value=ev.location;
   document.getElementById('ev-cat').value=ev.category;
   document.getElementById('ev-desc').value=ev.description;
-  document.getElementById('ev-deschi').value=ev.descriptionHindi||'';
   document.getElementById('ev-att').value=ev.attendees||'';
-  document.getElementById('ev-upcoming').value=ev.isUpcoming?'true':'false';
+  document.getElementById('ev-upcoming').value=(ev.isUpcoming||ev.is_upcoming)?'true':'false';
   document.getElementById('event-form-panel').style.display='block';
   document.getElementById('event-form-panel').scrollIntoView({behavior:'smooth'});
 }
 async function deleteEvent(id){
-  if(!confirm('Delete this event permanently?'))return;
-  await fetch(`${API}/events/${id}`,{method:'DELETE',headers:authH()});
-  loadEvents();
+  if(!confirm('Delete this event?'))return;
+  await fetch(`${API}/events/${id}`,{method:'DELETE',headers:authH()});loadEvents();
 }
 function previewImages(input){
-  const prev=document.getElementById('img-preview');
-  prev.innerHTML='';
-  [...input.files].forEach(f=>{
-    const url=URL.createObjectURL(f);
-    const div=document.createElement('div');div.className='img-thumb';
-    div.innerHTML=`<img src="${url}"/>`;
-    prev.appendChild(div);
-  });
+  const prev=document.getElementById('img-preview');prev.innerHTML='';
+  [...input.files].forEach(f=>{const url=URL.createObjectURL(f);const div=document.createElement('div');div.className='img-thumb';div.innerHTML=`<img src="${url}"/>`;prev.appendChild(div)});
 }
 
 // ── GALLERY ──
-let galleryItems=[];
 async function loadGallery(){
   const r=await fetch(`${API}/gallery`,{headers:authH()});
-  galleryItems=await r.json();
+  const items=await r.json();
   const grid=document.getElementById('gallery-grid');
-  grid.innerHTML=galleryItems.length?galleryItems.map(g=>`
-    <div class="img-thumb">
-      <img src="${g.url}" alt="${g.caption||''}"/>
-      <button class="img-del" onclick="deleteGallery('${g._id}')"><i class="ti ti-x"></i></button>
-    </div>`).join(''):'<p style="color:var(--mid);font-size:13px;padding:1rem">No images in gallery yet. Upload some!</p>';
+  const arr=Array.isArray(items)?items:(items.gallery||[]);
+  grid.innerHTML=arr.length?arr.map(g=>`<div class="img-thumb"><img src="${g.url}" alt="${g.caption||''}"/><button class="img-del" onclick="deleteGallery('${g._id||g.id}')"><i class="ti ti-x"></i></button></div>`).join(''):'<p style="color:var(--mid);font-size:13px">No images yet</p>';
 }
 async function uploadGallery(input){
   const alert=document.getElementById('gal-alert');
   alert.className='alert alert-g';alert.textContent='Uploading...';alert.style.display='block';
   for(const file of input.files){
     const reader=new FileReader();
-    await new Promise(resolve=>{
-      reader.onload=async e=>{
-        await fetch(`${API}/gallery`,{method:'POST',headers:authH(),body:JSON.stringify({url:e.target.result,caption:file.name.replace(/[_-]/g,' ').replace(/\.[^.]+$/,'')})});
-        resolve();
-      };
-      reader.readAsDataURL(file);
-    });
+    await new Promise(resolve=>{reader.onload=async e=>{await fetch(`${API}/gallery`,{method:'POST',headers:authH(),body:JSON.stringify({url:e.target.result,caption:file.name.replace(/[_-]/g,' ').replace(/\.[^.]+$/,'')})});resolve()};reader.readAsDataURL(file)});
   }
-  alert.textContent='✅ Images uploaded!';
-  setTimeout(()=>{alert.style.display='none';loadGallery();},1000);
+  alert.textContent='✅ Uploaded!';setTimeout(()=>{alert.style.display='none';loadGallery()},1000);
 }
-async function deleteGallery(id){
-  if(!confirm('Remove this image from gallery?'))return;
-  await fetch(`${API}/gallery/${id}`,{method:'DELETE',headers:authH()});
-  loadGallery();
-}
+async function deleteGallery(id){if(!confirm('Remove?'))return;await fetch(`${API}/gallery/${id}`,{method:'DELETE',headers:authH()});loadGallery()}
 
 // ── BLOG ──
 async function loadBlog(){
   const r=await fetch(`${API}/blog`,{headers:authH()});
-  const posts=await r.json();
-  document.getElementById('blog-table').innerHTML=posts.length?posts.map(p=>`<tr>
-    <td><strong>${p.title}</strong></td><td>${p.category||'General'}</td>
-    <td>${p.author}</td><td>${p.views||0}</td>
-    <td>${new Date(p.createdAt).toLocaleDateString('en-IN')}</td>
-    <td><button class="btn-sm btn-red" onclick="deleteBlog('${p._id}')"><i class="ti ti-trash"></i></button></td>
-  </tr>`).join(''):'<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)">No blog posts yet. Write your first post!</td></tr>';
+  const data=await r.json();
+  const posts=Array.isArray(data)?data:(data.posts||[]);
+  document.getElementById('blog-table').innerHTML=posts.length?posts.map(p=>`<tr><td><strong>${p.title}</strong></td><td>${p.category||'—'}</td><td>${p.author}</td><td>${p.views||0}</td><td>${new Date(p.createdAt||p.created_at).toLocaleDateString('en-IN')}</td><td><button class="btn-sm btn-red" onclick="deleteBlog('${p._id||p.id}')"><i class="ti ti-trash"></i></button></td></tr>`).join(''):'<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)">No posts yet</td></tr>';
 }
-function openBlogForm(){
-  document.getElementById('blog-form-panel').style.display='block';
-  document.getElementById('bl-title').value='';
-  document.getElementById('bl-titlehi').value='';
-  document.getElementById('bl-cat').value='Education';
-  document.getElementById('bl-author').value='Dr. Usha Tyagi';
-  document.getElementById('bl-tags').value='';
-  document.getElementById('bl-exc').value='';
-  document.getElementById('bl-exchi').value='';
-  document.getElementById('bl-content').value='';
-  document.getElementById('bl-contenthi').value='';
-  document.getElementById('bl-img').value='';
-  document.getElementById('blog-img-preview').innerHTML='';
-}
+function openBlogForm(){document.getElementById('blog-form-panel').style.display='block'}
 async function saveBlog(){
-  const title=document.getElementById('bl-title').value;
-  const content=document.getElementById('bl-content').value;
+  const title=document.getElementById('bl-title').value;const content=document.getElementById('bl-content').value;
   if(!title||!content){alert('Title and content required');return}
   const tags=document.getElementById('bl-tags').value.split(',').map(t=>t.trim()).filter(Boolean);
-  
-  const fd = new FormData();
-  fd.append('title', title);
-  fd.append('titleHindi', document.getElementById('bl-titlehi').value);
-  fd.append('content', content);
-  fd.append('contentHindi', document.getElementById('bl-contenthi').value);
-  fd.append('excerpt', document.getElementById('bl-exc').value);
-  fd.append('excerptHindi', document.getElementById('bl-exchi').value);
-  fd.append('category', document.getElementById('bl-cat').value);
-  fd.append('author', document.getElementById('bl-author').value);
-  fd.append('tags', JSON.stringify(tags));
-  const coverImg = document.getElementById('bl-img').files[0];
-  if(coverImg) fd.append('coverImage', coverImg);
-
-  const headers = {'Authorization':'Bearer '+TOKEN};
-  const r = await fetch(`${API}/blog`,{method:'POST',headers:headers,body:fd});
-  if(r.ok) {
-    document.getElementById('blog-form-panel').style.display='none';
-    loadBlog();
-  } else {
-    alert('Failed to save blog post');
-  }
+  await fetch(`${API}/blog`,{method:'POST',headers:authH(),body:JSON.stringify({title,content,excerpt:document.getElementById('bl-exc').value,category:document.getElementById('bl-cat').value,author:document.getElementById('bl-author').value,tags:JSON.stringify(tags)})});
+  document.getElementById('blog-form-panel').style.display='none';loadBlog();
 }
-function previewBlogImage(input){
-  const prev=document.getElementById('blog-img-preview');
-  prev.innerHTML='';
-  if(input.files && input.files[0]){
-    const url=URL.createObjectURL(input.files[0]);
-    const div=document.createElement('div');div.className='img-thumb';
-    div.innerHTML=`<img src="${url}"/>`;
-    prev.appendChild(div);
-  }
-}
-async function deleteBlog(id){
-  if(!confirm('Delete this post?'))return;
-  await fetch(`${API}/blog/${id}`,{method:'DELETE',headers:authH()});
-  loadBlog();
-}
+async function deleteBlog(id){if(!confirm('Delete?'))return;await fetch(`${API}/blog/${id}`,{method:'DELETE',headers:authH()});loadBlog()}
 
 // ── DONATIONS ──
 async function loadDonations(){
   const r=await fetch(`${API}/donations`,{headers:authH()});
-  const {donations,totalConfirmed}=await r.json();
-  document.getElementById('don-total').textContent='Total confirmed: ₹'+(totalConfirmed||0).toLocaleString('en-IN');
-  document.getElementById('don-table').innerHTML=donations?.map(d=>`<tr>
-    <td>${d.name}${d.isAnonymous?' (Anon)':''}</td>
-    <td>${d.phone||'—'}</td><td>₹${d.amount.toLocaleString('en-IN')}</td>
-    <td>${d.purpose||'—'}</td><td>${d.method}</td>
-    <td><span class="status ${d.status==='confirmed'?'s-c':d.status==='failed'?'s-f':'s-p'}">${d.status}</span></td>
-    <td>${new Date(d.createdAt).toLocaleDateString('en-IN')}</td>
-    <td style="display:flex;gap:4px">
-      ${d.status!=='confirmed'?`<button class="btn-sm btn-green" onclick="updateDon('${d._id}','confirmed')"><i class="ti ti-check"></i></button>`:''}
-      ${d.status!=='failed'?`<button class="btn-sm btn-red" onclick="updateDon('${d._id}','failed')"><i class="ti ti-x"></i></button>`:''}
-    </td>
-  </tr>`).join('')||'<tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--mid)">No donations yet</td></tr>';
+  const data=await r.json();
+  const {donations=[],totalConfirmed=0}=data;
+  document.getElementById('don-total').innerHTML=`<strong style="color:var(--g)">₹${totalConfirmed.toLocaleString('en-IN')}</strong> confirmed`;
+  document.getElementById('don-table').innerHTML=donations.map(d=>`<tr><td>${d.name}</td><td>${d.phone||'—'}</td><td>₹${d.amount.toLocaleString('en-IN')}</td><td>${d.purpose||'—'}</td><td><span class="status ${d.status==='confirmed'?'s-c':d.status==='failed'?'s-f':'s-p'}">${d.status}</span></td><td>${new Date(d.createdAt||d.created_at).toLocaleDateString('en-IN')}</td><td style="display:flex;gap:4px">${d.status!=='confirmed'?`<button class="btn-sm btn-green" onclick="updateDon('${d._id||d.id}','confirmed')"><i class="ti ti-check"></i></button>`:''} ${d.status!=='failed'?`<button class="btn-sm btn-red" onclick="updateDon('${d._id||d.id}','failed')"><i class="ti ti-x"></i></button>`:''}</td></tr>`).join('')||'<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--mid)">No donations</td></tr>';
 }
-async function updateDon(id,status){
-  await fetch(`${API}/donations/${id}`,{method:'PATCH',headers:authH(),body:JSON.stringify({status})});
-  loadDonations();
-}
+async function updateDon(id,status){await fetch(`${API}/donations/${id}`,{method:'PATCH',headers:authH(),body:JSON.stringify({status})});loadDonations()}
 
 // ── MESSAGES ──
 async function loadMessages(){
   const r=await fetch(`${API}/contact`,{headers:authH()});
-  const {messages,unread}=await r.json();
+  const {messages=[],unread=0}=await r.json();
   if(unread>0){document.getElementById('unread-badge').textContent=unread;document.getElementById('unread-badge').style.display='inline'}
-  document.getElementById('msg-table').innerHTML=messages?.map(m=>`<tr style="${!m.isRead?'font-weight:600':''}" >
-    <td>${m.name}</td>
-    <td>${m.phone||m.email||'—'}</td>
-    <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.message}</td>
-    <td>${m.type}</td>
-    <td>${m.isRead?'<span style="color:var(--mid)">Read</span>':'<span style="color:var(--o);font-weight:600">New</span>'}</td>
-    <td>${new Date(m.createdAt).toLocaleDateString('en-IN')}</td>
-    <td>${!m.isRead?`<button class="btn-sm btn-ghost" onclick="markRead('${m._id}')">Mark Read</button>`:''}</td>
-  </tr>`).join('')||'<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--mid)">No messages</td></tr>';
+  document.getElementById('msg-table').innerHTML=messages.map(m=>`<tr style="${!m.isRead&&!m.is_read?'font-weight:600':''}"><td>${m.name}</td><td>${m.phone||m.email||'—'}</td><td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.message}</td><td>${!(m.isRead||m.is_read)?'<span style="color:var(--o);font-weight:600">New</span>':'<span style="color:var(--mid)">Read</span>'}</td><td>${new Date(m.createdAt||m.created_at).toLocaleDateString('en-IN')}</td><td>${!(m.isRead||m.is_read)?`<button class="btn-sm btn-ghost" onclick="markRead('${m._id||m.id}')">Mark Read</button>`:''}</td></tr>`).join('')||'<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)">No messages</td></tr>';
 }
-async function markRead(id){
-  await fetch(`${API}/contact/${id}/read`,{method:'PATCH',headers:authH()});
-  loadMessages();
-}
+async function markRead(id){await fetch(`${API}/contact/${id}/read`,{method:'PATCH',headers:authH()});loadMessages()}
 
 // ── SETTINGS ──
 async function changePwd(){
   const op=document.getElementById('op').value,np=document.getElementById('np').value,cp=document.getElementById('cp').value;
   const al=document.getElementById('set-alert');
-  if(np!==cp){al.className='alert alert-r';al.textContent='New passwords do not match';al.style.display='block';return}
+  if(np!==cp){al.className='alert alert-r';al.textContent='Passwords do not match';al.style.display='block';return}
   const r=await fetch(`${API}/auth/change-password`,{method:'POST',headers:authH(),body:JSON.stringify({oldPassword:op,newPassword:np})});
   const d=await r.json();
   al.className=r.ok?'alert alert-g':'alert alert-r';
-  al.textContent=r.ok?'✅ Password changed successfully!':d.error;
+  al.textContent=r.ok?'✅ Password changed!':d.detail||d.error||'Error';
   al.style.display='block';
-}
-
-// ── SPEECH RECOGNITION (Voice Typing) ──
-let voiceRecognition = null;
-let activeMicButton = null;
-
-function startVoiceInput(fieldId, lang) {
-  if (voiceRecognition) {
-    voiceRecognition.stop();
-    return;
-  }
-  
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) {
-    alert("Voice typing is not supported in this browser. Please use Google Chrome, Microsoft Edge, or Safari.");
-    return;
-  }
-  
-  const inputEl = document.getElementById(fieldId);
-  if (!inputEl) return;
-  
-  // Find the mic button to update its visual state
-  const btn = inputEl.previousElementSibling?.querySelector('.btn-mic') || 
-              inputEl.parentElement?.querySelector('.btn-mic');
-              
-  voiceRecognition = new SpeechRecognition();
-  voiceRecognition.lang = lang;
-  voiceRecognition.interimResults = true;
-  voiceRecognition.continuous = false;
-  
-  let originalValue = inputEl.value;
-  
-  voiceRecognition.onstart = () => {
-    activeMicButton = btn;
-    if (btn) {
-      btn.classList.add('listening');
-      btn.innerHTML = '<i class="ti ti-microphone" style="color:var(--red)"></i>';
-    }
-    showStatusTip(lang === 'hi-IN' ? "सुन रहा हूँ... बोलिए (Hindi)" : "Listening... Speak now (English)");
-  };
-  
-  voiceRecognition.onresult = (event) => {
-    let interimTranscript = '';
-    let finalTranscript = '';
-    
-    for (let i = event.resultIndex; i < event.results.length; ++i) {
-      if (event.results[i].isFinal) {
-        finalTranscript += event.results[i][0].transcript;
-      } else {
-        interimTranscript += event.results[i][0].transcript;
-      }
-    }
-    
-    const newText = finalTranscript || interimTranscript;
-    if (newText) {
-      if (originalValue) {
-        inputEl.value = originalValue + " " + newText;
-      } else {
-        inputEl.value = newText;
-      }
-    }
-  };
-  
-  voiceRecognition.onerror = (e) => {
-    console.error("Speech recognition error:", e.error);
-    showStatusTip("Voice typing error: " + e.error);
-  };
-  
-  voiceRecognition.onend = () => {
-    voiceRecognition = null;
-    if (activeMicButton) {
-      activeMicButton.classList.remove('listening');
-      activeMicButton.innerHTML = '<i class="ti ti-microphone"></i>';
-      activeMicButton = null;
-    }
-    showStatusTip("Voice typing ended");
-  };
-  
-  voiceRecognition.start();
-}
-
-function showStatusTip(msg) {
-  let tip = document.getElementById('speech-toast');
-  if (!tip) {
-    tip = document.createElement('div');
-    tip.id = 'speech-toast';
-    tip.style.cssText = "position:fixed; bottom:20px; right:20px; background:rgba(15,23,42,0.9); color:#fff; padding:12px 24px; border-radius:10px; font-size:13px; z-index:9999; display:none; align-items:center; gap:8px; box-shadow:0 10px 20px rgba(0,0,0,0.3); transition:all 0.3s; font-family:sans-serif;";
-    document.body.appendChild(tip);
-  }
-  tip.innerHTML = `<i class="ti ti-microphone" style="color:#ef4444; font-size:18px;"></i> <span>${msg}</span>`;
-  tip.style.display = 'flex';
-  setTimeout(() => {
-    if (tip.textContent.includes(msg)) {
-      tip.style.display = 'none';
-    }
-  }, 3000);
 }
 </script>
 </body>
