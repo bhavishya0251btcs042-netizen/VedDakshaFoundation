@@ -318,8 +318,8 @@
     .vol-body{padding:20px 24px 24px}
     .vf-row{display:flex;flex-direction:column;gap:.3rem;margin-bottom:14px}
     .vf-row label{font-size:12px;font-weight:500;color:var(--mid)}
-    .vf-row input,.vf-row select,.vf-row textarea{border:1px solid var(--bd);border-radius:8px;padding:10px 14px;font-size:14px;font-family:inherit;outline:none;background:var(--bg);color:var(--dark);transition:border-color .2s;width:100%}
-    .vf-row input:focus,.vf-row select:focus,.vf-row textarea:focus{border-color:var(--o)}
+    .vf-row input:not([type="radio"]):not([type="checkbox"]),.vf-row select,.vf-row textarea{border:1px solid var(--bd);border-radius:8px;padding:10px 14px;font-size:14px;font-family:inherit;outline:none;background:var(--bg);color:var(--dark);transition:border-color .2s;width:100%}
+    .vf-row input:not([type="radio"]):not([type="checkbox"]):focus,.vf-row select:focus,.vf-row textarea:focus{border-color:var(--o)}
     .vf-row textarea{resize:vertical;min-height:80px}
     .vf-resume{border:2px dashed var(--bd);border-radius:8px;padding:16px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg)}
     .vf-resume:hover{border-color:var(--o);background:var(--ol)}
@@ -1043,6 +1043,26 @@ function renderVolForm(){
     if(f.type==='textarea'){
       return `<div class="vf-row"><label for="${fieldId}">${lbl}${req}</label><textarea id="${fieldId}" name="${f.id}" rows="3" ${f.required?'required':''}></textarea></div>`;
     }
+    if(f.type==='radio'){
+      const opts = (f.options||[]).map((o, idx)=>{
+        const radioId = `vol-input-${f.id}-${idx}`;
+        return `<label style="display:inline-flex;align-items:center;gap:6px;margin:4px 12px 4px 0;cursor:pointer;font-weight:normal;color:var(--dark)">
+          <input type="radio" id="${radioId}" name="${f.id}" value="${o}" ${f.required && idx===0?'required':''} style="width:auto;margin:0">
+          <span>${o}</span>
+        </label>`;
+      }).join('');
+      return `<div class="vf-row"><label style="display:block;margin-bottom:4px">${lbl}${req}</label><div style="display:flex;flex-wrap:wrap;padding-left:2px">${opts}</div></div>`;
+    }
+    if(f.type==='checkbox'){
+      const opts = (f.options||[]).map((o, idx)=>{
+        const cbId = `vol-input-${f.id}-${idx}`;
+        return `<label style="display:inline-flex;align-items:center;gap:6px;margin:4px 12px 4px 0;cursor:pointer;font-weight:normal;color:var(--dark)">
+          <input type="checkbox" id="${cbId}" name="${f.id}" value="${o}" style="width:auto;margin:0">
+          <span>${o}</span>
+        </label>`;
+      }).join('');
+      return `<div class="vf-row"><label style="display:block;margin-bottom:4px">${lbl}${req}</label><div class="vf-checkbox-group" style="display:flex;flex-wrap:wrap;padding-left:2px" data-required="${f.required}" data-fid="${f.id}">${opts}</div></div>`;
+    }
     return `<div class="vf-row"><label for="${fieldId}">${lbl}${req}</label><input id="${fieldId}" type="${f.type}" name="${f.id}" ${f.required?'required':''}></div>`;
   }).join('');
 }
@@ -1050,6 +1070,24 @@ async function submitVolunteer(){
   const btn = document.getElementById('vol-btn');
   const msg = document.getElementById('vol-msg');
   const form = document.getElementById('vol-form');
+  const lang = document.documentElement.getAttribute('data-lang')||'en';
+  
+  // Custom check for checkbox groups
+  const cbGroups = form.querySelectorAll('.vf-checkbox-group[data-required="true"]');
+  for (const group of cbGroups) {
+    const checked = group.querySelectorAll('input[type="checkbox"]:checked');
+    if (checked.length === 0) {
+      const fid = group.getAttribute('data-fid');
+      const field = volunteerFields.find(f => f.id === fid);
+      const lbl = lang==='hi' && field.labelHindi ? field.labelHindi : field.label;
+      msg.className='vol-msg err';
+      msg.innerHTML= lang==='hi' ? `❌ कृपया "${lbl}" के लिए कम से कम एक विकल्प चुनें।` : `❌ Please select at least one option for "${lbl}".`;
+      msg.style.display='block';
+      group.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+  }
+
   if(!form.checkValidity()){form.reportValidity();return;}
   btn.disabled = true;
   btn.innerHTML = '<i class="ti ti-loader-2" style="animation:spin 1s linear infinite"></i> <span class="lang-en">Submitting...</span><span class="lang-hi">सबमिट हो रहा है...</span>';

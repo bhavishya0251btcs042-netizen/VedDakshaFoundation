@@ -90,7 +90,10 @@ async def volunteer_apply(request: Request, resume: Optional[UploadFile] = File(
         # Validate and extract configured fields
         for field in fields:
             fid = field["id"]
-            val = form_data.get(fid)
+            if field["type"] == "checkbox":
+                val = form_data.getlist(fid)
+            else:
+                val = form_data.get(fid)
             
             if field["enabled"]:
                 # Check for file field validation separately
@@ -103,9 +106,9 @@ async def volunteer_apply(request: Request, resume: Optional[UploadFile] = File(
                     
                     # Store standard fields directly, custom fields in customFields dict
                     if fid in ["name", "email", "phone", "occupation", "organization", "field_of_interest", "message", "feedback"]:
-                        app_doc[fid] = val if val else ""
+                        app_doc[fid] = val if val is not None else ""
                     else:
-                        custom_fields[fid] = val if val else ""
+                        custom_fields[fid] = val if val is not None else ""
 
         # Save resume file if provided
         resume_url = ""

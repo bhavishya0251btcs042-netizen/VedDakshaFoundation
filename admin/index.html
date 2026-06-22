@@ -464,14 +464,20 @@
           <div>
             <label style="font-size:11px;font-weight:600;color:var(--mid);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px">Field Type</label>
             <select id="af-type" onchange="onAddFieldTypeChange()" style="width:100%;border:1px solid var(--bd);border-radius:8px;padding:9px 12px;font-size:13px;background:var(--input-bg);color:var(--dark);outline:none">
-              <option value="text">Text (single line)</option>
-              <option value="textarea">Textarea (multi-line)</option>
-              <option value="email">Email</option>
-              <option value="tel">Phone / Tel</option>
-              <option value="number">Number</option>
-              <option value="select">Dropdown (Select)</option>
-              <option value="date">Date</option>
-              <option value="url">URL / Link</option>
+              <optgroup label="📝 Text Fields">
+                <option value="text">Text (single line)</option>
+                <option value="textarea">Textarea (multi-line)</option>
+                <option value="email">Email</option>
+                <option value="tel">Phone / Tel</option>
+                <option value="number">Number</option>
+                <option value="date">Date</option>
+                <option value="url">URL / Link</option>
+              </optgroup>
+              <optgroup label="✔️ Choice Fields">
+                <option value="select">🔽 Dropdown (Select one)</option>
+                <option value="radio">🔘 Single Choice (Radio — select one)</option>
+                <option value="checkbox">☑️ Multiple Choice (Checkboxes — select many)</option>
+              </optgroup>
             </select>
           </div>
 
@@ -499,9 +505,10 @@
             <label for="af-required" style="font-size:13px;color:var(--dark);cursor:pointer">Mark as Required</label>
           </div>
 
-          <!-- Options (only for select) -->
+          <!-- Options (for select / radio / checkbox) -->
           <div id="af-options-wrap" style="display:none">
-            <label style="font-size:11px;font-weight:600;color:var(--mid);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px">Options <span style="color:var(--red)">*</span> <span style="font-size:10px;font-weight:400">(one per line)</span></label>
+            <label id="af-options-label" style="font-size:11px;font-weight:600;color:var(--mid);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px">Options <span style="color:var(--red)">*</span> <span style="font-size:10px;font-weight:400">(one per line)</span></label>
+            <div id="af-options-hint" style="font-size:11px;color:var(--mid);margin-bottom:8px;padding:8px 10px;background:var(--bg);border-radius:6px;border:1px solid var(--bd)"></div>
             <textarea id="af-options" rows="5" placeholder="Option 1&#10;Option 2&#10;Option 3" style="width:100%;border:1px solid var(--bd);border-radius:8px;padding:9px 12px;font-size:13px;background:var(--input-bg);color:var(--dark);outline:none;resize:vertical"></textarea>
           </div>
 
@@ -922,7 +929,7 @@ function renderVolTable() {
     return `<tr>
       <td><strong style="color:var(--dark)">${app.name || '—'}</strong><br><span style="font-size:11px;color:var(--mid)">${app.occupation || ''}</span></td>
       <td><div style="font-size:12px">${app.email || '—'}</div><div style="font-size:11px;color:var(--mid)">${app.phone || '—'}</div></td>
-      <td style="font-size:12px">${app.field_of_interest || '—'}</td>
+      <td style="font-size:12px">${Array.isArray(app.field_of_interest) ? app.field_of_interest.join(', ') : (app.field_of_interest || '—')}</td>
       <td style="font-size:12px">${date}</td>
       <td>${statusSelect}</td>
       <td style="white-space:nowrap">
@@ -958,9 +965,10 @@ function openVolDetail(id) {
 
   const fieldRow = (label, value, fullWidth = false) => {
     if (!value && value !== 0) return '';
+    const displayVal = Array.isArray(value) ? value.join(', ') : value;
     return `<div style="background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:10px 14px;${fullWidth?'grid-column:1/-1':''}">
       <div style="font-size:10px;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">${label}</div>
-      <div style="font-size:13px;color:var(--dark);line-height:1.5;word-break:break-word">${value}</div>
+      <div style="font-size:13px;color:var(--dark);line-height:1.5;word-break:break-word">${displayVal}</div>
     </div>`;
   };
 
@@ -1113,9 +1121,12 @@ function renderVolConfig() {
               <input type="text" value="${f.labelHindi || ''}" oninput="volConfigChange(${i},'labelHindi',this.value)" style="width:100%;border:1px solid var(--bd);border-radius:6px;padding:7px 10px;font-size:13px;background:var(--input-bg);color:var(--dark);outline:none;font-family:'Noto Sans Devanagari',sans-serif">
             </div>
           </div>
-          ${f.type === 'select' ? `
+          ${['select','radio','checkbox'].includes(f.type) ? `
             <div style="margin-top:.8rem">
-              <label style="font-size:11px;color:var(--mid);display:block;margin-bottom:4px">Options (one per line)</label>
+              <label style="font-size:11px;color:var(--mid);display:block;margin-bottom:4px">
+                ${f.type === 'radio' ? '🔘 Single Choice Options' : f.type === 'checkbox' ? '☑️ Multiple Choice Options' : 'Dropdown Options'}
+                <span style="font-weight:400"> (one per line)</span>
+              </label>
               <textarea oninput="volConfigChange(${i},'options',this.value.split('\\n').filter(o=>o.trim()))" rows="4" style="width:100%;border:1px solid var(--bd);border-radius:6px;padding:7px 10px;font-size:12px;background:var(--input-bg);color:var(--dark);outline:none;resize:vertical">${(f.options || []).join('\n')}</textarea>
             </div>` : ''}
         </div>`;
@@ -1150,7 +1161,21 @@ function closeAddFieldModal() {
 
 function onAddFieldTypeChange() {
   const t = document.getElementById('af-type').value;
-  document.getElementById('af-options-wrap').style.display = t === 'select' ? 'block' : 'none';
+  const showOpts = ['select','radio','checkbox'].includes(t);
+  document.getElementById('af-options-wrap').style.display = showOpts ? 'block' : 'none';
+  const hint = document.getElementById('af-options-hint');
+  if (t === 'radio') {
+    hint.textContent = '🔘 Single Choice — volunteer can select ONE option (like Google Forms radio buttons).';
+    hint.style.display = 'block';
+  } else if (t === 'checkbox') {
+    hint.textContent = '☑️ Multiple Choice — volunteer can tick MULTIPLE options (like Google Forms checkboxes).';
+    hint.style.display = 'block';
+  } else if (t === 'select') {
+    hint.textContent = '🔽 Dropdown — volunteer picks ONE option from a dropdown menu.';
+    hint.style.display = 'block';
+  } else {
+    hint.style.display = 'none';
+  }
 }
 
 function generateFieldId() {
@@ -1196,10 +1221,14 @@ function confirmAddField() {
     enabled: true,
   };
 
-  if (type === 'select') {
+  // Validate options for choice-based field types
+  if (['select', 'radio', 'checkbox'].includes(type)) {
     const opts = optionsRaw.split('\n').map(o => o.trim()).filter(o => o);
     if (!opts.length) {
-      al.className = 'alert alert-r'; al.textContent = '⚠️ Please enter at least one option for the dropdown.'; al.style.display = 'block';
+      const typeLabel = type === 'radio' ? 'Single Choice' : type === 'checkbox' ? 'Multiple Choice' : 'Dropdown';
+      al.className = 'alert alert-r';
+      al.textContent = `⚠️ Please enter at least one option for the ${typeLabel} field.`;
+      al.style.display = 'block';
       return;
     }
     newField.options = opts;
@@ -1211,8 +1240,9 @@ function confirmAddField() {
 
   // Show success alert in the panel
   const panelAl = document.getElementById('vol-config-alert');
+  const typeEmoji = { radio: '🔘', checkbox: '☑️', select: '🔽' }[type] || '📝';
   panelAl.className = 'alert alert-g';
-  panelAl.textContent = `✅ Field "${label}" added. Click Save Settings to save changes.`;
+  panelAl.textContent = `✅ ${typeEmoji} Field "${label}" added. Click Save Settings to save changes.`;
   panelAl.style.display = 'block';
   setTimeout(() => { panelAl.style.display = 'none'; }, 4000);
 }
