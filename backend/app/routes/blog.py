@@ -46,8 +46,11 @@ def get_blog(slug: str):
 @router.post("")
 async def create_blog(
     title: str = Form(...),
+    titleHindi: Optional[str] = Form(None),
     content: str = Form(...),
+    contentHindi: Optional[str] = Form(None),
     excerpt: Optional[str] = Form(None),
+    excerptHindi: Optional[str] = Form(None),
     category: Optional[str] = Form("general"),
     tags: Optional[str] = Form(None),
     author: Optional[str] = Form("Ved Daksha Foundation"),
@@ -78,9 +81,12 @@ async def create_blog(
                 
         blog_doc = {
             "title": title,
+            "titleHindi": titleHindi,
             "slug": slug,
             "content": content,
+            "contentHindi": contentHindi,
             "excerpt": excerpt,
+            "excerptHindi": excerptHindi,
             "category": category,
             "tags": parsed_tags,
             "author": author,
@@ -101,8 +107,11 @@ async def create_blog(
 async def update_blog(
     blog_id: str,
     title: Optional[str] = Form(None),
+    titleHindi: Optional[str] = Form(None),
     content: Optional[str] = Form(None),
+    contentHindi: Optional[str] = Form(None),
     excerpt: Optional[str] = Form(None),
+    excerptHindi: Optional[str] = Form(None),
     category: Optional[str] = Form(None),
     tags: Optional[str] = Form(None),
     author: Optional[str] = Form(None),
@@ -120,8 +129,11 @@ async def update_blog(
             
         updates = {"updatedAt": datetime.utcnow()}
         if title is not None: updates["title"] = title
+        if titleHindi is not None: updates["titleHindi"] = titleHindi
         if content is not None: updates["content"] = content
+        if contentHindi is not None: updates["contentHindi"] = contentHindi
         if excerpt is not None: updates["excerpt"] = excerpt
+        if excerptHindi is not None: updates["excerptHindi"] = excerptHindi
         if category is not None: updates["category"] = category
         if author is not None: updates["author"] = author
         

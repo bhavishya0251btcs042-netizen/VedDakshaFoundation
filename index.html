@@ -263,53 +263,64 @@
 <nav id="nav">
   <div class="nav-brand">
     <div class="nav-logo" style="background:none"><img src="images/logo.png" alt="Ved Daksha Foundation Logo" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/></div>
-    <div class="nav-name">Ved Daksha Foundation<span>वय राष्ट्रे जागृयाम</span></div>
+    <div class="nav-name">Ved Daksha Foundation<span data-i18n="nav-tagline">वय राष्ट्रे जागृयाम</span></div>
   </div>
   <div class="nav-links">
-    <a href="#about">About</a>
-    <a href="#team">Team</a>
-    <a href="#causes">Programs</a>
-    <a href="#gallery">Gallery</a>
-    <a href="blog.html">Blog</a>
-    <a href="#events">Events</a>
-    <a href="#contact">Contact</a>
+    <a href="#about" data-i18n="nav-about">About</a>
+    <a href="#team" data-i18n="nav-team">Team</a>
+    <a href="#causes" data-i18n="nav-causes">Programs</a>
+    <a href="#gallery" data-i18n="nav-gallery">Gallery</a>
+    <a href="blog.html" data-i18n="nav-blog">Blog</a>
+    <a href="#events" data-i18n="nav-events">Events</a>
+    <a href="#contact" data-i18n="nav-contact">Contact</a>
   </div>
-  <button class="btn-nav" onclick="goto('donate')">Donate Now</button>
+  <select id="lang-switch" class="lang-switch" onchange="switchLanguage(this.value)" style="margin-left: 10px; margin-right: 10px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--bd); font-family: 'Poppins', sans-serif; font-size: 13px; background: #fff; cursor: pointer; outline: none;">
+    <option value="en">English</option>
+    <option value="hi">हिन्दी</option>
+  </select>
+  <button class="btn-nav" onclick="goto('donate')" data-i18n="nav-donate">Donate Now</button>
   <button class="ham" id="ham"><i class="ti ti-menu-2"></i></button>
 </nav>
 <div id="mob">
-  <a href="#about" onclick="cm()">About</a>
-  <a href="#team" onclick="cm()">Team</a>
-  <a href="#causes" onclick="cm()">Programs</a>
-  <a href="#gallery" onclick="cm()">Gallery</a>
-  <a href="blog.html" onclick="cm()">Blog</a>
-  <a href="#events" onclick="cm()">Events</a>
-  <a href="#contact" onclick="cm()">Contact</a>
-  <button class="btn-nav" onclick="cm();goto('donate')">Donate Now</button>
+  <a href="#about" onclick="cm()" data-i18n="nav-about">About</a>
+  <a href="#team" onclick="cm()" data-i18n="nav-team">Team</a>
+  <a href="#causes" onclick="cm()" data-i18n="nav-causes">Programs</a>
+  <a href="#gallery" onclick="cm()" data-i18n="nav-gallery">Gallery</a>
+  <a href="blog.html" onclick="cm()" data-i18n="nav-blog">Blog</a>
+  <a href="#events" onclick="cm()" data-i18n="nav-events">Events</a>
+  <a href="#contact" onclick="cm()" data-i18n="nav-contact">Contact</a>
+  <div style="display:flex; align-items:center; gap: 10px; padding: .4rem 0; border-bottom:1px solid var(--bd)">
+    <span style="font-size: 14px; font-weight: 500; color:var(--dark);">Language / भाषा:</span>
+    <select id="lang-switch-mob" onchange="switchLanguage(this.value)" style="padding: 6px 12px; border-radius: 8px; border: 1px solid var(--bd); font-family: 'Poppins', sans-serif; font-size: 13px; background: #fff; cursor: pointer; flex-grow:1; outline:none;">
+      <option value="en">English</option>
+      <option value="hi">हिन्दी</option>
+    </select>
+  </div>
+  <button class="btn-nav" onclick="cm();goto('donate')" data-i18n="nav-donate">Donate Now</button>
 </div>
 
 <!-- HERO -->
 <section id="hero" style="padding:0">
   <div class="hero-l">
-    <div class="eyebrow"><i class="ti ti-map-pin"></i>Ghaziabad · Delhi · Meerut</div>
-    <h1>Protecting, Educating<br>&amp; <span class="ac">Empowering</span><br>Every Child</h1>
-    <p class="hero-p">Ved Daksha Foundation provides free education, yoga, dance, martial arts, and health camps to underprivileged children — because every child deserves a dignified future.</p>
+    <div class="eyebrow" data-i18n="hero-eyebrow"><i class="ti ti-map-pin"></i>Ghaziabad · Delhi · Meerut</div>
+    <h1 data-i18n="hero-h1">Protecting, Educating<br>&amp; <span class="ac">Empowering</span><br>Every Child</h1>
+    <p class="hero-p" data-i18n="hero-p">Ved Daksha Foundation provides free education, yoga, dance, martial arts, and health camps to underprivileged children — because every child deserves a dignified future.</p>
     <div class="btns">
-      <button class="btn-p" onclick="goto('causes')"><i class="ti ti-arrow-right"></i>See Our Work</button>
-      <button class="btn-o" onclick="goto('donate')"><i class="ti ti-coin"></i>Donate</button>
+      <button class="btn-p" onclick="goto('causes')" data-i18n="hero-btn-work"><i class="ti ti-arrow-right"></i>See Our Work</button>
+      <button class="btn-o" onclick="goto('donate')" data-i18n="hero-btn-donate"><i class="ti ti-coin"></i>Donate</button>
     </div>
     <div class="hero-stats">
-      <div><div class="stat-n">3+</div><div class="stat-l">Cities Reached</div></div>
+      <div><div class="stat-n" data-i18n="hero-stat1-val">3+</div><div class="stat-l" data-i18n="hero-stat1-lbl">Cities Reached</div></div>
       <div class="stat-div"></div>
-      <div><div class="stat-n">5+</div><div class="stat-l">Active Programs</div></div>
+      <div><div class="stat-n" data-i18n="hero-stat2-val">5+</div><div class="stat-l" data-i18n="hero-stat2-lbl">Active Programs</div></div>
       <div class="stat-div"></div>
-      <div><div class="stat-n">Daily</div><div class="stat-l">Classes Running</div></div>
+      <div><div class="stat-n" data-i18n="hero-stat3-val">Daily</div><div class="stat-l" data-i18n="hero-stat3-lbl">Classes Running</div></div>
     </div>
   </div>
   <div class="hero-r">
     <img src="images/1000087293.jpg.jpeg" alt="Children and team at Ved Daksha Foundation annual event"/>
     <div class="hero-badge"><i class="ti ti-award"></i>
-      <div><div class="badge-t">Annual Recognition Ceremony</div><div class="badge-s">Medals, school bags &amp; certificates</div></div>
+      <div><div class="badge-t" data-i18n="hero-badge-t">Annual Recognition Ceremony</div><div class="badge-s" data-i18n="hero-badge-s">Medals, school bags &amp; certificates</div></div>
     </div>
   </div>
 </section>
@@ -317,14 +328,14 @@
 <!-- MISSION -->
 <section id="mission">
   <div class="center fu">
-    <div class="sec-eye">Our Mission</div>
-    <h2 class="sec-h">Three pillars of change</h2>
-    <p class="sec-sub">We work across education, health, and skill development — building confident, complete children who will shape a better nation.</p>
+    <div class="sec-eye" data-i18n="mission-eye">Our Mission</div>
+    <h2 class="sec-h" data-i18n="mission-h">Three pillars of change</h2>
+    <p class="sec-sub" data-i18n="mission-sub">We work across education, health, and skill development — building confident, complete children who will shape a better nation.</p>
   </div>
   <div class="grid3 fu">
-    <div class="card"><div class="icon ig"><i class="ti ti-book-open"></i></div><h3>Free Education</h3><p>Daily tutoring, reading programs, and academic support for children who cannot afford private schooling.</p></div>
-    <div class="card"><div class="icon io"><i class="ti ti-shield-check"></i></div><h3>Yoga &amp; Self-Defence</h3><p>Yoga, Judo, Karate, and classical dance training builds discipline, confidence, and physical wellbeing — especially for girls' safety.</p></div>
-    <div class="card"><div class="icon ig"><i class="ti ti-heart-plus"></i></div><h3>Health &amp; Community</h3><p>Medical camps, health awareness drives, and women's wellbeing programs extending our reach beyond classroom walls.</p></div>
+    <div class="card"><div class="icon ig"><i class="ti ti-book-open"></i></div><h3 data-i18n="mission-card1-h">Free Education</h3><p data-i18n="mission-card1-p">Daily tutoring, reading programs, and academic support for children who cannot afford private schooling.</p></div>
+    <div class="card"><div class="icon io"><i class="ti ti-shield-check"></i></div><h3 data-i18n="mission-card2-h">Yoga &amp; Self-Defence</h3><p data-i18n="mission-card2-p">Yoga, Judo, Karate, and classical dance training builds discipline, confidence, and physical wellbeing — especially for girls' safety.</p></div>
+    <div class="card"><div class="icon ig"><i class="ti ti-heart-plus"></i></div><h3 data-i18n="mission-card3-h">Health &amp; Community</h3><p data-i18n="mission-card3-p">Medical camps, health awareness drives, and women's wellbeing programs extending our reach beyond classroom walls.</p></div>
   </div>
 </section>
 
@@ -857,25 +868,44 @@ function sendContact(){
 }
 
 // Load upcoming events from API
+let fetchedEvents = [];
+function renderEventsList() {
+  if(!fetchedEvents.length) return;
+  const c=document.getElementById('events-container');
+  c.innerHTML=fetchedEvents.map(ev=>{
+    const d=new Date(ev.date);
+    const diff=Math.ceil((d-Date.now())/(1000*60*60*24));
+    
+    // Select language title and description
+    const title = (vdf_lang === 'hi' && ev.titleHindi) ? ev.titleHindi : ev.title;
+    const desc = (vdf_lang === 'hi' && ev.descriptionHindi) ? ev.descriptionHindi : ev.description;
+    
+    // Bilingual countdown formatting
+    const dayWord = vdf_lang === 'hi' ? 'दिन' : `day${diff===1?'':'s'}`;
+    const inWord = vdf_lang === 'hi' ? '' : 'In ';
+    const inSuffix = vdf_lang === 'hi' ? ' में' : '';
+    const countdown = diff > 0 ? `<div class="countdown"><i class="ti ti-clock"></i><span>${inWord}${diff} ${dayWord}${inSuffix}</span></div>` : '';
+    
+    const formattedDate = d.toLocaleDateString(vdf_lang === 'hi' ? 'hi-IN' : 'en-IN', {day:'numeric',month:'long',year:'numeric'});
+    
+    return `<div class="ev-card">
+      ${ev.coverImage?`<div class="ev-img"><img src="${ev.coverImage}" alt="${title}"/></div>`:''}
+      <div class="ev-body">
+        <div class="ev-date"><i class="ti ti-calendar"></i>${formattedDate}</div>
+        <h3>${title}</h3>
+        <p>${desc.substring(0,120)}...</p>
+        ${countdown}
+      </div>
+    </div>`;
+  }).join('');
+}
+
 fetch(`${API}/events?upcoming=true&limit=3`)
   .then(r=>r.json())
   .then(events=>{
     if(!events.length)return;
-    const c=document.getElementById('events-container');
-    c.innerHTML=events.map(ev=>{
-      const d=new Date(ev.date);
-      const diff=Math.ceil((d-Date.now())/(1000*60*60*24));
-      const countdown=diff>0?`<div class="countdown"><i class="ti ti-clock"></i><span>In ${diff} day${diff===1?'':'s'}</span></div>`:'';
-      return `<div class="ev-card">
-        ${ev.coverImage?`<div class="ev-img"><img src="${ev.coverImage}" alt="${ev.title}"/></div>`:''}
-        <div class="ev-body">
-          <div class="ev-date"><i class="ti ti-calendar"></i>${d.toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})}</div>
-          <h3>${ev.title}</h3>
-          <p>${ev.description.substring(0,120)}...</p>
-          ${countdown}
-        </div>
-      </div>`;
-    }).join('');
+    fetchedEvents = events;
+    renderEventsList();
   }).catch(()=>{}); // fallback to static content already in HTML
 
 // Fetch donation config dynamically
@@ -923,6 +953,106 @@ fetch(`${API}/donations/config`)
     const initialAmt = parseFloat(document.getElementById('da').value) || 500;
     generateUPIQR('kbhavishya682-1@oksbi', initialAmt);
   });
+
+// ── MULTI-LANGUAGE SYSTEM ──
+const dictionary = {
+  en: {
+    "nav-tagline": "वय राष्ट्रे जागृयाम",
+    "nav-about": "About",
+    "nav-team": "Team",
+    "nav-causes": "Programs",
+    "nav-gallery": "Gallery",
+    "nav-blog": "Blog",
+    "nav-events": "Events",
+    "nav-contact": "Contact",
+    "nav-donate": "Donate Now",
+    "hero-eyebrow": "Ghaziabad · Delhi · Meerut",
+    "hero-h1": "Protecting, Educating<br>&amp; <span class=\"ac\">Empowering</span><br>Every Child",
+    "hero-p": "Ved Daksha Foundation provides free education, yoga, dance, martial arts, and health camps to underprivileged children — because every child deserves a dignified future.",
+    "hero-btn-work": "See Our Work",
+    "hero-btn-donate": "Donate",
+    "hero-stat1-val": "3+",
+    "hero-stat1-lbl": "Cities Reached",
+    "hero-stat2-val": "5+",
+    "hero-stat2-lbl": "Active Programs",
+    "hero-stat3-val": "Daily",
+    "hero-stat3-lbl": "Classes Running",
+    "hero-badge-t": "Annual Recognition Ceremony",
+    "hero-badge-s": "Medals, school bags &amp; certificates",
+    "mission-eye": "Our Mission",
+    "mission-h": "Three pillars of change",
+    "mission-sub": "We work across education, health, and skill development — building confident, complete children who will shape a better nation.",
+    "mission-card1-h": "Free Education",
+    "mission-card1-p": "Daily tutoring, reading programs, and academic support for children who cannot afford private schooling.",
+    "mission-card2-h": "Yoga &amp; Self-Defence",
+    "mission-card2-p": "Yoga, Judo, Karate, and classical dance training builds discipline, confidence, and physical wellbeing — especially for girls' safety.",
+    "mission-card3-h": "Health &amp; Community",
+    "mission-card3-p": "Medical camps, health awareness drives, and women's wellbeing programs extending our reach beyond classroom walls."
+  },
+  hi: {
+    "nav-tagline": "वय राष्ट्रे जागृयाम — हम राष्ट्र के लिए जागते हैं",
+    "nav-about": "हमारे बारे में",
+    "nav-team": "हमारी टीम",
+    "nav-causes": "कार्यक्रम",
+    "nav-gallery": "गैलरी",
+    "nav-blog": "ब्लॉग",
+    "nav-events": "इवेंट्स",
+    "nav-contact": "संपर्क",
+    "nav-donate": "दान करें",
+    "hero-eyebrow": "गाजियाबाद · दिल्ली · मेरठ",
+    "hero-h1": "हर बच्चे की<br>सुरक्षा, शिक्षा<br>और <span class=\"ac\">सशक्तिकरण</span>",
+    "hero-p": "वेद दक्ष फाउंडेशन वंचित बच्चों को मुफ्त शिक्षा, योग, नृत्य, मार्शल आर्ट और स्वास्थ्य शिविर प्रदान करता है — क्योंकि हर बच्चा एक गरिमापूर्ण भविष्य का हकदार है।",
+    "hero-btn-work": "हमारा काम देखें",
+    "hero-btn-donate": "दान करें",
+    "hero-stat1-val": "3+",
+    "hero-stat1-lbl": "पहुंचे शहर",
+    "hero-stat2-val": "5+",
+    "hero-stat2-lbl": "सक्रिय कार्यक्रम",
+    "hero-stat3-val": "दैनिक",
+    "hero-stat3-lbl": "चलने वाली कक्षाएं",
+    "hero-badge-t": "वार्षिक सम्मान समारोह",
+    "hero-badge-s": "मेडल, स्कूल बैग और प्रमाण पत्र",
+    "mission-eye": "हमारा उद्देश्य",
+    "mission-h": "बदलाव के तीन स्तंभ",
+    "mission-sub": "हम शिक्षा, स्वास्थ्य और कौशल विकास के क्षेत्र में काम करते हैं — आत्मविश्वासी और पूर्ण बच्चों का निर्माण करते हैं जो एक बेहतर राष्ट्र का निर्माण करेंगे।",
+    "mission-card1-h": "मुफ्त शिक्षा",
+    "mission-card1-p": "दैनिक ट्यूशन, पठन कार्यक्रम और उन बच्चों के लिए शैक्षणिक सहायता जो निजी स्कूल का खर्च नहीं उठा सकते।",
+    "mission-card2-h": "योग और आत्म-रक्षा",
+    "mission-card2-p": "योग, जूडो, कराटे और शास्त्रीय नृत्य प्रशिक्षण अनुशासन, आत्मविश्वास और शारीरिक कल्याण का निर्माण करते हैं — विशेष रूप से बालिकाओं की सुरक्षा हेतु।",
+    "mission-card3-h": "स्वास्थ्य और समुदाय",
+    "mission-card3-p": "चिकित्सा शिविर, स्वास्थ्य जागरूकता अभियान और महिला कल्याण कार्यक्रम जो हमारी पहुंच को कक्षा की दीवारों से आगे ले जाते हैं।"
+  }
+};
+
+let vdf_lang = localStorage.getItem('vdf_lang') || 'en';
+
+function applyLanguage() {
+  const trans = dictionary[vdf_lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (trans[key]) {
+      el.innerHTML = trans[key];
+    }
+  });
+  
+  // Update select dropdowns
+  const sw = document.getElementById('lang-switch');
+  if (sw) sw.value = vdf_lang;
+  const swm = document.getElementById('lang-switch-mob');
+  if (swm) swm.value = vdf_lang;
+  
+  // Re-render events
+  renderEventsList();
+}
+
+function switchLanguage(lang) {
+  vdf_lang = lang;
+  localStorage.setItem('vdf_lang', lang);
+  applyLanguage();
+}
+
+// Initial application
+applyLanguage();
 </script>
 </body>
 </html>

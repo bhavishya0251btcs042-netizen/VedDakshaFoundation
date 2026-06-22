@@ -38,13 +38,21 @@
 <nav>
   <a href="index.html" class="nav-brand" style="display:inline-flex;align-items:center;gap:8px">
     <img src="images/logo.png" alt="Logo" style="width:32px;height:32px;border-radius:50%;object-fit:cover"/>
-    <span>Ved Daksha Foundation</span>
+    <span data-i18n="nav-title">Ved Daksha Foundation</span>
   </a>
-  <div style="display:flex;gap:1.5rem;align-items:center"><a href="index.html">Home</a><a href="#blog">Blog</a><a href="index.html#contact">Contact</a></div>
+  <div style="display:flex;gap:1.5rem;align-items:center">
+    <a href="index.html" data-i18n="nav-home">Home</a>
+    <a href="#blog" data-i18n="nav-blog">Blog</a>
+    <a href="index.html#contact" data-i18n="nav-contact">Contact</a>
+    <select id="lang-switch" class="lang-switch" onchange="switchLanguage(this.value)" style="padding: 6px 12px; border-radius: 8px; border: 1px solid var(--bd); font-family: 'Poppins', sans-serif; font-size: 13px; background: #fff; cursor: pointer; outline: none;">
+      <option value="en">English</option>
+      <option value="hi">हिन्दी</option>
+    </select>
+  </div>
 </nav>
 <div class="hero-blog">
-  <h1>Stories from the Field</h1>
-  <p>Read about our work, our children's journeys, and how education is changing lives in Ghaziabad.</p>
+  <h1 data-i18n="blog-hero-h1">Stories from the Field</h1>
+  <p data-i18n="blog-hero-p">Read about our work, our children's journeys, and how education is changing lives in Ghaziabad.</p>
 </div>
 <div class="blog-main">
   <div class="seed-blogs" id="blog-list">
@@ -130,39 +138,55 @@ const seedPosts = [
   {
     _id: "seed1",
     title: "How Free Education Changes a Child's Trajectory in Ghaziabad",
+    titleHindi: "मुफ्त शिक्षा गाजियाबाद में एक बच्चे की दिशा कैसे बदलती है",
     category: "Education",
     author: "Dr. Usha Tyagi",
     createdAt: "2024-03-15T10:00:00.000Z",
     coverImage: "images/1000086285.jpg.jpeg",
     excerpt: "When a child from a daily-wage family gets access to books, a classroom, and a caring teacher — everything changes. At Ved Daksha Foundation, we see this transformation every single day.",
+    excerptHindi: "जब एक दैनिक वेतनभोगी परिवार के बच्चे को किताबें, एक कक्षा और एक देखभाल करने वाले शिक्षक की सुविधा मिलती है — तो सब कुछ बदल जाता है। वेद दक्ष फाउंडेशन में, हम यह बदलाव हर दिन देखते हैं।",
     content: `When a child from a daily-wage family gets access to books, a classroom, and a caring teacher — everything changes. At Ved Daksha Foundation, we see this transformation every single day. Children who were once out of school are now reading, writing, and dreaming of careers in engineering, medicine, and public service.
 
 Our free education centre in Ghaziabad provides not only textbook learning but also a supportive environment where children feel valued and encouraged. We bridge the gap between their circumstances and their potential.
 
-Education isn't just about learning facts; it's about breaking the cycle of poverty and opening a world of possibilities. With your help, we can reach even more children.`
+Education isn't just about learning facts; it's about breaking the cycle of poverty and opening a world of possibilities. With your help, we can reach even more children.`,
+    contentHindi: `जब एक दैनिक वेतनभोगी परिवार के बच्चे को किताबें, एक कक्षा और एक देखभाल करने वाले शिक्षक की सुविधा मिलती है — तो सब कुछ बदल जाता है। वेद दक्ष फाउंडेशन में, हम यह बदलाव हर दिन देखते हैं। जो बच्चे कभी स्कूल से बाहर थे, वे अब पढ़ रहे हैं, लिख रहे हैं, और इंजीनियरिंग, चिकित्सा और लोक सेवा में करियर के सपने देख रहे हैं।
+
+गाजियाबाद में हमारा मुफ्त शिक्षा केंद्र न केवल पाठ्यपुस्तक ज्ञान प्रदान करता है बल्कि एक सहायक वातावरण भी देता है जहाँ बच्चे मूल्यवान और प्रोत्साहित महसूस करते हैं। हम उनकी परिस्थितियों और उनकी क्षमता के बीच की दूरी को पाटते हैं।
+
+शिक्षा केवल तथ्यों को सीखने के बारे में नहीं है; यह गरीबी के चक्र को तोड़ने और संभावनाओं की दुनिया खोलने के बारे में है। आपकी मदद से, हम और अधिक बच्चों तक पहुँच सकते हैं।`
   },
   {
     _id: "seed2",
     title: "Why Yoga and Dance Are as Important as Textbooks",
+    titleHindi: "योग और नृत्य पाठ्यपुस्तकों जितने ही महत्वपूर्ण क्यों हैं",
     category: "Arts & Development",
     author: "Dr. Usha Tyagi",
     createdAt: "2024-03-20T10:00:00.000Z",
     coverImage: "images/1000087271.jpg.jpeg",
     excerpt: "Physical expression, discipline, and artistry are not extracurricular — they are the core of holistic childhood development. When our children perform yoga and dance on stage, they're not just performing...",
+    excerptHindi: "शारीरिक अभिव्यक्ति, अनुशासन और कलात्मकता पाठ्येतर नहीं हैं — वे समग्र बाल विकास का मूल हैं। जब हमारे बच्चे मंच पर योग और नृत्य करते हैं...",
     content: `Physical expression, discipline, and artistry are not extracurricular — they are the core of holistic childhood development. When our children perform yoga and dance on stage, they're not just performing — they're proving to themselves and the world that they are capable of excellence.
 
 These activities build posture, focus, self-esteem, and mutual respect, which translates directly into their academic and personal lives. By providing formal training in classical dance and advanced yoga, we ensure that children from underprivileged backgrounds get the same enrichment opportunities as any other child.
 
-Watch our children during the annual events to see the sheer joy and pride in their achievements.`
+Watch our children during the annual events to see the sheer joy and pride in their achievements.`,
+    contentHindi: `शारीरिक अभिव्यक्ति, अनुशासन और कलात्मकता पाठ्येतर नहीं हैं — वे समग्र बाल विकास का मूल हैं। जब हमारे बच्चे मंच पर योग और नृत्य करते हैं, तो वे केवल प्रदर्शन नहीं कर रहे होते हैं — वे खुद को और दुनिया को साबित कर रहे होते हैं कि वे उत्कृष्टता में सक्षम हैं।
+
+ये गतिविधियाँ शारीरिक मुद्रा, ध्यान केंद्रित करने, आत्म-सम्मान और आपसी सम्मान का निर्माण करती हैं, जो सीधे उनके शैक्षणिक और व्यक्तिगत जीवन में दिखाई देता है। शास्त्रीय नृत्य और उन्नत योग में औपचारिक प्रशिक्षण प्रदान करके, हम यह सुनिश्चित करते हैं कि वंचित पृष्ठभूमि के बच्चों को भी किसी अन्य बच्चे की तरह ही समृद्ध अवसर मिलें।
+
+उनकी उपलब्धियों में अपार खुशी और गर्व को देखने के लिए वार्षिक कार्यक्रमों के दौरान हमारे बच्चों को देखें।`
   },
   {
     _id: "seed3",
     title: "5 Ways You Can Support Underprivileged Children Without Donating Money",
+    titleHindi: "पैसे दान किए बिना वंचित बच्चों की मदद करने के 5 तरीके",
     category: "Community",
     author: "Dr. Usha Tyagi",
     createdAt: "2024-04-02T10:00:00.000Z",
     coverImage: "images/1000087355.jpg.jpeg",
     excerpt: "Books, time, skills, connections, and presence. There are more ways to give than you think. Our volunteers prove this every week — some teach English, others organise health camps...",
+    excerptHindi: "किताबें, समय, कौशल, संपर्क और उपस्थिति। आपके सोचने से भी कहीं ज्यादा तरीके हैं मदद करने के। हमारे स्वयंसेवक इसे हर हफ्ते साबित करते हैं...",
     content: `Books, time, skills, connections, and presence. There are more ways to give than you think. Our volunteers prove this every week — some teach English, others organise health camps, and some simply show up to cheer our children at performances.
 
 Here are 5 ways you can make a difference today:
@@ -172,71 +196,159 @@ Here are 5 ways you can make a difference today:
 4. **Organise a Drive**: Mobilise your friends, family, or workplace to collect school supplies.
 5. **Cheer Them On**: Attend our cultural programs and boost the confidence of these young stars.
 
-Get in touch with us through the contact form to get started!`
+Get in touch with us through the contact form to get started!`,
+    contentHindi: `किताबें, समय, कौशल, संपर्क और उपस्थिति। आपके सोचने से भी कहीं ज्यादा तरीके हैं मदद करने के। हमारे स्वयंसेवक इसे हर हफ्ते साबित करते हैं — कुछ अंग्रेजी पढ़ाते हैं, अन्य स्वास्थ्य शिविर आयोजित करते हैं, और कुछ केवल प्रदर्शनों में हमारे बच्चों का उत्साह बढ़ाने के लिए आते हैं।
+
+यहाँ 5 तरीके दिए गए हैं जिनसे आप आज बदलाव ला सकते हैं:
+1. **अपना समय दान करें**: कोई विषय, भाषा या शिल्प सिखाएं।
+2. **हमारा काम साझा करें**: सोशल मीडिया पर हमें फ़ॉलो करें और जागरूकता बढ़ाने के लिए हमारी कहानियाँ साझा करें।
+3. **सामग्री दान करें**: अच्छी स्थिति में पुरानी किताबें, बैग, स्टेशनरी या कपड़े।
+4. **एक अभियान आयोजित करें**: स्कूल की आपूर्ति एकत्र करने के लिए अपने दोस्तों, परिवार या कार्यस्थल को शामिल करें।
+5. **उत्साह बढ़ाएं**: हमारे सांस्कृतिक कार्यक्रमों में भाग लें और इन युवा सितारों का आत्मविश्वास बढ़ाएं।
+
+शुरू करने के लिए संपर्क फ़ॉर्म के माध्यम से हमसे संपर्क करें!`
   },
   {
     _id: "seed4",
     title: "From the Streets to the Stage: Stories of Our Students",
+    titleHindi: "सड़कों से मंच तक: हमारे छात्रों की कहानियाँ",
     category: "Impact Stories",
     author: "Dr. Usha Tyagi",
     createdAt: "2024-04-10T10:00:00.000Z",
     coverImage: "images/1000087405.jpg.jpeg",
     excerpt: "Meet the children who came to our centre with nothing but potential, and are now performing yoga, winning medals, and dreaming bigger than ever. These are not just success stories...",
+    excerptHindi: "उन बच्चों से मिलें जो केवल क्षमता के साथ हमारे केंद्र में आए थे, और अब योग कर रहे हैं, पदक जीत रहे हैं, और बड़े सपने देख रहे हैं। ये केवल सफलता की कहानियाँ नहीं हैं...",
     content: `Meet the children who came to our centre with nothing but potential, and are now performing yoga, winning medals, and dreaming bigger than ever. These are not just success stories — they are a call to action.
 
 Take Aditya, who joined our centre three years ago. Initially shy and struggling with basic reading, he found his passion in our daily yoga sessions. Through consistent mentorship, he has become one of our top performers, showcasing advanced postures at district events.
 
-His transformation isn't unique. Given a stable space, guidance, and opportunities, every child has the capacity to shine. Your support directly creates these success stories.`
+His transformation isn't unique. Given a stable space, guidance, and opportunities, every child has the capacity to shine. Your support directly creates these success stories.`,
+    contentHindi: `उन बच्चों से मिलें जो केवल क्षमता के साथ हमारे केंद्र में आए थे, और अब योग कर रहे हैं, पदक जीत रहे हैं, और बड़े सपने देख रहे हैं। ये केवल सफलता की कहानियाँ नहीं हैं — ये एक आह्वान हैं।
+
+आदित्य को लें, जो तीन साल पहले हमारे केंद्र में शामिल हुआ था। शुरू में शर्मीला और पढ़ने में संघर्ष करने वाला, उसने हमारे दैनिक योग सत्रों में अपना जुनून पाया। निरंतर मार्गदर्शन के माध्यम से, वह हमारे शीर्ष प्रदर्शन करने वालों में से एक बन गया है, जो जिला स्तरीय आयोजनों में उन्नत योग मुद्राओं का प्रदर्शन करता है।
+
+उसका यह बदलाव अनोखा नहीं है। एक स्थिर स्थान, मार्गदर्शन और अवसर दिए जाने पर हर बच्चे में चमकने की क्षमता होती है। आपका समर्थन सीधे इन सफलता की कहानियों का निर्माण करता है।`
   },
   {
     _id: "seed5",
     title: "What Volunteering at an NGO Taught Me About My Own Privilege",
+    titleHindi: "एक गैर-सरकारी संगठन में काम करने से मेरे विशेषाधिकारों के बारे में क्या सीखा",
     category: "Volunteering",
     author: "Volunteer",
     createdAt: "2024-04-18T10:00:00.000Z",
     coverImage: "images/1000087516.jpg.jpeg",
     excerpt: "A reflection from one of our long-term volunteers. Spending weekends at the foundation changed how I see my city, my resources, and my responsibilities as a citizen. Here is what I learned...",
+    excerptHindi: "हमारे एक दीर्घकालिक स्वयंसेवक का अनुभव। फाउंडेशन में सप्ताहांत बिताने से मेरे शहर, मेरे संसाधनों और एक नागरिक के रूप में मेरी जिम्मेदारियों को देखने का तरीका बदल गया। यहाँ बताया गया है कि मैंने क्या सीखा...",
     content: `A reflection from one of our long-term volunteers:
 
 "Spending weekends at the foundation changed how I see my city, my resources, and my responsibilities as a citizen.
 
 Initially, I went with the mindset of 'helping' these children. But very quickly, I realized they were teaching me more than I could ever teach them. Their resilience in the face of adversity, their eagerness to learn despite lacking basic comforts, and their absolute joy in simple activities made me reflect on my own life.
 
-I learned that consistency matters far more than grand gestures. Showing up every Saturday to teach basic English builds a bond that is irreplaceable. It has been a humbling and life-changing experience."`
+I learned that consistency matters far more than grand gestures. Showing up every Saturday to teach basic English builds a bond that is irreplaceable. It has been a humbling and life-changing experience."`,
+    contentHindi: `हमारे एक दीर्घकालिक स्वयंसेवक का अनुभव:
+
+"सप्ताहांत फाउंडेशन में बिताने से मेरे शहर, मेरे संसाधनों और एक नागरिक के रूप में मेरी जिम्मेदारियों को देखने का तरीका बदल गया।
+
+शुरू में, मैं इन बच्चों की 'मदद' करने की मानसिकता के साथ गया था। लेकिन बहुत जल्द, मुझे अहसास हुआ कि वे मुझे जितना मैं उन्हें सिखा सकता था, उससे कहीं अधिक सिखा रहे थे। विपरीत परिस्थितियों में उनका लचीलापन, बुनियादी सुविधाओं की कमी के बावजूद सीखने की उनकी उत्सुकता, और सरल गतिविधियों में उनकी पूर्ण खुशी ने मुझे अपने जीवन पर विचार करने के लिए मजबूर किया।
+
+मैंने सीखा कि बड़े-बड़े वादों की तुलना में निरंतरता कहीं अधिक मायने रखती है। बुनियादी अंग्रेजी सिखाने के लिए हर शनिवार को उपस्थित होना एक ऐसा बंधन बनाता है जो अपूरणीय है। यह एक विनम्र और जीवन बदलने वाला अनुभव रहा है।"`
   },
   {
     _id: "seed6",
     title: "Dr. Usha Tyagi: The Woman Who Started a Revolution in Her Neighbourhood",
+    titleHindi: "डॉ. उषा त्यागी: वह महिला जिसने अपने पड़ोस में एक क्रांति की शुरुआत की",
     category: "Leadership",
     author: "Ved Daksha Team",
     createdAt: "2024-04-25T10:00:00.000Z",
     coverImage: "images/1000087243.jpg.jpeg",
     excerpt: "What drives someone to open their home, their time, and their resources to dozens of underprivileged children? We sat down with our founder to understand the vision behind Ved Daksha Foundation...",
+    excerptHindi: "क्या किसी को अपना घर, अपना समय और अपने संसाधन दर्जनों वंचित बच्चों के लिए खोलने के लिए प्रेरित करता है? हमने अपनी संस्थापक से बात की...",
     content: `What drives someone to open their home, their time, and their resources to dozens of underprivileged children? We sat down with our founder, Dr. Usha Tyagi, to understand the vision behind Ved Daksha Foundation.
 
 Her journey started with a simple observation: children in her neighborhood were spending their days playing on the streets instead of going to school, as their parents couldn't afford school fees or materials. She began teaching five children on her porch.
 
 Word spread, and soon the porch was full. That small step grew into the Ved Daksha Foundation, which now runs structured programs in education, arts, martial arts, and yoga.
 
-"We don't just want them to survive; we want them to thrive and lead," she says.`
+"We don't just want them to survive; we want them to thrive and lead," she says.`,
+    contentHindi: `क्या किसी को अपना घर, अपना समय और अपने संसाधन दर्जनों वंचित बच्चों के लिए खोलने के लिए प्रेरित करता है? हमने अपनी संस्थापक, डॉ. उषा त्यागी से बात की ताकि वेद दक्ष फाउंडेशन के पीछे के दृष्टिकोण को समझा जा सके।
+
+उनकी यात्रा एक सरल अवलोकन के साथ शुरू हुई: उनके पड़ोस के बच्चे स्कूल जाने के बजाय गलियों में खेलते हुए दिन बिता रहे थे, क्योंकि उनके माता-पिता स्कूल की फीस या सामग्री का खर्च नहीं उठा सकते थे। उन्होंने अपने बरामदे में पांच बच्चों को पढ़ाना शुरू किया।
+
+बात फैली, और जल्द ही बरामदा भर गया। वह छोटा सा कदम वेद दक्ष फाउंडेशन में तब्दील हो गया, जो अब शिक्षा, कला, मार्शल आर्ट और योग में व्यवस्थित कार्यक्रम चलाता है।
+
+वह कहती हैं, "हम केवल यह नहीं चाहते कि वे जीवित रहें; हम चाहते हैं कि वे फलें-फूलें और नेतृत्व करें।"`
   }
 ];
 
+const dictionary = {
+  en: {
+    "nav-title": "Ved Daksha Foundation",
+    "nav-home": "Home",
+    "nav-blog": "Blog",
+    "nav-contact": "Contact",
+    "blog-hero-h1": "Stories from the Field",
+    "blog-hero-p": "Read about our work, our children's journeys, and how education is changing lives in Ghaziabad."
+  },
+  hi: {
+    "nav-title": "वेद दक्ष फाउंडेशन",
+    "nav-home": "होम",
+    "nav-blog": "ब्लॉग",
+    "nav-contact": "संपर्क",
+    "blog-hero-h1": "कहानियाँ और अपडेट",
+    "blog-hero-p": "हमारे काम, हमारे बच्चों की यात्रा और गाजियाबाद में शिक्षा कैसे जीवन बदल रही है, इसके बारे में पढ़ें।"
+  }
+};
+
+let vdf_lang = localStorage.getItem('vdf_lang') || 'en';
 let activePosts = [];
+let loadedPosts = [];
+
+function applyLanguage() {
+  const trans = dictionary[vdf_lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (trans[key]) {
+      el.innerHTML = trans[key];
+    }
+  });
+
+  const sw = document.getElementById('lang-switch');
+  if (sw) sw.value = vdf_lang;
+
+  // Re-render blog listings
+  if (loadedPosts && loadedPosts.length > 0) {
+    renderPosts(loadedPosts);
+  } else {
+    renderPosts(seedPosts);
+  }
+}
+
+function switchLanguage(lang) {
+  vdf_lang = lang;
+  localStorage.setItem('vdf_lang', lang);
+  applyLanguage();
+}
 
 function renderPosts(posts) {
   activePosts = posts;
-  document.getElementById('blog-list').innerHTML = posts.map((p, idx) => `
-    <div class="blog-card">
-      ${p.coverImage ? `<div class="bimg"><img src="${p.coverImage}" alt="${p.title}"/></div>` : ''}
-      <div class="bbody">
-        <div class="bcat">${p.category || 'General'}</div>
-        <h2>${p.title}</h2>
-        <p>${p.excerpt || p.content.substring(0, 150)}...</p>
-        <a class="blink" href="javascript:void(0)" onclick="openBlogModal(${idx})">Read More <i class="ti ti-arrow-right"></i></a>
+  document.getElementById('blog-list').innerHTML = posts.map((p, idx) => {
+    const title = (vdf_lang === 'hi' && p.titleHindi) ? p.titleHindi : p.title;
+    const excerpt = (vdf_lang === 'hi' && p.excerptHindi) ? p.excerptHindi : (p.excerpt || p.content.substring(0, 150));
+    const btnText = vdf_lang === 'hi' ? 'और पढ़ें' : 'Read More';
+
+    return `
+      <div class="blog-card">
+        ${p.coverImage ? `<div class="bimg"><img src="${p.coverImage}" alt="${title}"/></div>` : ''}
+        <div class="bbody">
+          <div class="bcat">${p.category || 'General'}</div>
+          <h2>${title}</h2>
+          <p>${excerpt}...</p>
+          <a class="blink" href="javascript:void(0)" onclick="openBlogModal(${idx})">${btnText} <i class="ti ti-arrow-right"></i></a>
+        </div>
       </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 function openBlogModal(idx) {
@@ -259,11 +371,15 @@ function openBlogModal(idx) {
     coverWrap.style.display = 'none';
   }
   
+  const displayTitle = (vdf_lang === 'hi' && post.titleHindi) ? post.titleHindi : post.title;
+  const displayContent = (vdf_lang === 'hi' && post.contentHindi) ? post.contentHindi : post.content;
+  const byText = vdf_lang === 'hi' ? 'द्वारा' : 'By';
+
   cat.textContent = post.category || 'General';
-  date.textContent = new Date(post.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
-  title.textContent = post.title;
-  author.textContent = post.author || 'Ved Daksha Foundation';
-  content.textContent = post.content;
+  date.textContent = new Date(post.createdAt).toLocaleDateString(vdf_lang === 'hi' ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+  title.textContent = displayTitle;
+  author.innerHTML = `${byText} <strong id="modal-author" style="color:var(--dark)">${post.author || 'Ved Daksha Foundation'}</strong>`;
+  content.textContent = displayContent;
   
   modal.style.display = 'flex';
   document.body.style.overflow = 'hidden';
@@ -286,13 +402,15 @@ fetch('https://veddakshafoundation-production.up.railway.app/api/blog')
   .then(r => r.json())
   .then(posts => {
     if (posts && posts.length > 0) {
-      renderPosts(posts);
+      loadedPosts = posts;
     } else {
-      renderPosts(seedPosts);
+      loadedPosts = [];
     }
+    applyLanguage();
   })
   .catch(() => {
-    renderPosts(seedPosts);
+    loadedPosts = [];
+    applyLanguage();
   });
 </script>
 </body>

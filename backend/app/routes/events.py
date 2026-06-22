@@ -54,6 +54,7 @@ async def create_event(
     title: str = Form(...),
     titleHindi: Optional[str] = Form(None),
     description: str = Form(...),
+    descriptionHindi: Optional[str] = Form(None),
     date: str = Form(...),
     time_str: Optional[str] = Form(None, alias="time"),
     location: Optional[str] = Form("7/56, Chiranjeev Vihar, Ghaziabad"),
@@ -94,6 +95,7 @@ async def create_event(
             "title": title,
             "titleHindi": titleHindi,
             "description": description,
+            "descriptionHindi": descriptionHindi,
             "date": event_date,
             "time": time_str,
             "location": location,
@@ -120,6 +122,7 @@ async def update_event(
     title: Optional[str] = Form(None),
     titleHindi: Optional[str] = Form(None),
     description: Optional[str] = Form(None),
+    descriptionHindi: Optional[str] = Form(None),
     date: Optional[str] = Form(None),
     time_str: Optional[str] = Form(None, alias="time"),
     location: Optional[str] = Form(None),
@@ -143,6 +146,7 @@ async def update_event(
         if title is not None: updates["title"] = title
         if titleHindi is not None: updates["titleHindi"] = titleHindi
         if description is not None: updates["description"] = description
+        if descriptionHindi is not None: updates["descriptionHindi"] = descriptionHindi
         if time_str is not None: updates["time"] = time_str
         if location is not None: updates["location"] = location
         if category is not None: updates["category"] = category

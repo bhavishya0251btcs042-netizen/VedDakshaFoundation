@@ -153,6 +153,38 @@
       .sb-logo, .sb-sub, .sb-section, .sb-item span { display: none; }
       .form-grid { grid-template-columns: 1fr; }
     }
+    
+    /* Mic/Voice Typing Button Styles */
+    .btn-mic {
+      background: transparent;
+      border: none;
+      color: var(--mid);
+      cursor: pointer;
+      font-size: 16px;
+      padding: 4px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .btn-mic:hover {
+      color: var(--g);
+      background: var(--gl);
+    }
+    .btn-mic.listening {
+      background: #fee2e2;
+      box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.2);
+    }
+    @keyframes pulse-mic {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.7; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .btn-mic.listening i {
+      animation: pulse-mic 1s infinite;
+      color: var(--red);
+    }
   </style>
 </head>
 <body>
@@ -258,15 +290,40 @@
         <div style="padding:1.2rem">
           <div id="ev-alert" class="alert"></div>
           <div class="form-grid">
-            <div class="form-g"><label for="ev-title">Event Title *</label><input type="text" id="ev-title" placeholder="e.g. Annual Varshikotsav 2025"/></div>
-            <div class="form-g"><label for="ev-titlehi">Title in Hindi</label><input type="text" id="ev-titlehi" placeholder="वार्षिकोत्सव व सम्मान समारोह"/></div>
+            <div class="form-g">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <label for="ev-title">Event Title *</label>
+                <button type="button" class="btn-mic" onclick="startVoiceInput('ev-title', 'en-IN')" title="Voice typing"><i class="ti ti-microphone"></i></button>
+              </div>
+              <input type="text" id="ev-title" placeholder="e.g. Annual Varshikotsav 2025"/>
+            </div>
+            <div class="form-g">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <label for="ev-titlehi">Title in Hindi</label>
+                <button type="button" class="btn-mic" onclick="startVoiceInput('ev-titlehi', 'hi-IN')" title="Voice typing"><i class="ti ti-microphone"></i></button>
+              </div>
+              <input type="text" id="ev-titlehi" placeholder="वार्षिकोत्सव व सम्मान समारोह"/>
+            </div>
             <div class="form-g"><label for="ev-date">Date *</label><input type="date" id="ev-date"/></div>
             <div class="form-g"><label for="ev-time">Time</label><input type="time" id="ev-time"/></div>
             <div class="form-g"><label for="ev-loc">Location</label><input type="text" id="ev-loc" value="7/56, Chiranjeev Vihar, Ghaziabad"/></div>
             <div class="form-g"><label for="ev-cat">Category</label>
               <select id="ev-cat"><option value="cultural">Cultural</option><option value="education">Education</option><option value="health">Health</option><option value="awards">Awards</option><option value="outreach">Outreach</option><option value="other">Other</option></select>
             </div>
-            <div class="form-g full"><label for="ev-desc">Description *</label><textarea id="ev-desc" rows="4" placeholder="Describe the event..."></textarea></div>
+            <div class="form-g full">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <label for="ev-desc">Description *</label>
+                <button type="button" class="btn-mic" onclick="startVoiceInput('ev-desc', 'en-IN')" title="Voice typing"><i class="ti ti-microphone"></i></button>
+              </div>
+              <textarea id="ev-desc" rows="4" placeholder="Describe the event..."></textarea>
+            </div>
+            <div class="form-g full">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <label for="ev-deschi">Description in Hindi</label>
+                <button type="button" class="btn-mic" onclick="startVoiceInput('ev-deschi', 'hi-IN')" title="Voice typing"><i class="ti ti-microphone"></i></button>
+              </div>
+              <textarea id="ev-deschi" rows="4" placeholder="हिंदी में विवरण..."></textarea>
+            </div>
             <div class="form-g"><label for="ev-att">Expected/Actual Attendees</label><input type="number" id="ev-att" placeholder="50"/></div>
             <div class="form-g"><label for="ev-upcoming">Is this an upcoming event?</label>
               <select id="ev-upcoming"><option value="true">Yes — Upcoming</option><option value="false">No — Past Event</option></select>
@@ -322,12 +379,51 @@
         <div class="panel-head"><h3>Write Blog Post</h3><button class="btn-sm btn-ghost" onclick="document.getElementById('blog-form-panel').style.display='none'"><i class="ti ti-x"></i></button></div>
         <div style="padding:1.2rem">
           <div class="form-grid">
-            <div class="form-g"><label for="bl-title">Post Title *</label><input type="text" id="bl-title" placeholder="Post title"/></div>
+            <div class="form-g">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <label for="bl-title">Post Title *</label>
+                <button type="button" class="btn-mic" onclick="startVoiceInput('bl-title', 'en-IN')" title="Voice typing"><i class="ti ti-microphone"></i></button>
+              </div>
+              <input type="text" id="bl-title" placeholder="Post title"/>
+            </div>
+            <div class="form-g">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <label for="bl-titlehi">Post Title in Hindi</label>
+                <button type="button" class="btn-mic" onclick="startVoiceInput('bl-titlehi', 'hi-IN')" title="Voice typing"><i class="ti ti-microphone"></i></button>
+              </div>
+              <input type="text" id="bl-titlehi" placeholder="हिंदी में शीर्षक"/>
+            </div>
             <div class="form-g"><label for="bl-cat">Category</label><select id="bl-cat"><option>Education</option><option>Health</option><option>Community</option><option>Events</option><option>Impact Stories</option><option>Volunteering</option></select></div>
             <div class="form-g"><label for="bl-author">Author</label><input type="text" id="bl-author" value="Dr. Usha Tyagi" placeholder="Author name"/></div>
             <div class="form-g"><label for="bl-tags">Tags (comma separated)</label><input type="text" id="bl-tags" placeholder="education, children, ghaziabad"/></div>
-            <div class="form-g full"><label for="bl-exc">Excerpt (short summary)</label><textarea id="bl-exc" rows="2" placeholder="Brief description shown in blog listing..."></textarea></div>
-            <div class="form-g full"><label for="bl-content">Full Content *</label><textarea id="bl-content" rows="10" placeholder="Write the full blog post here..."></textarea></div>
+            <div class="form-g full">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <label for="bl-exc">Excerpt (short summary)</label>
+                <button type="button" class="btn-mic" onclick="startVoiceInput('bl-exc', 'en-IN')" title="Voice typing"><i class="ti ti-microphone"></i></button>
+              </div>
+              <textarea id="bl-exc" rows="2" placeholder="Brief description shown in blog listing..."></textarea>
+            </div>
+            <div class="form-g full">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <label for="bl-exchi">Excerpt in Hindi</label>
+                <button type="button" class="btn-mic" onclick="startVoiceInput('bl-exchi', 'hi-IN')" title="Voice typing"><i class="ti ti-microphone"></i></button>
+              </div>
+              <textarea id="bl-exchi" rows="2" placeholder="संक्षिप्त विवरण हिंदी में..."></textarea>
+            </div>
+            <div class="form-g full">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <label for="bl-content">Full Content *</label>
+                <button type="button" class="btn-mic" onclick="startVoiceInput('bl-content', 'en-IN')" title="Voice typing"><i class="ti ti-microphone"></i></button>
+              </div>
+              <textarea id="bl-content" rows="10" placeholder="Write the full blog post here..."></textarea>
+            </div>
+            <div class="form-g full">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <label for="bl-contenthi">Full Content in Hindi</label>
+                <button type="button" class="btn-mic" onclick="startVoiceInput('bl-contenthi', 'hi-IN')" title="Voice typing"><i class="ti ti-microphone"></i></button>
+              </div>
+              <textarea id="bl-contenthi" rows="10" placeholder="पूरा ब्लॉग हिंदी में..."></textarea>
+            </div>
             <div class="form-g full"><label for="bl-img">Blog Cover Image</label>
               <div class="upload-zone" onclick="document.getElementById('bl-img').click()">
                 <i class="ti ti-cloud-upload"></i>
@@ -520,9 +616,15 @@ function renderEvents(events){
     </td>
   </tr>`).join(''):'<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)">No events yet. Add your first event!</td></tr>';
 }
-function openEventForm(){document.getElementById('event-form-panel').style.display='block';currentEditId=null;document.getElementById('ef-title').textContent='Add New Event';clearEventForm()}
+function openEventForm(){
+  document.getElementById('event-form-panel').style.display='block';
+  currentEditId=null;
+  document.getElementById('ef-title').textContent='Add New Event';
+  clearEventForm();
+  document.getElementById('ev-date').min = new Date().toISOString().split('T')[0];
+}
 function closeEventForm(){document.getElementById('event-form-panel').style.display='none';currentEditId=null}
-function clearEventForm(){['ev-title','ev-titlehi','ev-date','ev-time','ev-desc','ev-att'].forEach(id=>document.getElementById(id).value='');document.getElementById('ev-loc').value='7/56, Chiranjeev Vihar, Ghaziabad';document.getElementById('img-preview').innerHTML=''}
+function clearEventForm(){['ev-title','ev-titlehi','ev-date','ev-time','ev-desc','ev-deschi','ev-att'].forEach(id=>document.getElementById(id).value='');document.getElementById('ev-loc').value='7/56, Chiranjeev Vihar, Ghaziabad';document.getElementById('img-preview').innerHTML=''}
 async function saveEvent(){
   const title=document.getElementById('ev-title').value;
   const desc=document.getElementById('ev-desc').value;
@@ -533,6 +635,7 @@ async function saveEvent(){
   fd.append('title',title);
   fd.append('titleHindi',document.getElementById('ev-titlehi').value);
   fd.append('description',desc);
+  fd.append('descriptionHindi',document.getElementById('ev-deschi').value);
   fd.append('date',date);
   fd.append('time',document.getElementById('ev-time').value);
   fd.append('location',document.getElementById('ev-loc').value);
@@ -558,10 +661,12 @@ function editEvent(id){
   document.getElementById('ev-title').value=ev.title;
   document.getElementById('ev-titlehi').value=ev.titleHindi||'';
   document.getElementById('ev-date').value=ev.date.split('T')[0];
+  document.getElementById('ev-date').removeAttribute('min');
   document.getElementById('ev-time').value=ev.time||'';
   document.getElementById('ev-loc').value=ev.location;
   document.getElementById('ev-cat').value=ev.category;
   document.getElementById('ev-desc').value=ev.description;
+  document.getElementById('ev-deschi').value=ev.descriptionHindi||'';
   document.getElementById('ev-att').value=ev.attendees||'';
   document.getElementById('ev-upcoming').value=ev.isUpcoming?'true':'false';
   document.getElementById('event-form-panel').style.display='block';
@@ -631,11 +736,14 @@ async function loadBlog(){
 function openBlogForm(){
   document.getElementById('blog-form-panel').style.display='block';
   document.getElementById('bl-title').value='';
+  document.getElementById('bl-titlehi').value='';
   document.getElementById('bl-cat').value='Education';
   document.getElementById('bl-author').value='Dr. Usha Tyagi';
   document.getElementById('bl-tags').value='';
   document.getElementById('bl-exc').value='';
+  document.getElementById('bl-exchi').value='';
   document.getElementById('bl-content').value='';
+  document.getElementById('bl-contenthi').value='';
   document.getElementById('bl-img').value='';
   document.getElementById('blog-img-preview').innerHTML='';
 }
@@ -647,8 +755,11 @@ async function saveBlog(){
   
   const fd = new FormData();
   fd.append('title', title);
+  fd.append('titleHindi', document.getElementById('bl-titlehi').value);
   fd.append('content', content);
+  fd.append('contentHindi', document.getElementById('bl-contenthi').value);
   fd.append('excerpt', document.getElementById('bl-exc').value);
+  fd.append('excerptHindi', document.getElementById('bl-exchi').value);
   fd.append('category', document.getElementById('bl-cat').value);
   fd.append('author', document.getElementById('bl-author').value);
   fd.append('tags', JSON.stringify(tags));
@@ -732,6 +843,102 @@ async function changePwd(){
   al.className=r.ok?'alert alert-g':'alert alert-r';
   al.textContent=r.ok?'✅ Password changed successfully!':d.error;
   al.style.display='block';
+}
+
+// ── SPEECH RECOGNITION (Voice Typing) ──
+let voiceRecognition = null;
+let activeMicButton = null;
+
+function startVoiceInput(fieldId, lang) {
+  if (voiceRecognition) {
+    voiceRecognition.stop();
+    return;
+  }
+  
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    alert("Voice typing is not supported in this browser. Please use Google Chrome, Microsoft Edge, or Safari.");
+    return;
+  }
+  
+  const inputEl = document.getElementById(fieldId);
+  if (!inputEl) return;
+  
+  // Find the mic button to update its visual state
+  const btn = inputEl.previousElementSibling?.querySelector('.btn-mic') || 
+              inputEl.parentElement?.querySelector('.btn-mic');
+              
+  voiceRecognition = new SpeechRecognition();
+  voiceRecognition.lang = lang;
+  voiceRecognition.interimResults = true;
+  voiceRecognition.continuous = false;
+  
+  let originalValue = inputEl.value;
+  
+  voiceRecognition.onstart = () => {
+    activeMicButton = btn;
+    if (btn) {
+      btn.classList.add('listening');
+      btn.innerHTML = '<i class="ti ti-microphone" style="color:var(--red)"></i>';
+    }
+    showStatusTip(lang === 'hi-IN' ? "सुन रहा हूँ... बोलिए (Hindi)" : "Listening... Speak now (English)");
+  };
+  
+  voiceRecognition.onresult = (event) => {
+    let interimTranscript = '';
+    let finalTranscript = '';
+    
+    for (let i = event.resultIndex; i < event.results.length; ++i) {
+      if (event.results[i].isFinal) {
+        finalTranscript += event.results[i][0].transcript;
+      } else {
+        interimTranscript += event.results[i][0].transcript;
+      }
+    }
+    
+    const newText = finalTranscript || interimTranscript;
+    if (newText) {
+      if (originalValue) {
+        inputEl.value = originalValue + " " + newText;
+      } else {
+        inputEl.value = newText;
+      }
+    }
+  };
+  
+  voiceRecognition.onerror = (e) => {
+    console.error("Speech recognition error:", e.error);
+    showStatusTip("Voice typing error: " + e.error);
+  };
+  
+  voiceRecognition.onend = () => {
+    voiceRecognition = null;
+    if (activeMicButton) {
+      activeMicButton.classList.remove('listening');
+      activeMicButton.innerHTML = '<i class="ti ti-microphone"></i>';
+      activeMicButton = null;
+    }
+    showStatusTip("Voice typing ended");
+  };
+  
+  voiceRecognition.start();
+}
+
+function showStatusTip(msg) {
+  let tip = document.getElementById('speech-toast');
+  if (!tip) {
+    tip = document.createElement('div');
+    tip.id = 'speech-toast';
+    tip.style.cssText = "position:fixed; bottom:20px; right:20px; background:rgba(15,23,42,0.9); color:#fff; padding:12px 24px; border-radius:10px; font-size:13px; z-index:9999; display:none; align-items:center; gap:8px; box-shadow:0 10px 20px rgba(0,0,0,0.3); transition:all 0.3s; font-family:sans-serif;";
+    document.body.appendChild(tip);
+  }
+  tip.innerHTML = `<i class="ti ti-microphone" style="color:#ef4444; font-size:18px;"></i> <span>${msg}</span>`;
+  tip.style.display = 'flex';
+  setTimeout(() => {
+    if (tip.textContent.includes(msg)) {
+      tip.style.display = 'none';
+    }
+  }, 3000);
 }
 </script>
 </body>
