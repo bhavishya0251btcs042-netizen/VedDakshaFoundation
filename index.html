@@ -704,11 +704,11 @@
     </div>
     <div class="don-form">
       <h3><span class="lang-en">Send your details</span><span class="lang-hi">अपनी जानकारी भेजें</span></h3>
-      <div class="frow"><label><span class="lang-en">Your Name</span><span class="lang-hi">आपका नाम</span></label><input type="text" id="dn" placeholder="Full name / पूरा नाम"/></div>
-      <div class="frow"><label><span class="lang-en">Mobile / WhatsApp</span><span class="lang-hi">मोबाइल / WhatsApp</span></label><input type="tel" id="dp" placeholder="+91 "/></div>
-      <div class="frow"><label><span class="lang-en">Email (optional)</span><span class="lang-hi">ईमेल (वैकल्पिक)</span></label><input type="email" id="de" placeholder="your@email.com"/></div>
-      <div class="frow"><label><span class="lang-en">Amount (₹)</span><span class="lang-hi">राशि (₹)</span></label><input type="number" id="da" value="500"/></div>
-      <div class="frow"><label><span class="lang-en">Purpose</span><span class="lang-hi">उद्देश्य</span></label>
+      <div class="frow"><label for="dn"><span class="lang-en">Your Name</span><span class="lang-hi">आपका नाम</span></label><input type="text" id="dn" placeholder="Full name / पूरा नाम"/></div>
+      <div class="frow"><label for="dp"><span class="lang-en">Mobile / WhatsApp</span><span class="lang-hi">मोबाइल / WhatsApp</span></label><input type="tel" id="dp" placeholder="+91 "/></div>
+      <div class="frow"><label for="de"><span class="lang-en">Email (optional)</span><span class="lang-hi">ईमेल (वैकल्पिक)</span></label><input type="email" id="de" placeholder="your@email.com"/></div>
+      <div class="frow"><label for="da"><span class="lang-en">Amount (₹)</span><span class="lang-hi">राशि (₹)</span></label><input type="number" id="da" value="500"/></div>
+      <div class="frow"><label for="dpu"><span class="lang-en">Purpose</span><span class="lang-hi">उद्देश्य</span></label>
         <select id="dpu">
           <option><span class="lang-en">General donation</span></option>
           <option>Stationery &amp; books / स्टेशनरी और पुस्तकें</option>
@@ -744,9 +744,9 @@
       </div>
       <div class="con-form">
         <h3><span class="lang-en">Send us a message</span><span class="lang-hi">हमें संदेश भेजें</span></h3>
-        <div class="frow"><label><span class="lang-en">Name</span><span class="lang-hi">नाम</span></label><input type="text" id="cn" placeholder="Your name / आपका नाम"/></div>
-        <div class="frow"><label><span class="lang-en">Phone / Email</span><span class="lang-hi">फ़ोन / ईमेल</span></label><input type="text" id="cc" placeholder="Phone or email"/></div>
-        <div class="frow"><label><span class="lang-en">Message</span><span class="lang-hi">संदेश</span></label><textarea id="cm2" rows="3" style="border:1px solid var(--bd);border-radius:8px;padding:10px 14px;font-size:14px;font-family:inherit;outline:none;background:var(--bg);color:var(--dark);resize:vertical;width:100%"></textarea></div>
+        <div class="frow"><label for="cn"><span class="lang-en">Name</span><span class="lang-hi">नाम</span></label><input type="text" id="cn" placeholder="Your name / आपका नाम"/></div>
+        <div class="frow"><label for="cc"><span class="lang-en">Phone / Email</span><span class="lang-hi">फ़ोन / ईमेल</span></label><input type="text" id="cc" placeholder="Phone or email"/></div>
+        <div class="frow"><label for="cm2"><span class="lang-en">Message</span><span class="lang-hi">संदेश</span></label><textarea id="cm2" rows="3" style="border:1px solid var(--bd);border-radius:8px;padding:10px 14px;font-size:14px;font-family:inherit;outline:none;background:var(--bg);color:var(--dark);resize:vertical;width:100%"></textarea></div>
         <button class="btn-p" style="margin-top:.5rem" onclick="sendContact()"><i class="ti ti-send"></i><span class="lang-en">Send Message</span><span class="lang-hi">संदेश भेजें</span></button>
       </div>
     </div>
@@ -822,7 +822,7 @@
         <div id="vol-fields"><!-- Dynamic fields rendered by JS --></div>
         <!-- Resume Upload -->
         <div class="vf-row">
-          <label><span class="lang-en">Upload Resume / CV</span><span class="lang-hi">बायोडाटा / CV अपलोड करें</span></label>
+          <label for="vol-resume-file"><span class="lang-en">Upload Resume / CV</span><span class="lang-hi">बायोडाटा / CV अपलोड करें</span></label>
           <div class="vf-resume" onclick="document.getElementById('vol-resume-file').click()">
             <i class="ti ti-file-cv"></i>
             <span style="font-size:13px;color:var(--mid)"><span class="lang-en">Click to upload PDF or DOCX (max 5 MB)</span><span class="lang-hi">PDF या DOCX अपलोड करें (अधिकतम 5 MB)</span></span>
@@ -860,7 +860,9 @@
 <a id="wa" href="https://wa.me/918700785399?text=Hi%2C%20I%20want%20to%20know%20more%20about%20Ved%20Daksha%20Foundation" target="_blank"><i class="ti ti-brand-whatsapp"></i></a>
 
 <script>
-const API = 'http://localhost:5000/api';
+const API = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')
+  ? 'http://localhost:5000/api'
+  : window.location.origin + '/api';
 
 // ── THEME ──
 function toggleTheme(){
@@ -1033,14 +1035,15 @@ function renderVolForm(){
   wrap.innerHTML = volunteerFields.map(f=>{
     const lbl = lang==='hi' && f.labelHindi ? f.labelHindi : f.label;
     const req = f.required ? ' *' : '';
+    const fieldId = `vol-input-${f.id}`;
     if(f.type==='select'){
       const opts = (f.options||[]).map(o=>`<option value="${o}">${o}</option>`).join('');
-      return `<div class="vf-row"><label>${lbl}${req}</label><select name="${f.id}" ${f.required?'required':''}><option value="">— Select / चुनें —</option>${opts}</select></div>`;
+      return `<div class="vf-row"><label for="${fieldId}">${lbl}${req}</label><select id="${fieldId}" name="${f.id}" ${f.required?'required':''}><option value="">— Select / चुनें —</option>${opts}</select></div>`;
     }
     if(f.type==='textarea'){
-      return `<div class="vf-row"><label>${lbl}${req}</label><textarea name="${f.id}" rows="3" ${f.required?'required':''}></textarea></div>`;
+      return `<div class="vf-row"><label for="${fieldId}">${lbl}${req}</label><textarea id="${fieldId}" name="${f.id}" rows="3" ${f.required?'required':''}></textarea></div>`;
     }
-    return `<div class="vf-row"><label>${lbl}${req}</label><input type="${f.type}" name="${f.id}" ${f.required?'required':''}></div>`;
+    return `<div class="vf-row"><label for="${fieldId}">${lbl}${req}</label><input id="${fieldId}" type="${f.type}" name="${f.id}" ${f.required?'required':''}></div>`;
   }).join('');
 }
 async function submitVolunteer(){
