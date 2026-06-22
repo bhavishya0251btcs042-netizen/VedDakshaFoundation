@@ -35,3 +35,6 @@ db.sqlite3
 backend/uploads/
 backend/app/uploads/
 *.log
+
+# Scratch / temp agent scripts
+scratch/

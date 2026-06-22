@@ -195,7 +195,7 @@ def send_email_to_volunteer(app_id: str, email_data: VolunteerEmailSend, admin_p
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/applications/{app_id}/analyze")
-def analyze_applicant_resume(app_id: str, admin_payload: dict = Depends(get_current_admin)):
+def analyze_applicant_resume(app_id: str, force: bool = False, admin_payload: dict = Depends(get_current_admin)):
     volunteers_col = get_collection("volunteers")
     try:
         if not ObjectId.is_valid(app_id):
@@ -204,8 +204,9 @@ def analyze_applicant_resume(app_id: str, admin_payload: dict = Depends(get_curr
         app_doc = volunteers_col.find_one({"_id": ObjectId(app_id)})
         if not app_doc:
             raise HTTPException(status_code=404, detail="Application not found")
-            
-        if "analysis" in app_doc:
+
+        # Return cached result unless force=true is requested
+        if "analysis" in app_doc and not force:
             return app_doc["analysis"]
             
         resume_url = app_doc.get("resumeUrl")

@@ -147,6 +147,7 @@
     .img-del{position:absolute;top:4px;right:4px;background:rgba(0,0,0,.6);color:#fff;border:none;border-radius:4px;padding:3px 6px;cursor:pointer;font-size:11px}
 
     @media(max-width:768px){.stat-row{grid-template-columns:1fr 1fr}.sidebar{width:60px}.main{margin-left:60px}.sb-logo,.sb-sub,.sb-section,.sb-item span{display:none}.form-grid{grid-template-columns:1fr}}
+    @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
   </style>
 </head>
 <body>
@@ -494,7 +495,11 @@
             <p id="ana-summary" style="font-size:13px;color:var(--mid);line-height:1.6;margin:0"></p>
           </div>
         </div>
-        <div style="padding:14px 20px;border-top:1px solid var(--bd);display:flex;justify-content:flex-end;gap:10px;background:var(--card);position:sticky;bottom:0">
+        <div style="padding:14px 20px;border-top:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--card);position:sticky;bottom:0">
+          <button class="btn-sm btn-ghost" id="reanalyze-btn" onclick="reAnalyzeResume()" style="display:flex;align-items:center;gap:6px">
+            <i class="ti ti-refresh"></i>
+            <span>Re-Analyze</span>
+          </button>
           <button class="btn-sm btn-ghost" onclick="closeVolAnalyzer()">Close</button>
         </div>
       </div>
@@ -981,7 +986,7 @@ function closeVolAnalyzer() {
   currentVolAnalyzeId = null;
 }
 
-async function analyzeResume(id) {
+async function analyzeResume(id, force = false) {
   currentVolAnalyzeId = id;
   const modal = document.getElementById('vol-analyzer-modal');
   modal.style.display = 'flex';
@@ -989,13 +994,16 @@ async function analyzeResume(id) {
   const loading = document.getElementById('analyzer-loading');
   const errorDiv = document.getElementById('analyzer-error');
   const content = document.getElementById('analyzer-content');
+  const reBtn = document.getElementById('reanalyze-btn');
   
   loading.style.display = 'flex';
   errorDiv.style.display = 'none';
   content.style.display = 'none';
+  if (reBtn) { reBtn.disabled = true; reBtn.innerHTML = '<i class="ti ti-loader-2" style="animation:spin 1s linear infinite"></i> Analyzing...'; }
   
   try {
-    const r = await fetch(`${API}/volunteer/applications/${id}/analyze`, {
+    const url = `${API}/volunteer/applications/${id}/analyze${force ? '?force=true' : ''}`;
+    const r = await fetch(url, {
       method: 'POST',
       headers: authH()
     });
@@ -1015,6 +1023,11 @@ async function analyzeResume(id) {
     document.getElementById('analyzer-error-msg').textContent = e.message || 'Failed to analyze resume.';
     errorDiv.style.display = 'flex';
   }
+  if (reBtn) { reBtn.disabled = false; reBtn.innerHTML = '<i class="ti ti-refresh"></i> Re-Analyze'; }
+}
+
+function reAnalyzeResume() {
+  if (currentVolAnalyzeId) analyzeResume(currentVolAnalyzeId, true);
 }
 
 function renderAnalysisData(data) {
