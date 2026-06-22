@@ -25,7 +25,8 @@ else:
         "http://localhost:5000",
         "http://127.0.0.1:5000",
         "http://localhost:5500",
-        "http://127.0.0.1:5500"
+        "http://127.0.0.1:5500",
+        "https://veddakshafoundation-production.up.railway.app",
     ]
     for lo in local_origins:
         if lo not in origins:

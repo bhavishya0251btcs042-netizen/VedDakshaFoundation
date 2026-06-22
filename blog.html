@@ -282,7 +282,7 @@ window.addEventListener('click', (e) => {
 });
 
 // Load blogs from API and replace seed content
-fetch('http://localhost:5000/api/blog')
+fetch('https://veddakshafoundation-production.up.railway.app/api/blog')
   .then(r => r.json())
   .then(posts => {
     if (posts && posts.length > 0) {
