@@ -265,7 +265,22 @@
                 <option value="outreach"><span class="lang-en">Outreach</span><span class="lang-hi">आउटरीच</span></option>
               </select>
             </div>
-            <div class="form-g full"><label for="ev-desc"><span class="lang-en">Description *</span><span class="lang-hi">विवरण *</span></label><textarea id="ev-desc" rows="4" placeholder="Event description / कार्यक्रम का विवरण..."></textarea></div>
+            <div class="form-g full">
+              <div style="display:flex;align-items:center;justify-content:space-between;width:100%;margin-bottom:6px">
+                <label for="ev-desc" style="margin:0"><span class="lang-en">Description *</span><span class="lang-hi">विवरण *</span></label>
+                <div class="speech-controls" style="display:inline-flex;align-items:center;gap:6px">
+                  <button type="button" class="btn-sm btn-ghost" onclick="toggleSpeech('ev-desc', this)" style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;font-size:11px;border-radius:4px;border:1px solid var(--bd)">
+                    <i class="ti ti-microphone"></i> <span class="speech-status">Voice Typing</span>
+                  </button>
+                  <select class="speech-lang" style="font-size:11px;padding:2px 4px;border:1px solid var(--bd);border-radius:4px;background:var(--bg);color:var(--dark)">
+                    <option value="en-IN">English (India)</option>
+                    <option value="hi-IN">Hindi (हिंदी)</option>
+                    <option value="en-US">English (US)</option>
+                  </select>
+                </div>
+              </div>
+              <textarea id="ev-desc" rows="4" placeholder="Event description / कार्यक्रम का विवरण..."></textarea>
+            </div>
             <div class="form-g"><label for="ev-att"><span class="lang-en">Attendees</span><span class="lang-hi">उपस्थितजन</span></label><input type="number" id="ev-att" placeholder="50"/></div>
             <div class="form-g"><label for="ev-upcoming"><span class="lang-en">Status</span><span class="lang-hi">स्थिति</span></label>
               <select id="ev-upcoming">
@@ -325,7 +340,22 @@
             <div class="form-g"><label for="bl-author"><span class="lang-en">Author</span><span class="lang-hi">लेखक</span></label><input type="text" id="bl-author" value="Dr. Usha Tyagi"/></div>
             <div class="form-g"><label for="bl-tags"><span class="lang-en">Tags</span><span class="lang-hi">टैग</span></label><input type="text" id="bl-tags" placeholder="education, children, ghaziabad"/></div>
             <div class="form-g full"><label for="bl-exc"><span class="lang-en">Excerpt</span><span class="lang-hi">सारांश</span></label><textarea id="bl-exc" rows="2" placeholder="Brief summary / संक्षिप्त सारांश..."></textarea></div>
-            <div class="form-g full"><label for="bl-content"><span class="lang-en">Full Content *</span><span class="lang-hi">पूर्ण सामग्री *</span></label><textarea id="bl-content" rows="10" placeholder="Write the full blog post here... / यहाँ पूरी पोस्ट लिखें..."></textarea></div>
+            <div class="form-g full">
+              <div style="display:flex;align-items:center;justify-content:space-between;width:100%;margin-bottom:6px">
+                <label for="bl-content" style="margin:0"><span class="lang-en">Full Content *</span><span class="lang-hi">पूर्ण सामग्री *</span></label>
+                <div class="speech-controls" style="display:inline-flex;align-items:center;gap:6px">
+                  <button type="button" class="btn-sm btn-ghost" onclick="toggleSpeech('bl-content', this)" style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;font-size:11px;border-radius:4px;border:1px solid var(--bd)">
+                    <i class="ti ti-microphone"></i> <span class="speech-status">Voice Typing</span>
+                  </button>
+                  <select class="speech-lang" style="font-size:11px;padding:2px 4px;border:1px solid var(--bd);border-radius:4px;background:var(--bg);color:var(--dark)">
+                    <option value="en-IN">English (India)</option>
+                    <option value="hi-IN">Hindi (हिंदी)</option>
+                    <option value="en-US">English (US)</option>
+                  </select>
+                </div>
+              </div>
+              <textarea id="bl-content" rows="10" placeholder="Write the full blog post here... / यहाँ पूरी पोस्ट लिखें..."></textarea>
+            </div>
           </div>
           <div style="display:flex;gap:.8rem;margin-top:1rem;justify-content:flex-end">
             <button class="btn-sm btn-ghost" onclick="document.getElementById('blog-form-panel').style.display='none'"><span class="lang-en">Cancel</span><span class="lang-hi">रद्द करें</span></button>
@@ -432,12 +462,45 @@
           <div id="vol-email-alert" class="alert" style="margin-bottom:1rem"></div>
           <p style="font-size:12px;color:var(--mid);margin-bottom:12px"><span class="lang-en">To:</span><span class="lang-hi">प्रापकर्ता:</span> <strong id="vol-email-to" style="color:var(--dark)"></strong></p>
           <div class="form-g" style="margin-bottom:12px">
+            <label for="vol-email-template"><span class="lang-en">Email Template</span><span class="lang-hi">ईमेल टेम्पलेट</span></label>
+            <select id="vol-email-template" onchange="applyEmailTemplate()" style="width:100%;border:1px solid var(--bd);border-radius:8px;padding:9px 12px;font-size:13px;background:var(--input-bg);color:var(--dark);outline:none">
+              <option value="custom">— Custom / Custom Email —</option>
+              <option value="congrats">🎉 Congratulations / Selection Mail</option>
+              <option value="sorry">😔 Rejection / Sorry Mail</option>
+              <option value="late">⏳ Delayed Response / Sorry for Late Reply</option>
+              <option value="thanks">🙏 Thank You / Application Received</option>
+            </select>
+          </div>
+          <div class="form-g" style="margin-bottom:12px">
             <label for="vol-email-subject"><span class="lang-en">Subject</span><span class="lang-hi">विषय</span></label>
             <input type="text" id="vol-email-subject" placeholder="e.g. Volunteer Application Update" />
           </div>
           <div class="form-g" style="margin-bottom:14px">
-            <label for="vol-email-body"><span class="lang-en">Message</span><span class="lang-hi">संदेश</span></label>
+            <div style="display:flex;align-items:center;justify-content:space-between;width:100%;margin-bottom:6px">
+              <label for="vol-email-body" style="margin:0"><span class="lang-en">Message</span><span class="lang-hi">संदेश</span></label>
+              <div class="speech-controls" style="display:inline-flex;align-items:center;gap:6px">
+                <button type="button" class="btn-sm btn-ghost" onclick="toggleSpeech('vol-email-body', this)" style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;font-size:11px;border-radius:4px;border:1px solid var(--bd)">
+                  <i class="ti ti-microphone"></i> <span class="speech-status">Voice Typing</span>
+                </button>
+                <select class="speech-lang" style="font-size:11px;padding:2px 4px;border:1px solid var(--bd);border-radius:4px;background:var(--bg);color:var(--dark)">
+                  <option value="en-IN">English (India)</option>
+                  <option value="hi-IN">Hindi (हिंदी)</option>
+                  <option value="en-US">English (US)</option>
+                </select>
+              </div>
+            </div>
             <textarea id="vol-email-body" rows="6" placeholder="Write your message here..."></textarea>
+          </div>
+          <div class="form-g" style="margin-bottom:14px">
+            <label><span class="lang-en">Attachments</span><span class="lang-hi">संलग्नक</span></label>
+            <div style="border:1px dashed var(--bd);border-radius:8px;padding:10px 14px;background:var(--bg);cursor:pointer;position:relative" onclick="document.getElementById('vol-email-files').click()">
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--mid)">
+                <i class="ti ti-paperclip" style="font-size:16px"></i>
+                <span id="vol-email-files-label">Click to attach files (PDF, images, doc...)</span>
+              </div>
+              <input type="file" id="vol-email-files" multiple style="display:none" onchange="updateEmailAttachmentsLabel(this)" />
+            </div>
+            <div id="email-attachments-preview" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px"></div>
           </div>
           <div style="display:flex;gap:.6rem;justify-content:flex-end">
             <button class="btn-sm btn-ghost" onclick="closeVolEmail()"><span class="lang-en">Cancel</span><span class="lang-hi">रद्द करें</span></button>
@@ -1026,6 +1089,16 @@ function openVolEmail(id) {
   currentVolEmailId = id;
   const app = volApps.find(a => a._id === id);
   document.getElementById('vol-email-to').textContent = app ? app.email : '';
+  document.getElementById('vol-email-template').value = 'custom';
+  
+  // Clear any previous attachment inputs & previews
+  const fileInput = document.getElementById('vol-email-files');
+  if (fileInput) fileInput.value = '';
+  const fileLabel = document.getElementById('vol-email-files-label');
+  if (fileLabel) fileLabel.textContent = 'Click to attach files (PDF, images, doc...)';
+  const preview = document.getElementById('email-attachments-preview');
+  if (preview) preview.innerHTML = '';
+
   document.getElementById('vol-email-subject').value = 'Regarding Your Volunteer Application — Ved Daksha Foundation';
   document.getElementById('vol-email-body').value = app
     ? `Dear ${app.name || 'Applicant'},\n\nThank you for your interest in volunteering with Ved Daksha Foundation.\n\nWe have reviewed your application and would like to connect with you.\n\nPlease reach out at your earliest convenience.\n\nWarm regards,\nVed Daksha Foundation Team`
@@ -1046,12 +1119,29 @@ async function sendVolEmail() {
   const subject = document.getElementById('vol-email-subject').value.trim();
   const body = document.getElementById('vol-email-body').value.trim();
   if (!subject || !body) { al.className='alert alert-r'; al.textContent='Subject and message are required.'; al.style.display='block'; return; }
+  
   btn.disabled = true;
   btn.textContent = 'Sending...';
+  
   try {
+    const fd = new FormData();
+    fd.append('subject', subject);
+    fd.append('body', body);
+    
+    const fileInput = document.getElementById('vol-email-files');
+    if (fileInput && fileInput.files.length > 0) {
+      for (const file of fileInput.files) {
+        fd.append('attachments', file);
+      }
+    }
+    
+    // Explicitly exclude Content-Type so boundary is set automatically
     const r = await fetch(`${API}/volunteer/applications/${currentVolEmailId}/email`, {
-      method: 'POST', headers: authH(),
-      body: JSON.stringify({ subject, body })
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + TOKEN
+      },
+      body: fd
     });
     const d = await r.json();
     al.className = r.ok ? 'alert alert-g' : 'alert alert-r';
@@ -1059,10 +1149,74 @@ async function sendVolEmail() {
     al.style.display = 'block';
     if (r.ok) setTimeout(closeVolEmail, 2500);
   } catch (e) {
-    al.className = 'alert alert-r'; al.textContent = '❌ Network error.'; al.style.display = 'block';
+    al.className = 'alert alert-r'; al.textContent = '❌ Connection error.'; al.style.display = 'block';
   }
   btn.disabled = false;
   btn.innerHTML = '<i class="ti ti-send"></i> Send Email';
+}
+
+function applyEmailTemplate() {
+  const type = document.getElementById('vol-email-template').value;
+  const app = volApps.find(a => a._id === currentVolEmailId);
+  const name = app ? (app.name || 'Volunteer') : 'Volunteer';
+  
+  let interest = 'our foundation';
+  if (app && app.field_of_interest) {
+    if (Array.isArray(app.field_of_interest)) {
+      interest = app.field_of_interest.join(', ');
+    } else {
+      interest = app.field_of_interest;
+    }
+  }
+
+  const templates = {
+    custom: {
+      subject: 'Regarding Your Volunteer Application — Ved Daksha Foundation',
+      body: `Dear ${name},\n\nThank you for your interest in volunteering with Ved Daksha Foundation.\n\nWe have reviewed your application and would like to connect with you.\n\nPlease reach out at your earliest convenience.\n\nWarm regards,\nVed Daksha Foundation Team`
+    },
+    congrats: {
+      subject: `🎉 Congratulations! You have been selected as a Volunteer - Ved Daksha Foundation`,
+      body: `Dear ${name},\n\nWe are thrilled to inform you that your application to volunteer with the Ved Daksha Foundation has been approved!\n\nBased on your background and interest in ${interest}, we believe you will be a valuable addition to our core volunteer team. Your skills and dedication will help us create a meaningful impact on our ongoing initiatives.\n\nWe will host an onboarding session soon to discuss the upcoming schedule, projects, and activities. In the meantime, please feel free to reach out to us if you have any questions.\n\nThank you once again for your willingness to dedicate your time and efforts to our cause. Welcome aboard!\n\nWarm regards,\nDr. Usha Tyagi\nFounder, Ved Daksha Foundation`
+    },
+    sorry: {
+      subject: `Update on your Volunteer Application - Ved Daksha Foundation`,
+      body: `Dear ${name},\n\nThank you for your interest in volunteering with the Ved Daksha Foundation and for taking the time to submit your application.\n\nWe received a large volume of applications from passionate individuals and had to make some very difficult decisions. At this time, we are unable to offer you a volunteer position in your preferred field. We will, however, keep your profile on file and reach out to you if suitable opportunities arise in the future.\n\nWe sincerely appreciate your support for our foundation and wish you all the best in your future endeavors.\n\nWarm regards,\nDr. Usha Tyagi\nFounder, Ved Daksha Foundation`
+    },
+    late: {
+      subject: `Apology for the delayed response & Volunteer Update - Ved Daksha Foundation`,
+      body: `Dear ${name},\n\nFirst and foremost, please accept our sincere apologies for the delay in responding to your volunteer application. We have been managing a high volume of community campaigns and took longer than expected to review recent profiles.\n\nWe are incredibly grateful for your interest in volunteering with the Ved Daksha Foundation. Your application is currently under review, and we are excited to explore how your skills in ${interest} can help support our mission.\n\nWe will contact you with a final update within the next few days. Thank you for your patience and understanding.\n\nWarm regards,\nDr. Usha Tyagi\nFounder, Ved Daksha Foundation`
+    },
+    thanks: {
+      subject: `Thank you for applying to volunteer - Ved Daksha Foundation`,
+      body: `Dear ${name},\n\nThank you for submitting your application to volunteer with the Ved Daksha Foundation. We have successfully received your details and your resume.\n\nOur administration team is currently reviewing all submissions to align applicants with our current needs in education, health camps, and cultural events. We aim to get back to all candidates with an update soon.\n\nWe appreciate your interest in supporting our programs and look forward to potentially working together.\n\nWarm regards,\nDr. Usha Tyagi\nFounder, Ved Daksha Foundation`
+    }
+  };
+
+  const t = templates[type] || templates.custom;
+  document.getElementById('vol-email-subject').value = t.subject;
+  document.getElementById('vol-email-body').value = t.body;
+}
+
+function updateEmailAttachmentsLabel(input) {
+  const label = document.getElementById('vol-email-files-label');
+  const preview = document.getElementById('email-attachments-preview');
+  preview.innerHTML = '';
+  if (input.files.length === 0) {
+    label.textContent = 'Click to attach files (PDF, images, doc...)';
+    return;
+  }
+  label.textContent = `${input.files.length} file(s) selected`;
+  for (const file of input.files) {
+    const chip = document.createElement('div');
+    chip.style.cssText = 'display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:3px 8px;border-radius:12px;background:#e2e8f0;color:#334155;border:1px solid #cbd5e1';
+    
+    let iconClass = 'ti ti-file';
+    if (file.type.startsWith('image/')) iconClass = 'ti ti-photo';
+    else if (file.type === 'application/pdf') iconClass = 'ti ti-file-text';
+    
+    chip.innerHTML = `<i class="${iconClass}"></i> <span style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${file.name}</span>`;
+    preview.appendChild(chip);
+  }
 }
 
 // ── FORM CONFIG / BUILDER ──
@@ -1383,6 +1537,136 @@ function renderAnalysisData(data) {
       </div>
     `).join('');
   }
+}
+
+// ── VOICE SPEECH TO TEXT ──
+let speechRecognition = null;
+let currentSpeechTarget = null;
+let currentSpeechButton = null;
+
+function initSpeechRecognition() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    console.warn("Speech Recognition API is not supported in this browser.");
+    return false;
+  }
+  speechRecognition = new SpeechRecognition();
+  speechRecognition.continuous = true;
+  speechRecognition.interimResults = true;
+
+  speechRecognition.onstart = () => {
+    if (currentSpeechButton) {
+      currentSpeechButton.style.background = '#fee2e2';
+      currentSpeechButton.style.borderColor = '#dc2626';
+      currentSpeechButton.style.color = '#dc2626';
+      const icon = currentSpeechButton.querySelector('i');
+      if (icon) icon.className = 'ti ti-microphone-off';
+      const statusText = currentSpeechButton.querySelector('.speech-status');
+      if (statusText) {
+        statusText.textContent = document.documentElement.getAttribute('data-lang') === 'hi' ? 'सुनना बंद करें' : 'Stop Listening';
+      }
+    }
+  };
+
+  speechRecognition.onerror = (event) => {
+    console.error("Speech recognition error:", event.error);
+    stopSpeechTyping();
+  };
+
+  speechRecognition.onend = () => {
+    stopSpeechTyping();
+  };
+
+  speechRecognition.onresult = (event) => {
+    if (!currentSpeechTarget) return;
+    let interimTranscript = '';
+    let finalTranscript = '';
+
+    for (let i = event.resultIndex; i < event.results.length; ++i) {
+      if (event.results[i].isFinal) {
+        finalTranscript += event.results[i][0].transcript;
+      } else {
+        interimTranscript += event.results[i][0].transcript;
+      }
+    }
+
+    if (finalTranscript) {
+      const textarea = document.getElementById(currentSpeechTarget);
+      if (textarea) {
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const text = textarea.value;
+        const before = text.substring(0, start);
+        const after = text.substring(end, text.length);
+        
+        // Add spacing if needed
+        let spaceBefore = (start > 0 && !before.endsWith(' ') && !before.endsWith('\n')) ? ' ' : '';
+        let spaceAfter = (after && !after.startsWith(' ') && !after.startsWith('\n')) ? ' ' : '';
+        
+        textarea.value = before + spaceBefore + finalTranscript + spaceAfter + after;
+        
+        // Move selection cursor to the end of inserted text
+        const newCursorPos = start + spaceBefore.length + finalTranscript.length + spaceAfter.length;
+        textarea.setSelectionRange(newCursorPos, newCursorPos);
+        textarea.focus();
+        
+        // Trigger input event to update model
+        textarea.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+    }
+  };
+  return true;
+}
+
+function toggleSpeech(targetId, btn) {
+  if (!speechRecognition) {
+    const supported = initSpeechRecognition();
+    if (!supported) {
+      alert("❌ Speech Recognition is not supported in this browser. Please use Google Chrome, Edge, or Safari.");
+      return;
+    }
+  }
+
+  if (currentSpeechTarget === targetId) {
+    stopSpeechTyping();
+  } else {
+    stopSpeechTyping();
+
+    currentSpeechTarget = targetId;
+    currentSpeechButton = btn;
+    
+    const controls = btn.closest('.speech-controls');
+    const langSelect = controls ? controls.querySelector('.speech-lang') : null;
+    const selectedLang = langSelect ? langSelect.value : 'en-IN';
+    
+    speechRecognition.lang = selectedLang;
+    try {
+      speechRecognition.start();
+    } catch (e) {
+      console.error("Failed to start speech recognition:", e);
+    }
+  }
+}
+
+function stopSpeechTyping() {
+  if (speechRecognition) {
+    try {
+      speechRecognition.stop();
+    } catch (e) {}
+  }
+  if (currentSpeechButton) {
+    currentSpeechButton.style.background = '';
+    currentSpeechButton.style.borderColor = '';
+    currentSpeechButton.style.color = '';
+    const icon = currentSpeechButton.querySelector('i');
+    if (icon) icon.className = 'ti ti-microphone';
+    const statusText = currentSpeechButton.querySelector('.speech-status');
+    if (statusText) {
+      statusText.textContent = document.documentElement.getAttribute('data-lang') === 'hi' ? 'आवाज से टाइप करें' : 'Voice Typing';
+    }
+  }
+  currentSpeechTarget = null;
+  currentSpeechButton = null;
 }
 </script>
 </body>

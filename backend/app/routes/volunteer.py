@@ -165,7 +165,13 @@ def update_application_status(app_id: str, status: str, admin_payload: dict = De
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/applications/{app_id}/email")
-def send_email_to_volunteer(app_id: str, email_data: VolunteerEmailSend, admin_payload: dict = Depends(get_current_admin)):
+async def send_email_to_volunteer(
+    app_id: str,
+    subject: str = Form(...),
+    body: str = Form(...),
+    attachments: Optional[List[UploadFile]] = File(None),
+    admin_payload: dict = Depends(get_current_admin)
+):
     volunteers_col = get_collection("volunteers")
     try:
         if not ObjectId.is_valid(app_id):
@@ -179,20 +185,53 @@ def send_email_to_volunteer(app_id: str, email_data: VolunteerEmailSend, admin_p
         if not to_email:
             raise HTTPException(status_code=400, detail="Applicant has no email address")
 
-        # HTML formatting template
-        html_content = f"""<div style="font-family:sans-serif;max-width:600px;color:#333;line-height:1.6">
-          <div style="background:#1B6B3A;padding:20px;text-align:center;border-radius:6px 6px 0 0">
-            <h2 style="color:#ffffff;margin:0">Ved Daksha Foundation</h2>
+        # Premium HTML styling template
+        body_html = body.replace('\n', '<br>')
+        html_content = f"""
+        <div style="font-family:'Segoe UI',Helvetica,Arial,sans-serif; background-color:#f4f7f6; padding:40px 10px; margin:0;">
+          <div style="max-width:600px; margin:0 auto; background-color:#ffffff; border-radius:12px; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,0.06); border:1px solid #e2e8f0;">
+            <!-- Header -->
+            <div style="background: linear-gradient(135deg, #1B6B3A, #2e8b57); padding:35px 24px; text-align:center; color:#ffffff;">
+              <h1 style="margin:0; font-size:24px; font-weight:700; letter-spacing:0.5px;">Ved Daksha Foundation</h1>
+              <p style="margin:6px 0 0 0; font-size:14px; opacity:0.9; text-transform:uppercase; letter-spacing:1px;">Nurturing Futures, Building Communities</p>
+            </div>
+            
+            <!-- Body Content -->
+            <div style="padding:40px 32px; color:#334155; line-height:1.75; font-size:15px;">
+              <div style="margin-bottom:24px;">
+                {body_html}
+              </div>
+              
+              <!-- Call to Action / Info Box -->
+              <div style="background-color:#f8fafc; border-left:4px solid #1B6B3A; padding:16px 20px; border-radius:4px; margin-top:32px;">
+                <h4 style="margin:0 0 6px 0; font-size:14px; color:#1e293b; font-weight:600;">Connect with Us</h4>
+                <p style="margin:0; font-size:13px; color:#64748b; line-height:1.5;">If you have any questions or would like to learn more about our ongoing initiatives in education, yoga, and social welfare, feel free to visit our portal or contact us directly.</p>
+                <div style="margin-top:12px;">
+                  <a href="https://veddakshafoundation.org" target="_blank" style="display:inline-block; background-color:#1B6B3A; color:#ffffff; text-decoration:none; padding:8px 16px; font-size:12px; font-weight:600; border-radius:6px;">Visit Portal</a>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Footer -->
+            <div style="background-color:#f1f5f9; padding:24px; text-align:center; font-size:12px; color:#64748b; border-top:1px solid #e2e8f0;">
+              <p style="margin:0 0 8px 0; font-weight:600;">Ved Daksha Foundation</p>
+              <p style="margin:0 0 16px 0; line-height:1.4;">7/56, Chiranjeev Vihar, Ghaziabad, Uttar Pradesh, India</p>
+              <div style="border-top:1px solid #cbd5e1; padding-top:12px; font-size:11px; color:#94a3b8;">
+                This email was sent by the administrative portal. Please do not reply directly to this automated email.
+              </div>
+            </div>
           </div>
-          <div style="padding:24px;border:1px solid #e0e0e0;border-top:none;border-radius:0 0 6px 6px">
-            {email_data.body.replace(chr(10), '<br>')}
-          </div>
-          <div style="text-align:center;font-size:12px;color:#888;margin-top:20px">
-            Ved Daksha Foundation · Ghaziabad · Delhi · Meerut
-          </div>
-        </div>"""
+        </div>
+        """
         
-        send_custom_email(to_email, email_data.subject, html_content)
+        email_attachments = []
+        if attachments:
+            for attachment in attachments:
+                if attachment.filename:
+                    content_bytes = await attachment.read()
+                    email_attachments.append((attachment.filename, content_bytes))
+
+        send_custom_email(to_email, subject, html_content, email_attachments)
         return {"message": f"Email successfully sent to {to_email}"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

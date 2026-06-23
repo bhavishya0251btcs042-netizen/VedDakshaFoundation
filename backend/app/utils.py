@@ -57,15 +57,44 @@ def send_confirmation_email(to_email: str, name: str, amount: float, donation_id
     except Exception as e:
         print(f"Error sending email: {e}")
 
-def send_custom_email(to_email: str, subject: str, body_html: str):
+def send_custom_email(to_email: str, subject: str, body_html: str, attachments: list = None):
     if not to_email or Config.EMAIL_PASS == 'your_gmail_app_password_here' or not Config.EMAIL_USER or not Config.EMAIL_PASS:
         raise ValueError("SMTP email credentials are not fully configured in backend/.env")
     try:
-        msg = MIMEMultipart("alternative")
-        msg["Subject"] = subject
-        msg["From"] = f'"Ved Daksha Foundation" <{Config.EMAIL_USER}>'
-        msg["To"] = to_email
-        msg.attach(MIMEText(body_html, "html"))
+        import mimetypes
+        from email.mime.base import MIMEBase
+        from email import encoders
+
+        if attachments:
+            msg = MIMEMultipart("mixed")
+            msg["Subject"] = subject
+            msg["From"] = f'"Ved Daksha Foundation" <{Config.EMAIL_USER}>'
+            msg["To"] = to_email
+            
+            # Alternative wrapper for body content
+            msg_alt = MIMEMultipart("alternative")
+            msg_alt.attach(MIMEText(body_html, "html"))
+            msg.attach(msg_alt)
+            
+            # Attach files
+            for filename, content in attachments:
+                ctype, encoding = mimetypes.guess_type(filename)
+                if ctype is None or encoding:
+                    ctype = 'application/octet-stream'
+                maintype, subtype = ctype.split('/', 1)
+                
+                part = MIMEBase(maintype, subtype)
+                part.set_payload(content)
+                encoders.encode_base64(part)
+                part.add_header('Content-Disposition', 'attachment', filename=filename)
+                msg.attach(part)
+        else:
+            msg = MIMEMultipart("alternative")
+            msg["Subject"] = subject
+            msg["From"] = f'"Ved Daksha Foundation" <{Config.EMAIL_USER}>'
+            msg["To"] = to_email
+            msg.attach(MIMEText(body_html, "html"))
+
         with smtplib.SMTP("smtp.gmail.com", 587) as server:
             server.starttls()
             server.login(Config.EMAIL_USER, Config.EMAIL_PASS)
