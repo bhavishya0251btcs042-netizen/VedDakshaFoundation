@@ -74,6 +74,56 @@ async def create_gallery(
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@router.put("/{image_id}")
+async def update_gallery(
+    image_id: str,
+    occasion: Optional[str] = Form(None),
+    caption: Optional[str] = Form(None),
+    category: Optional[str] = Form(None),
+    order: Optional[int] = Form(None),
+    url: Optional[str] = Form(None),
+    image: Optional[UploadFile] = File(None),
+    admin_payload: dict = Depends(get_current_admin)
+):
+    gallery_col = get_collection("gallery")
+    try:
+        if not ObjectId.is_valid(image_id):
+            raise HTTPException(status_code=400, detail="Invalid image ID")
+        existing = gallery_col.find_one({"_id": ObjectId(image_id)})
+        if not existing:
+            raise HTTPException(status_code=404, detail="Not found")
+
+        updates = {}
+        final_caption = occasion or caption
+        if final_caption is not None:
+            updates["caption"] = final_caption
+            updates["occasion"] = final_caption
+        if category is not None:
+            updates["category"] = category
+        if order is not None:
+            updates["order"] = int(order)
+        if url is not None:
+            updates["url"] = url
+
+        if image and image.filename:
+            ext = os.path.splitext(image.filename)[1]
+            filename = f"gallery_{int(time.time() * 1000)}{ext}"
+            filepath = os.path.join(UPLOAD_DIR, filename)
+            content = await image.read()
+            with open(filepath, "wb") as f:
+                f.write(content)
+            updates["url"] = f"/gallery-images/{filename}"
+
+        if updates:
+            gallery_col.update_one({"_id": ObjectId(image_id)}, {"$set": updates})
+
+        updated = gallery_col.find_one({"_id": ObjectId(image_id)})
+        return serialize_doc(updated)
+    except HTTPException as he:
+        raise he
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @router.delete("/{image_id}")
 def delete_gallery(image_id: str, admin_payload: dict = Depends(get_current_admin)):
     gallery_col = get_collection("gallery")
@@ -88,3 +138,4 @@ def delete_gallery(image_id: str, admin_payload: dict = Depends(get_current_admi
         raise he
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+

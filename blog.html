@@ -317,6 +317,17 @@ const dictionary = {
   }
 };
 
+const BASE = (window.location.origin === 'null' || window.location.protocol === 'file:' ||
+  window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1'))
+  ? 'http://localhost:5000'
+  : window.location.origin;
+
+function resolveImgUrl(url) {
+  if (!url) return '';
+  if (url.startsWith('http')) return url;
+  return BASE + (url.startsWith('/') ? '' : '/') + url;
+}
+
 let vdf_lang = localStorage.getItem('vdf_lang') || 'en';
 let activePosts = [];
 let loadedPosts = [];
@@ -383,7 +394,7 @@ function renderPosts(posts) {
 
     return `
       <div class="blog-card">
-        ${p.coverImage ? `<div class="bimg"><img src="${p.coverImage}" alt="${title}"/></div>` : ''}
+        ${p.coverImage ? `<div class="bimg"><img src="${resolveImgUrl(p.coverImage)}" alt="${title}" onerror="this.src='images/1000087433.jpg.jpeg'"/></div>` : ''}
         <div class="bbody">
           <div class="bcat">${p.category || 'General'}</div>
           <h2>${title}</h2>
@@ -409,7 +420,7 @@ function openBlogModal(idx) {
   const content = document.getElementById('modal-content');
   
   if (post.coverImage) {
-    coverImg.src = post.coverImage;
+    coverImg.src = resolveImgUrl(post.coverImage);
     coverWrap.style.display = 'block';
   } else {
     coverWrap.style.display = 'none';
@@ -442,7 +453,7 @@ window.addEventListener('click', (e) => {
 });
 
 // Load blogs from API and replace seed content
-fetch('https://veddakshafoundation-production.up.railway.app/api/blog')
+fetch(`${BASE}/api/blog`)
   .then(r => r.json())
   .then(posts => {
     if (posts && posts.length > 0) {
