@@ -55,8 +55,8 @@ class NullOriginCORSMiddleware(BaseHTTPMiddleware):
         origin = request.headers.get("origin", "")
         if origin == "null" or not origin:
             response.headers["Access-Control-Allow-Origin"] = "*"
-            response.headers["Access-Control-Allow-Methods"] = "*"
-            response.headers["Access-Control-Allow-Headers"] = "*"
+            response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+            response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Requested-With, Accept, Origin, Access-Control-Request-Method, Access-Control-Request-Headers"
         return response
 
 app.add_middleware(NullOriginCORSMiddleware)

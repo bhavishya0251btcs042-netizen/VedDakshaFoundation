@@ -301,7 +301,7 @@
                   <button type="button" class="btn-sm btn-ghost" onclick="toggleSpeech('ev-desc', this)" style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;font-size:11px;border-radius:4px;border:1px solid var(--bd)">
                     <i class="ti ti-microphone"></i> <span class="speech-status">Voice Typing</span>
                   </button>
-                  <select class="speech-lang" style="font-size:11px;padding:2px 4px;border:1px solid var(--bd);border-radius:4px;background:var(--bg);color:var(--dark)">
+                  <select id="speech-lang-ev" name="speech-lang-ev" aria-label="Speech Language for Events" class="speech-lang" style="font-size:11px;padding:2px 4px;border:1px solid var(--bd);border-radius:4px;background:var(--bg);color:var(--dark)">
                     <option value="en-IN">English (India)</option>
                     <option value="hi-IN">Hindi (हिंदी)</option>
                     <option value="en-US">English (US)</option>
@@ -386,7 +386,7 @@
                   <button type="button" class="btn-sm btn-ghost" onclick="toggleSpeech('bl-content', this)" style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;font-size:11px;border-radius:4px;border:1px solid var(--bd)">
                     <i class="ti ti-microphone"></i> <span class="speech-status">Voice Typing</span>
                   </button>
-                  <select class="speech-lang" style="font-size:11px;padding:2px 4px;border:1px solid var(--bd);border-radius:4px;background:var(--bg);color:var(--dark)">
+                  <select id="speech-lang-bl" name="speech-lang-bl" aria-label="Speech Language for Blogs" class="speech-lang" style="font-size:11px;padding:2px 4px;border:1px solid var(--bd);border-radius:4px;background:var(--bg);color:var(--dark)">
                     <option value="en-IN">English (India)</option>
                     <option value="hi-IN">Hindi (हिंदी)</option>
                     <option value="en-US">English (US)</option>
@@ -521,7 +521,7 @@
                 <button type="button" class="btn-sm btn-ghost" onclick="toggleSpeech('vol-email-body', this)" style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;font-size:11px;border-radius:4px;border:1px solid var(--bd)">
                   <i class="ti ti-microphone"></i> <span class="speech-status">Voice Typing</span>
                 </button>
-                <select class="speech-lang" style="font-size:11px;padding:2px 4px;border:1px solid var(--bd);border-radius:4px;background:var(--bg);color:var(--dark)">
+                <select id="speech-lang-vol" name="speech-lang-vol" aria-label="Speech Language for Volunteer Emails" class="speech-lang" style="font-size:11px;padding:2px 4px;border:1px solid var(--bd);border-radius:4px;background:var(--bg);color:var(--dark)">
                   <option value="en-IN">English (India)</option>
                   <option value="hi-IN">Hindi (हिंदी)</option>
                   <option value="en-US">English (US)</option>
@@ -1281,7 +1281,7 @@ function renderVolTable() {
       ? `<button class="btn-sm btn-ghost" onclick="analyzeResume('${app._id}')" title="Analyze Resume" style="margin-left:4px"><i class="ti ti-wand"></i></button>`
       : '';
     const statusBadge = `<span class="status ${statusColors[app.status] || 's-p'}">${app.status || 'pending'}</span>`;
-    const statusSelect = `<select style="font-size:11px;border:1px solid var(--bd);border-radius:6px;padding:3px 6px;background:var(--input-bg);color:var(--dark);cursor:pointer" onchange="updateVolStatus('${app._id}',this.value)">
+    const statusSelect = `<select id="status-select-\${app._id}" name="status-select-\${app._id}" aria-label="Change volunteer status" style="font-size:11px;border:1px solid var(--bd);border-radius:6px;padding:3px 6px;background:var(--input-bg);color:var(--dark);cursor:pointer" onchange="updateVolStatus('${app._id}',this.value)">
       <option value="pending" ${app.status==='pending'?'selected':''}>Pending</option>
       <option value="contacted" ${app.status==='contacted'?'selected':''}>Contacted</option>
       <option value="approved" ${app.status==='approved'?'selected':''}>Approved</option>
