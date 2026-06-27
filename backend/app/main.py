@@ -33,13 +33,33 @@ else:
         if lo not in origins:
             origins.append(lo)
 
+# Always include null origin for file:// access during development
+if "*" not in origins and "null" not in origins:
+    origins.append("null")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True if "*" not in origins else False, # Credentials cannot be True with "*" origin in FastAPI
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Custom middleware to handle null origin (file:// protocol) explicitly
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.requests import Request as StarletteRequest
+
+class NullOriginCORSMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: StarletteRequest, call_next):
+        response = await call_next(request)
+        origin = request.headers.get("origin", "")
+        if origin == "null" or not origin:
+            response.headers["Access-Control-Allow-Origin"] = "*"
+            response.headers["Access-Control-Allow-Methods"] = "*"
+            response.headers["Access-Control-Allow-Headers"] = "*"
+        return response
+
+app.add_middleware(NullOriginCORSMiddleware)
 
 # ── Ensure uploads directories exist ──
 BACKEND_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -107,3 +127,16 @@ def read_blog():
 app.mount("/images", StaticFiles(directory=IMAGES_DIR), name="images")
 app.mount("/admin", StaticFiles(directory=os.path.join(FRONTEND_DIR, "admin"), html=True), name="admin")
 
+from fastapi.responses import Response
+
+@app.get("/favicon.ico", include_in_schema=False)
+def favicon():
+    # Return a 1x1 transparent ICO to stop 404 spam
+    # Minimal valid .ico file (1x1 pixel, transparent)
+    ico_bytes = bytes([
+        0,0,1,0,1,0,1,1,0,0,1,0,24,0,40,0,0,0,
+        40,0,0,0,1,0,0,0,2,0,0,0,1,0,24,0,0,0,0,0,
+        4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,255,0,0,0,0,0,0,0,0,0,0,0
+    ])
+    return Response(content=ico_bytes, media_type="image/x-icon")

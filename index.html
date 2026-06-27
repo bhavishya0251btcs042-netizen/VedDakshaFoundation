@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>"/>
   <title>Ved Daksha Foundation — Empowering Children, Ghaziabad</title>
   <meta name="description" content="Ved Daksha Foundation — free education, martial arts, yoga, dance & health camps for underprivileged children in Ghaziabad, Delhi & Meerut. Founded by Dr. Usha Tyagi."/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -866,7 +867,8 @@
 <a id="wa" href="https://wa.me/918700785399?text=Hi%2C%20I%20want%20to%20know%20more%20about%20Ved%20Daksha%20Foundation" target="_blank"><i class="ti ti-brand-whatsapp"></i></a>
 
 <script>
-const API = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')
+const API = (window.location.origin === 'null' || window.location.protocol === 'file:' ||
+  window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1'))
   ? 'http://localhost:5000/api'
   : window.location.origin + '/api';
 
@@ -1129,7 +1131,8 @@ async function submitVolunteer(){
 <script>
 // ── DYNAMIC CONTENT LOADER ──
 (async function loadDynamicContent(){
-  const BASE = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1') || window.location.protocol === 'file:'
+  const BASE = (window.location.origin === 'null' || window.location.protocol === 'file:' ||
+    window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1'))
     ? 'http://localhost:5000' : window.location.origin;
   const lang = document.documentElement.getAttribute('data-lang') || 'en';
 
