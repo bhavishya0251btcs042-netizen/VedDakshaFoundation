@@ -564,7 +564,7 @@
 
           <!-- Field Type -->
           <div>
-            <label style="font-size:11px;font-weight:600;color:var(--mid);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px">Field Type</label>
+            <label for="af-type" style="font-size:11px;font-weight:600;color:var(--mid);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px">Field Type</label>
             <select id="af-type" onchange="onAddFieldTypeChange()" style="width:100%;border:1px solid var(--bd);border-radius:8px;padding:9px 12px;font-size:13px;background:var(--input-bg);color:var(--dark);outline:none">
               <optgroup label="📝 Text Fields">
                 <option value="text">Text (single line)</option>
@@ -585,19 +585,19 @@
 
           <!-- Label English -->
           <div>
-            <label style="font-size:11px;font-weight:600;color:var(--mid);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px">Label (English) <span style="color:var(--red)">*</span></label>
+            <label for="af-label" style="font-size:11px;font-weight:600;color:var(--mid);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px">Label (English) <span style="color:var(--red)">*</span></label>
             <input type="text" id="af-label" placeholder="e.g. Date of Birth" oninput="generateFieldId()" style="width:100%;border:1px solid var(--bd);border-radius:8px;padding:9px 12px;font-size:13px;background:var(--input-bg);color:var(--dark);outline:none">
           </div>
 
           <!-- Label Hindi -->
           <div>
-            <label style="font-size:11px;font-weight:600;color:var(--mid);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px">Label (Hindi)</label>
+            <label for="af-label-hi" style="font-size:11px;font-weight:600;color:var(--mid);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px">Label (Hindi)</label>
             <input type="text" id="af-label-hi" placeholder="जन्म तिथि" style="width:100%;border:1px solid var(--bd);border-radius:8px;padding:9px 12px;font-size:13px;background:var(--input-bg);color:var(--dark);outline:none;font-family:'Noto Sans Devanagari',sans-serif">
           </div>
 
           <!-- Auto-generated Field ID -->
           <div>
-            <label style="font-size:11px;font-weight:600;color:var(--mid);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px">Field ID <span style="font-size:10px;font-weight:400">(auto-generated)</span></label>
+            <label for="af-id" style="font-size:11px;font-weight:600;color:var(--mid);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px">Field ID <span style="font-size:10px;font-weight:400">(auto-generated)</span></label>
             <input type="text" id="af-id" placeholder="date_of_birth" style="width:100%;border:1px solid var(--bd);border-radius:8px;padding:9px 12px;font-size:12px;background:var(--bg);color:var(--mid);outline:none;font-family:monospace" readonly>
           </div>
 
@@ -609,7 +609,7 @@
 
           <!-- Options (for select / radio / checkbox) -->
           <div id="af-options-wrap" style="display:none">
-            <label id="af-options-label" style="font-size:11px;font-weight:600;color:var(--mid);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px">Options <span style="color:var(--red)">*</span> <span style="font-size:10px;font-weight:400">(one per line)</span></label>
+            <label id="af-options-label" for="af-options" style="font-size:11px;font-weight:600;color:var(--mid);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px">Options <span style="color:var(--red)">*</span> <span style="font-size:10px;font-weight:400">(one per line)</span></label>
             <div id="af-options-hint" style="font-size:11px;color:var(--mid);margin-bottom:8px;padding:8px 10px;background:var(--bg);border-radius:6px;border:1px solid var(--bd)"></div>
             <textarea id="af-options" rows="5" placeholder="Option 1&#10;Option 2&#10;Option 3" style="width:100%;border:1px solid var(--bd);border-radius:8px;padding:9px 12px;font-size:13px;background:var(--input-bg);color:var(--dark);outline:none;resize:vertical"></textarea>
           </div>
@@ -1547,8 +1547,8 @@ function renderVolConfig() {
         <div style="background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:14px 16px;${!f.enabled ? 'opacity:.6' : ''}" data-idx="${i}">
           <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
             <div style="display:flex;align-items:center;gap:6px;min-width:120px">
-              <label style="position:relative;display:inline-block;width:38px;height:20px">
-                <input type="checkbox" ${f.enabled ? 'checked' : ''} onchange="volConfigChange(${i},'enabled',this.checked);renderVolConfig()" style="opacity:0;width:0;height:0">
+              <label for="enabled-${i}" style="position:relative;display:inline-block;width:38px;height:20px">
+                <input type="checkbox" id="enabled-${i}" ${f.enabled ? 'checked' : ''} onchange="volConfigChange(${i},'enabled',this.checked);renderVolConfig()" style="opacity:0;width:0;height:0">
                 <span style="position:absolute;cursor:pointer;inset:0;background:${f.enabled ? 'var(--g)' : 'var(--bd)'};border-radius:20px;transition:.2s;"></span>
                 <span style="position:absolute;content:'';height:14px;width:14px;left:${f.enabled ? '21px' : '3px'};bottom:3px;background:#fff;border-radius:50%;transition:.2s;"></span>
               </label>
@@ -1565,21 +1565,21 @@ function renderVolConfig() {
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.8rem">
             <div>
-              <label style="font-size:11px;color:var(--mid);display:block;margin-bottom:3px">Label (English)</label>
-              <input type="text" value="${f.label}" oninput="volConfigChange(${i},'label',this.value)" style="width:100%;border:1px solid var(--bd);border-radius:6px;padding:7px 10px;font-size:13px;background:var(--input-bg);color:var(--dark);outline:none">
+              <label for="lbl-en-${i}" style="font-size:11px;color:var(--mid);display:block;margin-bottom:3px">Label (English)</label>
+              <input type="text" id="lbl-en-${i}" name="lbl-en-${i}" value="${f.label}" oninput="volConfigChange(${i},'label',this.value)" style="width:100%;border:1px solid var(--bd);border-radius:6px;padding:7px 10px;font-size:13px;background:var(--input-bg);color:var(--dark);outline:none">
             </div>
             <div>
-              <label style="font-size:11px;color:var(--mid);display:block;margin-bottom:3px">Label (Hindi)</label>
-              <input type="text" value="${f.labelHindi || ''}" oninput="volConfigChange(${i},'labelHindi',this.value)" style="width:100%;border:1px solid var(--bd);border-radius:6px;padding:7px 10px;font-size:13px;background:var(--input-bg);color:var(--dark);outline:none;font-family:'Noto Sans Devanagari',sans-serif">
+              <label for="lbl-hi-${i}" style="font-size:11px;color:var(--mid);display:block;margin-bottom:3px">Label (Hindi)</label>
+              <input type="text" id="lbl-hi-${i}" name="lbl-hi-${i}" value="${f.labelHindi || ''}" oninput="volConfigChange(${i},'labelHindi',this.value)" style="width:100%;border:1px solid var(--bd);border-radius:6px;padding:7px 10px;font-size:13px;background:var(--input-bg);color:var(--dark);outline:none;font-family:'Noto Sans Devanagari',sans-serif">
             </div>
           </div>
           ${['select','radio','checkbox'].includes(f.type) ? `
             <div style="margin-top:.8rem">
-              <label style="font-size:11px;color:var(--mid);display:block;margin-bottom:4px">
+              <label for="opts-${i}" style="font-size:11px;color:var(--mid);display:block;margin-bottom:4px">
                 ${f.type === 'radio' ? '🔘 Single Choice Options' : f.type === 'checkbox' ? '☑️ Multiple Choice Options' : 'Dropdown Options'}
                 <span style="font-weight:400"> (one per line)</span>
               </label>
-              <textarea oninput="volConfigChange(${i},'options',this.value.split('\\n').filter(o=>o.trim()))" rows="4" style="width:100%;border:1px solid var(--bd);border-radius:6px;padding:7px 10px;font-size:12px;background:var(--input-bg);color:var(--dark);outline:none;resize:vertical">${(f.options || []).join('\n')}</textarea>
+              <textarea id="opts-${i}" name="opts-${i}" oninput="volConfigChange(${i},'options',this.value.split('\\n').filter(o=>o.trim()))" rows="4" style="width:100%;border:1px solid var(--bd);border-radius:6px;padding:7px 10px;font-size:12px;background:var(--input-bg);color:var(--dark);outline:none;resize:vertical">${(f.options || []).join('\n')}</textarea>
             </div>` : ''}
         </div>`;
       }).join('')}
