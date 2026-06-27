@@ -93,6 +93,7 @@
     .panel{background:var(--card);border-radius:12px;border:1px solid var(--bd);overflow:hidden;margin-bottom:1.5rem;transition:background .3s}
     .panel-head{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.2rem;border-bottom:1px solid var(--bd)}
     .panel-head h3{font-size:15px;font-weight:600;color:var(--dark)}
+    .table-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
     table{width:100%;border-collapse:collapse}
     th,td{padding:.7rem 1rem;text-align:left;font-size:13px;border-bottom:1px solid var(--bd);color:var(--dark)}
     th{background:var(--bg);font-weight:600;color:var(--mid);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
@@ -258,8 +259,10 @@
       <!-- Recent donations -->
       <div class="panel">
         <div class="panel-head"><h3><span class="lang-en">Recent Donations</span><span class="lang-hi">हालिया दान</span></h3><button class="btn-sm btn-ghost" onclick="showPage('donations')"><span class="lang-en">View All</span><span class="lang-hi">सभी देखें</span></button></div>
-        <table><thead><tr><th><span class="lang-en">Name</span><span class="lang-hi">नाम</span></th><th><span class="lang-en">Amount</span><span class="lang-hi">राशि</span></th><th><span class="lang-en">Purpose</span><span class="lang-hi">उद्देश्य</span></th><th><span class="lang-en">Status</span><span class="lang-hi">स्थिति</span></th><th><span class="lang-en">Date</span><span class="lang-hi">तारीख</span></th></tr></thead>
-        <tbody id="dash-donations"><tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--mid)"><span class="lang-en">Loading...</span><span class="lang-hi">लोड हो रहा है...</span></td></tr></tbody></table>
+        <div class="table-wrap">
+          <table><thead><tr><th><span class="lang-en">Name</span><span class="lang-hi">नाम</span></th><th><span class="lang-en">Amount</span><span class="lang-hi">राशि</span></th><th><span class="lang-en">Purpose</span><span class="lang-hi">उद्देश्य</span></th><th><span class="lang-en">Status</span><span class="lang-hi">स्थिति</span></th><th><span class="lang-en">Date</span><span class="lang-hi">तारीख</span></th></tr></thead>
+          <tbody id="dash-donations"><tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--mid)"><span class="lang-en">Loading...</span><span class="lang-hi">लोड हो रहा है...</span></td></tr></tbody></table>
+        </div>
       </div>
     </div>
 
@@ -333,8 +336,10 @@
         </div>
       </div>
       <div class="panel">
-        <table><thead><tr><th><span class="lang-en">Title</span><span class="lang-hi">शीर्षक</span></th><th><span class="lang-en">Date</span><span class="lang-hi">तारीख</span></th><th><span class="lang-en">Category</span><span class="lang-hi">श्रेणी</span></th><th><span class="lang-en">Status</span><span class="lang-hi">स्थिति</span></th><th><span class="lang-en">Actions</span><span class="lang-hi">क्रियाएं</span></th></tr></thead>
-        <tbody id="events-table"><tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--mid)"><span class="lang-en">Loading events...</span><span class="lang-hi">कार्यक्रम लोड हो रहे हैं...</span></td></tr></tbody></table>
+        <div class="table-wrap">
+          <table><thead><tr><th><span class="lang-en">Title</span><span class="lang-hi">शीर्षक</span></th><th><span class="lang-en">Date</span><span class="lang-hi">तारीख</span></th><th><span class="lang-en">Category</span><span class="lang-hi">श्रेणी</span></th><th><span class="lang-en">Status</span><span class="lang-hi">स्थिति</span></th><th><span class="lang-en">Actions</span><span class="lang-hi">क्रियाएं</span></th></tr></thead>
+          <tbody id="events-table"><tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--mid)"><span class="lang-en">Loading events...</span><span class="lang-hi">कार्यक्रम लोड हो रहे हैं...</span></td></tr></tbody></table>
+        </div>
       </div>
     </div>
 
@@ -403,8 +408,10 @@
         </div>
       </div>
       <div class="panel">
-        <table><thead><tr><th><span class="lang-en">Title</span><span class="lang-hi">शीर्षक</span></th><th><span class="lang-en">Category</span><span class="lang-hi">श्रेणी</span></th><th><span class="lang-en">Author</span><span class="lang-hi">लेखक</span></th><th><span class="lang-en">Views</span><span class="lang-hi">दृश्य</span></th><th><span class="lang-en">Date</span><span class="lang-hi">तारीख</span></th><th><span class="lang-en">Actions</span><span class="lang-hi">क्रियाएं</span></th></tr></thead>
-        <tbody id="blog-table"><tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)"><span class="lang-en">Loading posts...</span><span class="lang-hi">पोस्ट लोड हो रही हैं...</span></td></tr></tbody></table>
+        <div class="table-wrap">
+          <table><thead><tr><th><span class="lang-en">Title</span><span class="lang-hi">शीर्षक</span></th><th><span class="lang-en">Category</span><span class="lang-hi">श्रेणी</span></th><th><span class="lang-en">Author</span><span class="lang-hi">लेखक</span></th><th><span class="lang-en">Views</span><span class="lang-hi">दृश्य</span></th><th><span class="lang-en">Date</span><span class="lang-hi">तारीख</span></th><th><span class="lang-en">Actions</span><span class="lang-hi">क्रियाएं</span></th></tr></thead>
+          <tbody id="blog-table"><tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)"><span class="lang-en">Loading posts...</span><span class="lang-hi">पोस्ट लोड हो रही हैं...</span></td></tr></tbody></table>
+        </div>
       </div>
     </div>
 
@@ -415,8 +422,10 @@
         <div id="don-total" style="font-size:14px;color:var(--mid)"><span class="lang-en">Loading...</span><span class="lang-hi">लोड हो रहा है...</span></div>
       </div>
       <div class="panel">
-        <table><thead><tr><th><span class="lang-en">Name</span><span class="lang-hi">नाम</span></th><th><span class="lang-en">Phone</span><span class="lang-hi">फ़ोन</span></th><th><span class="lang-en">Amount</span><span class="lang-hi">राशि</span></th><th><span class="lang-en">Purpose</span><span class="lang-hi">उद्देश्य</span></th><th><span class="lang-en">Status</span><span class="lang-hi">स्थिति</span></th><th><span class="lang-en">Date</span><span class="lang-hi">तारीख</span></th><th><span class="lang-en">Action</span><span class="lang-hi">क्रिया</span></th></tr></thead>
-        <tbody id="don-table"><tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--mid)"><span class="lang-en">Loading...</span><span class="lang-hi">लोड हो रहा है...</span></td></tr></tbody></table>
+        <div class="table-wrap">
+          <table><thead><tr><th><span class="lang-en">Name</span><span class="lang-hi">नाम</span></th><th><span class="lang-en">Phone</span><span class="lang-hi">फ़ोन</span></th><th><span class="lang-en">Amount</span><span class="lang-hi">राशि</span></th><th><span class="lang-en">Purpose</span><span class="lang-hi">उद्देश्य</span></th><th><span class="lang-en">Status</span><span class="lang-hi">स्थिति</span></th><th><span class="lang-en">Date</span><span class="lang-hi">तारीख</span></th><th><span class="lang-en">Action</span><span class="lang-hi">क्रिया</span></th></tr></thead>
+          <tbody id="don-table"><tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--mid)"><span class="lang-en">Loading...</span><span class="lang-hi">लोड हो रहा है...</span></td></tr></tbody></table>
+        </div>
       </div>
     </div>
 
@@ -424,8 +433,10 @@
     <div id="page-messages" class="page" style="display:none">
       <div class="topbar"><div class="page-title"><span class="lang-en">Contact Messages</span><span class="lang-hi">संपर्क संदेश</span></div></div>
       <div class="panel">
-        <table><thead><tr><th><span class="lang-en">Name</span><span class="lang-hi">नाम</span></th><th><span class="lang-en">Contact</span><span class="lang-hi">संपर्क</span></th><th><span class="lang-en">Message</span><span class="lang-hi">संदेश</span></th><th><span class="lang-en">Status</span><span class="lang-hi">स्थिति</span></th><th><span class="lang-en">Date</span><span class="lang-hi">तारीख</span></th><th><span class="lang-en">Action</span><span class="lang-hi">क्रिया</span></th></tr></thead>
-        <tbody id="msg-table"><tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)"><span class="lang-en">Loading...</span><span class="lang-hi">लोड हो रहा है...</span></td></tr></tbody></table>
+        <div class="table-wrap">
+          <table><thead><tr><th><span class="lang-en">Name</span><span class="lang-hi">नाम</span></th><th><span class="lang-en">Contact</span><span class="lang-hi">संपर्क</span></th><th><span class="lang-en">Message</span><span class="lang-hi">संदेश</span></th><th><span class="lang-en">Status</span><span class="lang-hi">स्थिति</span></th><th><span class="lang-en">Date</span><span class="lang-hi">तारीख</span></th><th><span class="lang-en">Action</span><span class="lang-hi">क्रिया</span></th></tr></thead>
+          <tbody id="msg-table"><tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)"><span class="lang-en">Loading...</span><span class="lang-hi">लोड हो रहा है...</span></td></tr></tbody></table>
+        </div>
       </div>
     </div>
 
@@ -446,17 +457,19 @@
             <h3><span class="lang-en">Volunteer Applications</span><span class="lang-hi">स्वयंसेवक आवेदन</span></h3>
             <button class="btn-sm btn-ghost" onclick="loadVolunteers()"><i class="ti ti-refresh"></i> <span class="lang-en">Refresh</span><span class="lang-hi">नवीनीकरण</span></button>
           </div>
-          <table>
-            <thead><tr>
-              <th><span class="lang-en">Name</span><span class="lang-hi">नाम</span></th>
-              <th><span class="lang-en">Contact</span><span class="lang-hi">संपर्क</span></th>
-              <th><span class="lang-en">Field of Interest</span><span class="lang-hi">रुचि क्षेत्र</span></th>
-              <th><span class="lang-en">Date</span><span class="lang-hi">तारीख</span></th>
-              <th><span class="lang-en">Status</span><span class="lang-hi">स्थिति</span></th>
-              <th><span class="lang-en">Actions</span><span class="lang-hi">क्रियाएं</span></th>
-            </tr></thead>
-            <tbody id="vol-table"><tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)"><span class="lang-en">Loading...</span><span class="lang-hi">लोड हो रहा है...</span></td></tr></tbody>
-          </table>
+          <div class="table-wrap">
+            <table>
+              <thead><tr>
+                <th><span class="lang-en">Name</span><span class="lang-hi">नाम</span></th>
+                <th><span class="lang-en">Contact</span><span class="lang-hi">संपर्क</span></th>
+                <th><span class="lang-en">Field of Interest</span><span class="lang-hi">रुचि क्षेत्र</span></th>
+                <th><span class="lang-en">Date</span><span class="lang-hi">तारीख</span></th>
+                <th><span class="lang-en">Status</span><span class="lang-hi">स्थिति</span></th>
+                <th><span class="lang-en">Actions</span><span class="lang-hi">क्रियाएं</span></th>
+              </tr></thead>
+              <tbody id="vol-table"><tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)"><span class="lang-en">Loading...</span><span class="lang-hi">लोड हो रहा है...</span></td></tr></tbody>
+            </table>
+          </div>
         </div>
       </div>
 
