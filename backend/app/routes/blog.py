@@ -26,6 +26,33 @@ def get_blogs():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@router.get("/all")
+def get_all_blogs(admin_payload: dict = Depends(get_current_admin)):
+    """Admin-only: return ALL blog posts including unpublished"""
+    blogs_col = get_collection("blogs")
+    try:
+        cursor = blogs_col.find({}).sort("createdAt", -1)
+        blogs = list(cursor)
+        return serialize_docs(blogs)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/id/{blog_id}")
+def get_blog_by_id(blog_id: str, admin_payload: dict = Depends(get_current_admin)):
+    """Get a single blog by its ObjectId for admin editing"""
+    blogs_col = get_collection("blogs")
+    try:
+        if not ObjectId.is_valid(blog_id):
+            raise HTTPException(status_code=400, detail="Invalid blog ID")
+        blog = blogs_col.find_one({"_id": ObjectId(blog_id)})
+        if not blog:
+            raise HTTPException(status_code=404, detail="Not found")
+        return serialize_doc(blog)
+    except HTTPException as he:
+        raise he
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @router.get("/{slug}")
 def get_blog(slug: str):
     blogs_col = get_collection("blogs")

@@ -66,7 +66,7 @@
     .sb-item:hover,.sb-item.active{background:var(--sidebar-active);color:#fff}
     .sb-item.active{border-left:3px solid var(--g)}
     .sb-section{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);padding:.8rem 1.2rem .3rem}
-    .main{margin-left:240px;padding:2rem;min-height:100vh}
+    .main{margin-left:240px;padding:2rem;min-height:100vh;overflow-y:auto;max-height:100vh}
 
     /* ── TOP BAR ── */
     .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;padding-right:160px}
@@ -885,17 +885,20 @@ function showPage(id){
 // ── DASHBOARD ──
 async function loadDashboard(){
   try{
-    const [evR,donR,msgR]=await Promise.all([
+    const [evR,donR,msgR,galR]=await Promise.all([
       fetch(`${API}/events`,{headers:authH()}),
       fetch(`${API}/donations`,{headers:authH()}),
-      fetch(`${API}/contact`,{headers:authH()})
+      fetch(`${API}/contact`,{headers:authH()}),
+      fetch(`${API}/gallery`,{headers:authH()})
     ]);
-    const ev=await evR.json(),don=await donR.json(),msg=await msgR.json();
+    const ev=await evR.json(),don=await donR.json(),msg=await msgR.json(),gal=await galR.json();
     document.getElementById('d-events').textContent=Array.isArray(ev)?ev.length:(ev.total||'—');
     const confirmed=don.totalConfirmed||0;
     document.getElementById('d-donations').textContent='₹'+confirmed.toLocaleString('en-IN');
     const unread=msg.unread||0;
     document.getElementById('d-messages').textContent=unread;
+    const galCount=Array.isArray(gal)?gal.length:(gal.total||0);
+    document.getElementById('d-gallery').textContent=galCount;
     if(unread>0){document.getElementById('unread-badge').textContent=unread;document.getElementById('unread-badge').style.display='inline'}
     const dons=don.donations?.slice(0,5)||[];
     document.getElementById('dash-donations').innerHTML=dons.map(d=>`<tr><td>${d.name}</td><td>₹${d.amount.toLocaleString('en-IN')}</td><td>${d.purpose||'—'}</td><td><span class="status ${d.status==='confirmed'?'s-c':d.status==='failed'?'s-f':'s-p'}">${d.status}</span></td><td>${new Date(d.createdAt||d.created_at).toLocaleDateString('en-IN')}</td></tr>`).join('')||'<tr><td colspan="5" style="text-align:center;color:var(--mid)">No donations yet</td></tr>';
@@ -995,19 +998,40 @@ function previewImages(input){
 
 // ── GALLERY ──
 let _galOccasion = '';
+function resolveImgUrl(url) {
+  if (!url) return '';
+  if (url.startsWith('http')) return url;
+  var base = API.replace('/api','');
+  return base + url;
+}
 async function loadGallery(){
-  const r=await fetch(`${API}/gallery`,{headers:authH()});
-  const items=await r.json();
-  const grid=document.getElementById('gallery-grid');
-  const arr=Array.isArray(items)?items:(items.gallery||[]);
-  grid.innerHTML=arr.length?arr.map(g=>`
-    <div style="border-radius:8px;overflow:hidden;border:1px solid var(--bd);background:var(--card)">
-      <div class="img-thumb" style="border-radius:0">
-        <img src="${g.url}" alt="${g.caption||g.occasion||''}" style="width:100%;height:100%;object-fit:cover"/>
-        <button class="img-del" onclick="deleteGallery('${g._id||g.id}')"><i class="ti ti-x"></i></button>
-      </div>
-      <div class="img-caption" title="${g.caption||g.occasion||''}">${g.caption||g.occasion||'No occasion'}</div>
-    </div>`).join(''):'<p style="color:var(--mid);font-size:13px">No images yet</p>';
+  try {
+    var r = await fetch(API+'/gallery', {headers:authH()});
+    var items = await r.json();
+    var grid = document.getElementById('gallery-grid');
+    var arr = Array.isArray(items) ? items : (items.gallery||[]);
+    var dg = document.getElementById('d-gallery');
+    if(dg) dg.textContent = arr.length;
+    if(!arr.length){
+      grid.innerHTML = '<p style="color:var(--mid);font-size:13px">No images yet. Click Upload Images to add.</p>';
+      return;
+    }
+    var html = '';
+    for(var i=0;i<arr.length;i++){
+      var g = arr[i];
+      var imgUrl = resolveImgUrl(g.url);
+      var cap = (g.caption||g.occasion||'No occasion').replace(/"/g,'&quot;');
+      var gid = g._id||g.id;
+      html += '<div style="border-radius:8px;overflow:hidden;border:1px solid var(--bd);background:var(--card)">'
+           +  '<div class="img-thumb" style="border-radius:0">'
+           +  '<img src="'+imgUrl+'" alt="'+cap+'" style="width:100%;height:100%;object-fit:cover" onerror="this.src=\'https://placehold.co/200x200?text=Img\'" />'
+           +  '<button class="img-del" onclick="deleteGallery(\''+gid+'\')" ><i class="ti ti-x"></i></button>'
+           +  '</div>'
+           +  '<div class="img-caption" title="'+cap+'">'+cap+'</div>'
+           +  '</div>';
+    }
+    grid.innerHTML = html;
+  } catch(e){ console.error('Gallery load error:', e); }
 }
 function openOccasionModal(){
   document.getElementById('occ-input').value='';
@@ -1040,30 +1064,76 @@ async function uploadGalleryFiles(input){
 async function deleteGallery(id){if(!confirm('Remove this image?'))return;await fetch(`${API}/gallery/${id}`,{method:'DELETE',headers:authH()});loadGallery()}
 
 // ── BLOG ──
+let allBlogPosts = [];
+let currentBlogEditId = null;
+
 async function loadBlog(){
-  const r=await fetch(`${API}/blog`,{headers:authH()});
+  const r=await fetch(`${API}/blog/all`,{headers:authH()});
   const data=await r.json();
-  const posts=Array.isArray(data)?data:(data.posts||[]);
-  document.getElementById('blog-table').innerHTML=posts.length?posts.map(p=>`<tr>
-    <td>
-      ${p.coverImage?`<img src="${p.coverImage}" style="width:40px;height:30px;object-fit:cover;border-radius:4px;margin-right:6px;vertical-align:middle"/>`:''}
-      <strong>${p.title}</strong>
-    </td>
-    <td>${p.category||'—'}</td><td>${p.author||'—'}</td><td>${p.views||0}</td>
-    <td>${new Date(p.createdAt||p.created_at).toLocaleDateString('en-IN')}</td>
-    <td><button class="btn-sm btn-red" onclick="deleteBlog('${p._id||p.id}')"><i class="ti ti-trash"></i></button></td>
-  </tr>`).join(''):'<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)">No posts yet</td></tr>';
+  allBlogPosts=Array.isArray(data)?data:(data.posts||[]);
+  document.getElementById('blog-table').innerHTML=allBlogPosts.length?allBlogPosts.map(p=>{
+    const coverUrl = p.coverImage ? resolveImgUrl(p.coverImage) : '';
+    return `<tr>
+      <td>
+        ${coverUrl?`<img src="${coverUrl}" style="width:40px;height:30px;object-fit:cover;border-radius:4px;margin-right:6px;vertical-align:middle" onerror="this.style.display='none'"/>`:''}
+        <strong>${p.title}</strong>
+      </td>
+      <td>${p.category||'—'}</td><td>${p.author||'—'}</td><td>${p.views||0}</td>
+      <td>${new Date(p.createdAt||p.created_at).toLocaleDateString('en-IN')}</td>
+      <td style="display:flex;gap:4px">
+        <button class="btn-sm btn-ghost" onclick="editBlog('${p._id||p.id}')"><i class="ti ti-edit"></i></button>
+        <button class="btn-sm btn-red" onclick="deleteBlog('${p._id||p.id}')"><i class="ti ti-trash"></i></button>
+      </td>
+    </tr>`;
+  }).join(''):'<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)">No posts yet</td></tr>';
 }
 function openBlogForm(){
+  currentBlogEditId = null;
   document.getElementById('blog-form-panel').style.display='block';
+  document.getElementById('bl-title').value='';
+  document.getElementById('bl-content').value='';
+  document.getElementById('bl-exc').value='';
+  document.getElementById('bl-tags').value='';
+  document.getElementById('bl-author').value='Dr. Usha Tyagi';
   document.getElementById('bl-cover-preview').innerHTML='';
   document.getElementById('bl-cover').value='';
+  document.getElementById('bl-cover-zone').style.display='';
+  document.querySelector('#blog-form-panel .panel-head h3').innerHTML='<span class="lang-en">Write Blog Post</span><span class="lang-hi">ब्लॉग पोस्ट लिखें</span>';
+  document.getElementById('blog-form-panel').scrollIntoView({behavior:'smooth'});
+}
+function editBlog(id){
+  const p = allBlogPosts.find(x=>(x._id||x.id)===id);
+  if(!p) return;
+  currentBlogEditId = id;
+  document.getElementById('bl-title').value = p.title||'';
+  document.getElementById('bl-content').value = p.content||'';
+  document.getElementById('bl-exc').value = p.excerpt||'';
+  document.getElementById('bl-tags').value = (p.tags||[]).join(', ');
+  document.getElementById('bl-author').value = p.author||'Dr. Usha Tyagi';
+  // Set category
+  const catSel = document.getElementById('bl-cat');
+  const cats = ['Education / शिक्षा','Health / स्वास्थ्य','Community / समुदाय','Events / कार्यक्रम','Impact Stories / प्रभाव कहानियाँ'];
+  for(let i=0;i<catSel.options.length;i++){
+    if(catSel.options[i].value===p.category||catSel.options[i].text.includes(p.category||'')) { catSel.selectedIndex=i; break; }
+  }
+  // Show cover preview if exists
+  const coverUrl = p.coverImage ? resolveImgUrl(p.coverImage) : '';
+  if(coverUrl){
+    document.getElementById('bl-cover-preview').innerHTML=`<div class="img-preview-wrap"><img src="${coverUrl}" onerror="this.style.display='none'"/><button class="img-preview-clear" onclick="clearBlogCover()">×</button></div>`;
+    document.getElementById('bl-cover-zone').style.display='none';
+  } else {
+    document.getElementById('bl-cover-preview').innerHTML='';
+    document.getElementById('bl-cover-zone').style.display='';
+  }
+  document.querySelector('#blog-form-panel .panel-head h3').innerHTML='<span class="lang-en">Edit Blog Post</span><span class="lang-hi">ब्लॉग पोस्ट संपादित करें</span>';
+  document.getElementById('blog-form-panel').style.display='block';
+  document.getElementById('blog-form-panel').scrollIntoView({behavior:'smooth'});
 }
 function previewBlogCover(input){
   const preview=document.getElementById('bl-cover-preview');
   if(input.files&&input.files[0]){
     const url=URL.createObjectURL(input.files[0]);
-    preview.innerHTML=`<div class="img-preview-wrap"><img src="${url}"/><button class="img-preview-clear" onclick="clearBlogCover()">x</button></div>`;
+    preview.innerHTML=`<div class="img-preview-wrap"><img src="${url}"/><button class="img-preview-clear" onclick="clearBlogCover()">×</button></div>`;
     document.getElementById('bl-cover-zone').style.display='none';
   }
 }
@@ -1086,15 +1156,19 @@ async function saveBlog(){
   fd.append('author',document.getElementById('bl-author').value);
   fd.append('tags',JSON.stringify(tags));
   if(coverFile) fd.append('coverImage',coverFile);
-  const r=await fetch(`${API}/blog`,{method:'POST',headers:{'Authorization':'Bearer '+TOKEN},body:fd});
+  const url = currentBlogEditId ? `${API}/blog/${currentBlogEditId}` : `${API}/blog`;
+  const method = currentBlogEditId ? 'PUT' : 'POST';
+  const r=await fetch(url,{method,headers:{'Authorization':'Bearer '+TOKEN},body:fd});
   if(r.ok){
     document.getElementById('blog-form-panel').style.display='none';
+    currentBlogEditId = null;
     loadBlog();
   } else {
-    alert('Error saving blog post');
+    const err=await r.json().catch(()=>({}));
+    alert('Error saving blog post: '+(err.detail||'Unknown error'));
   }
 }
-async function deleteBlog(id){if(!confirm('Delete?'))return;await fetch(`${API}/blog/${id}`,{method:'DELETE',headers:authH()});loadBlog()}
+async function deleteBlog(id){if(!confirm('Delete this blog post?'))return;await fetch(`${API}/blog/${id}`,{method:'DELETE',headers:authH()});loadBlog()}
 
 // ── CONNECTIONS ──
 let allConnections = [];
