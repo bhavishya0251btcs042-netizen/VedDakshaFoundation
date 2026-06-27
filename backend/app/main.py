@@ -7,7 +7,7 @@ from datetime import datetime
 
 from app.config import Config
 from app.database import check_db_connection
-from app.routes import auth, events, donations, blog, gallery, contact, volunteer
+from app.routes import auth, events, donations, blog, gallery, contact, volunteer, connections
 
 # Initialize FastAPI App with prefix /api
 app = FastAPI(title="Ved Daksha Foundation API", docs_url="/docs", redoc_url="/redoc")
@@ -52,12 +52,18 @@ os.makedirs(UPLOAD_BLOG_DIR, exist_ok=True)
 os.makedirs(IMAGES_DIR, exist_ok=True)
 UPLOAD_RESUMES_DIR = os.path.join(BACKEND_DIR, "uploads", "resumes")
 os.makedirs(UPLOAD_RESUMES_DIR, exist_ok=True)
+UPLOAD_CONNECTIONS_DIR = os.path.join(BACKEND_DIR, "uploads", "connections")
+os.makedirs(UPLOAD_CONNECTIONS_DIR, exist_ok=True)
+UPLOAD_GALLERY_DIR = os.path.join(BACKEND_DIR, "uploads", "gallery")
+os.makedirs(UPLOAD_GALLERY_DIR, exist_ok=True)
 
 # ── Mount Static Folders ──
 app.mount("/uploads", StaticFiles(directory=IMAGES_DIR), name="uploads")
 app.mount("/event-images", StaticFiles(directory=UPLOAD_EVENTS_DIR), name="event-images")
 app.mount("/blog-images", StaticFiles(directory=UPLOAD_BLOG_DIR), name="blog-images")
 app.mount("/resumes", StaticFiles(directory=UPLOAD_RESUMES_DIR), name="resumes")
+app.mount("/connection-images", StaticFiles(directory=UPLOAD_CONNECTIONS_DIR), name="connection-images")
+app.mount("/gallery-images", StaticFiles(directory=UPLOAD_GALLERY_DIR), name="gallery-images")
 
 # ── Include Routers ──
 app.include_router(auth.router, prefix="/api")
@@ -67,6 +73,7 @@ app.include_router(blog.router, prefix="/api")
 app.include_router(gallery.router, prefix="/api")
 app.include_router(contact.router, prefix="/api")
 app.include_router(volunteer.router, prefix="/api")
+app.include_router(connections.router, prefix="/api")
 
 @app.get("/api/health")
 def health_check():

@@ -80,3 +80,12 @@ class VolunteerConfigUpdate(BaseModel):
 class VolunteerEmailSend(BaseModel):
     subject: str
     body: str
+
+# ── CONNECTION SCHEMAS ──
+class ConnectionCreate(BaseModel):
+    name: str
+    role: str
+    bio: Optional[str] = ""
+    imageUrl: Optional[str] = ""
+    order: Optional[int] = 0
+

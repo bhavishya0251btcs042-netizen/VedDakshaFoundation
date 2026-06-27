@@ -1,4 +1,6 @@
-from fastapi import APIRouter, HTTPException, Depends
+import os
+import time
+from fastapi import APIRouter, HTTPException, Depends, File, UploadFile, Form
 from datetime import datetime
 from bson import ObjectId
 from typing import Optional
@@ -9,6 +11,9 @@ from app.middleware import get_current_admin
 
 router = APIRouter(prefix="/gallery", tags=["gallery"])
 
+UPLOAD_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "uploads", "gallery")
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+
 @router.get("")
 def get_gallery(category: Optional[str] = None):
     gallery_col = get_collection("gallery")
@@ -16,7 +21,6 @@ def get_gallery(category: Optional[str] = None):
         filter_query = {}
         if category:
             filter_query["category"] = category
-            
         cursor = gallery_col.find(filter_query).sort([("order", 1), ("createdAt", -1)])
         images = list(cursor)
         return serialize_docs(images)
@@ -24,22 +28,46 @@ def get_gallery(category: Optional[str] = None):
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("")
-def create_gallery(data: GalleryCreate, admin_payload: dict = Depends(get_current_admin)):
+async def create_gallery(
+    occasion: Optional[str] = Form(None),
+    caption: Optional[str] = Form(None),
+    category: Optional[str] = Form("general"),
+    order: Optional[int] = Form(0),
+    eventRef: Optional[str] = Form(None),
+    url: Optional[str] = Form(None),
+    image: Optional[UploadFile] = File(None),
+    admin_payload: dict = Depends(get_current_admin)
+):
     gallery_col = get_collection("gallery")
     try:
+        # Determine caption: occasion takes priority, then caption param, then url-derived
+        final_caption = occasion or caption or ""
+
+        # Determine image URL: uploaded file takes priority over url field
+        image_url = url or ""
+        if image and image.filename:
+            ext = os.path.splitext(image.filename)[1]
+            filename = f"gallery_{int(time.time() * 1000)}{ext}"
+            filepath = os.path.join(UPLOAD_DIR, filename)
+            content = await image.read()
+            with open(filepath, "wb") as f:
+                f.write(content)
+            image_url = f"/gallery-images/{filename}"
+
         gallery_doc = {
-            "url": data.url,
-            "caption": data.caption,
-            "category": data.category,
-            "order": data.order or 0,
+            "url": image_url,
+            "caption": final_caption,
+            "occasion": final_caption,
+            "category": category or "general",
+            "order": int(order or 0),
             "createdAt": datetime.utcnow()
         }
-        if data.eventRef:
-            if ObjectId.is_valid(data.eventRef):
-                gallery_doc["eventRef"] = ObjectId(data.eventRef)
+        if eventRef:
+            if ObjectId.is_valid(eventRef):
+                gallery_doc["eventRef"] = ObjectId(eventRef)
             else:
-                gallery_doc["eventRef"] = data.eventRef
-                
+                gallery_doc["eventRef"] = eventRef
+
         result = gallery_col.insert_one(gallery_doc)
         gallery_doc["_id"] = result.inserted_id
         return serialize_doc(gallery_doc)

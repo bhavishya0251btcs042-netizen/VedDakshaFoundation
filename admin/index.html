@@ -145,6 +145,30 @@
     .img-thumb{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden}
     .img-thumb img{width:100%;height:100%;object-fit:cover}
     .img-del{position:absolute;top:4px;right:4px;background:rgba(0,0,0,.6);color:#fff;border:none;border-radius:4px;padding:3px 6px;cursor:pointer;font-size:11px}
+    .img-caption{font-size:10px;color:var(--mid);text-align:center;padding:2px 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:var(--bg)}
+
+    /* ── CONNECTION CARDS ── */
+    .conn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;padding:1rem}
+    .conn-card{background:var(--bg);border:1px solid var(--bd);border-radius:10px;overflow:hidden;transition:box-shadow .2s}
+    .conn-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.08)}
+    .conn-img{width:100%;aspect-ratio:1;object-fit:cover;background:#e0e0e0}
+    .conn-img-placeholder{width:100%;aspect-ratio:1;background:var(--gl);display:flex;align-items:center;justify-content:center;color:var(--g);font-size:40px}
+    .conn-body{padding:.7rem}
+    .conn-name{font-size:13px;font-weight:600;color:var(--dark);margin-bottom:2px}
+    .conn-role{font-size:11px;color:var(--g);font-weight:500;margin-bottom:4px}
+    .conn-bio{font-size:11px;color:var(--mid);line-height:1.5;margin-bottom:.5rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .conn-actions{display:flex;gap:4px}
+
+    /* ── OCCASION MODAL ── */
+    .occ-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;align-items:center;justify-content:center}
+    .occ-overlay.open{display:flex}
+    .occ-box{background:var(--card);border-radius:12px;padding:1.5rem;width:380px;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+    .occ-box h3{font-size:16px;font-weight:600;margin-bottom:1rem;color:var(--dark)}
+
+    /* ── IMAGE PREVIEW ── */
+    .img-preview-wrap{position:relative;display:inline-block;margin-top:.5rem}
+    .img-preview-wrap img{max-height:120px;border-radius:6px;border:1px solid var(--bd)}
+    .img-preview-clear{position:absolute;top:-6px;right:-6px;background:var(--red);color:#fff;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center}
 
     @media(max-width:768px){.stat-row{grid-template-columns:1fr 1fr}.sidebar{width:60px}.main{margin-left:60px}.sb-logo,.sb-sub,.sb-section,.sb-item span{display:none}.form-grid{grid-template-columns:1fr}}
     @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
@@ -188,6 +212,7 @@
     <div class="sb-item" onclick="showPage('messages')"><i class="ti ti-message"></i><span><span class="lang-en">Messages</span><span class="lang-hi">संदेश</span> <span id="unread-badge" style="background:var(--red);color:#fff;font-size:10px;font-weight:600;padding:2px 6px;border-radius:10px;display:none">0</span></span></div>
     <div class="sb-section"><span class="lang-en">People</span><span class="lang-hi">लोग</span></div>
     <div class="sb-item" onclick="showPage('volunteers')"><i class="ti ti-users"></i><span><span class="lang-en">Volunteers</span><span class="lang-hi">स्वयंसेवक</span></span></div>
+    <div class="sb-item" onclick="showPage('connections')"><i class="ti ti-address-book"></i><span><span class="lang-en">Connections</span><span class="lang-hi">संपर्क</span></span></div>
     <div class="sb-section"><span class="lang-en">Settings</span><span class="lang-hi">सेटिंग</span></div>
     <div class="sb-item" onclick="showPage('settings')"><i class="ti ti-settings"></i><span><span class="lang-en">Settings</span><span class="lang-hi">सेटिंग</span></span></div>
     <div style="height:2rem"></div>
@@ -313,8 +338,8 @@
     <div id="page-gallery" class="page" style="display:none">
       <div class="topbar">
         <div class="page-title"><span class="lang-en">Gallery Management</span><span class="lang-hi">गैलरी प्रबंधन</span></div>
-        <button class="btn-sm btn-green" onclick="document.getElementById('gal-upload').click()"><i class="ti ti-plus"></i><span class="lang-en">Upload Images</span><span class="lang-hi">तस्वीरें अपलोड करें</span></button>
-        <input type="file" id="gal-upload" multiple accept="image/*" style="display:none" onchange="uploadGallery(this)"/>
+        <button class="btn-sm btn-green" onclick="openOccasionModal()"><i class="ti ti-plus"></i><span class="lang-en">Upload Images</span><span class="lang-hi">तस्वीरें अपलोड करें</span></button>
+        <input type="file" id="gal-upload" multiple accept="image/*" style="display:none" onchange="uploadGalleryFiles(this)"/>
       </div>
       <div id="gal-alert" class="alert"></div>
       <div class="panel">
@@ -322,6 +347,7 @@
         <div style="padding:1rem"><div class="img-grid" id="gallery-grid"><p style="color:var(--mid);font-size:13px"><span class="lang-en">Loading gallery...</span><span class="lang-hi">गैलरी लोड हो रही है...</span></p></div></div>
       </div>
     </div>
+
 
     <!-- BLOG -->
     <div id="page-blog" class="page" style="display:none">
@@ -339,6 +365,15 @@
             </div>
             <div class="form-g"><label for="bl-author"><span class="lang-en">Author</span><span class="lang-hi">लेखक</span></label><input type="text" id="bl-author" value="Dr. Usha Tyagi"/></div>
             <div class="form-g"><label for="bl-tags"><span class="lang-en">Tags</span><span class="lang-hi">टैग</span></label><input type="text" id="bl-tags" placeholder="education, children, ghaziabad"/></div>
+            <div class="form-g full">
+              <label><span class="lang-en">Cover Image <span style="color:var(--red)">*</span></span><span class="lang-hi">कवर इमेज *</span></label>
+              <div class="upload-zone" onclick="document.getElementById('bl-cover').click()" id="bl-cover-zone" style="padding:14px">
+                <i class="ti ti-photo"></i>
+                <p style="font-size:12px;margin-top:4px"><span class="lang-en">Click to upload cover image</span><span class="lang-hi">कवर इमेज अपलोड करने के लिए क्लिक करें</span></p>
+              </div>
+              <input type="file" id="bl-cover" accept="image/*" style="display:none" onchange="previewBlogCover(this)"/>
+              <div id="bl-cover-preview"></div>
+            </div>
             <div class="form-g full"><label for="bl-exc"><span class="lang-en">Excerpt</span><span class="lang-hi">सारांश</span></label><textarea id="bl-exc" rows="2" placeholder="Brief summary / संक्षिप्त सारांश..."></textarea></div>
             <div class="form-g full">
               <div style="display:flex;align-items:center;justify-content:space-between;width:100%;margin-bottom:6px">
@@ -683,8 +718,79 @@
       </div>
     </div>
 
+    <!-- CONNECTIONS -->
+    <div id="page-connections" class="page" style="display:none">
+      <div class="topbar">
+        <div class="page-title"><span class="lang-en">Connections Management</span><span class="lang-hi">संपर्क प्रबंधन</span></div>
+        <button class="btn-sm btn-green" onclick="openConnForm()"><i class="ti ti-plus"></i><span class="lang-en">Add Connection</span><span class="lang-hi">संपर्क जोड़ें</span></button>
+      </div>
+      <div id="conn-alert" class="alert"></div>
+      <!-- Add / Edit Form -->
+      <div class="panel" id="conn-form-panel" style="display:none;margin-bottom:1.5rem">
+        <div class="panel-head">
+          <h3 id="conn-form-title"><span class="lang-en">Add Connection</span><span class="lang-hi">संपर्क जोड़ें</span></h3>
+          <button class="btn-sm btn-ghost" onclick="closeConnForm()"><i class="ti ti-x"></i></button>
+        </div>
+        <div style="padding:1.2rem">
+          <div class="form-grid">
+            <div class="form-g">
+              <label for="conn-name"><span class="lang-en">Full Name *</span><span class="lang-hi">पूरा नाम *</span></label>
+              <input type="text" id="conn-name" placeholder="Dr. Preeti Sharma"/>
+            </div>
+            <div class="form-g">
+              <label for="conn-role"><span class="lang-en">Role / Title *</span><span class="lang-hi">पद / शीर्षक *</span></label>
+              <input type="text" id="conn-role" placeholder="Medical Advisor"/>
+            </div>
+            <div class="form-g full">
+              <label for="conn-bio"><span class="lang-en">Short Bio</span><span class="lang-hi">संक्षिप्त परिचय</span></label>
+              <textarea id="conn-bio" rows="2" placeholder="A brief description of this person's role and contribution..."></textarea>
+            </div>
+            <div class="form-g">
+              <label for="conn-order"><span class="lang-en">Display Order</span><span class="lang-hi">प्रदर्शन क्रम</span></label>
+              <input type="number" id="conn-order" placeholder="0" min="0"/>
+            </div>
+            <div class="form-g">
+              <label><span class="lang-en">Photo</span><span class="lang-hi">फ़ोटो</span></label>
+              <div class="upload-zone" onclick="document.getElementById('conn-img-input').click()" style="padding:12px">
+                <i class="ti ti-user-circle"></i>
+                <p style="font-size:12px;margin-top:4px"><span class="lang-en">Click to upload photo</span><span class="lang-hi">फ़ोटो अपलोड करने के लिए क्लिक करें</span></p>
+              </div>
+              <input type="file" id="conn-img-input" accept="image/*" style="display:none" onchange="previewConnImg(this)"/>
+              <div id="conn-img-preview"></div>
+            </div>
+          </div>
+          <div style="display:flex;gap:.8rem;margin-top:1rem;justify-content:flex-end">
+            <button class="btn-sm btn-ghost" onclick="closeConnForm()"><span class="lang-en">Cancel</span><span class="lang-hi">रद्द करें</span></button>
+            <button class="btn-sm btn-green" onclick="saveConnection()"><i class="ti ti-device-floppy"></i><span class="lang-en">Save Connection</span><span class="lang-hi">संपर्क सहेजें</span></button>
+          </div>
+        </div>
+      </div>
+      <!-- Connections Grid -->
+      <div class="panel">
+        <div class="panel-head"><h3><span class="lang-en">All Connections</span><span class="lang-hi">सभी संपर्क</span></h3></div>
+        <div id="conn-grid" class="conn-grid"><p style="color:var(--mid);font-size:13px;padding:1rem"><span class="lang-en">No connections yet. Click "Add Connection" to begin.</span></p></div>
+      </div>
+    </div>
+
   </main>
 </div>
+
+<!-- ── OCCASION MODAL ── -->
+<div class="occ-overlay" id="occ-overlay">
+  <div class="occ-box">
+    <h3><i class="ti ti-camera" style="color:var(--g)"></i> <span class="lang-en">Enter Occasion / Event Name</span><span class="lang-hi">अवसर / कार्यक्रम का नाम दर्ज करें</span></h3>
+    <p style="font-size:12px;color:var(--mid);margin-bottom:1rem"><span class="lang-en">This occasion will be shown when users hover over the image on the website.</span><span class="lang-hi">यह अवसर वेबसाइट पर इमेज पर होवर करने पर दिखाया जाएगा।</span></p>
+    <div class="form-g" style="margin-bottom:1rem">
+      <label for="occ-input"><span class="lang-en">Occasion Name</span><span class="lang-hi">अवसर का नाम</span></label>
+      <input type="text" id="occ-input" placeholder="e.g. Annual Varshikotsav 2025 / वार्षिक समारोह 2025"/>
+    </div>
+    <div style="display:flex;gap:.8rem;justify-content:flex-end">
+      <button class="btn-sm btn-ghost" onclick="closeOccasionModal()"><span class="lang-en">Cancel</span><span class="lang-hi">रद्द करें</span></button>
+      <button class="btn-sm btn-green" onclick="proceedGalleryUpload()"><i class="ti ti-upload"></i> <span class="lang-en">Select Images</span><span class="lang-hi">तस्वीरें चुनें</span></button>
+    </div>
+  </div>
+</div>
+
 
 <script>
 const API = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')
@@ -755,7 +861,7 @@ function showPage(id){
   document.getElementById('page-'+id).style.display='block';
   document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
   document.querySelector(`[onclick="showPage('${id}')"]`)?.classList.add('active');
-  ({events:loadEvents,donations:loadDonations,messages:loadMessages,gallery:loadGallery,blog:loadBlog,volunteers:loadVolunteers})[id]?.();
+  ({events:loadEvents,donations:loadDonations,messages:loadMessages,gallery:loadGallery,blog:loadBlog,volunteers:loadVolunteers,connections:loadConnections})[id]?.();
 }
 
 // ── DASHBOARD ──
@@ -870,42 +976,229 @@ function previewImages(input){
 }
 
 // ── GALLERY ──
+let _galOccasion = '';
 async function loadGallery(){
   const r=await fetch(`${API}/gallery`,{headers:authH()});
   const items=await r.json();
   const grid=document.getElementById('gallery-grid');
   const arr=Array.isArray(items)?items:(items.gallery||[]);
-  grid.innerHTML=arr.length?arr.map(g=>`<div class="img-thumb"><img src="${g.url}" alt="${g.caption||''}"/><button class="img-del" onclick="deleteGallery('${g._id||g.id}')"><i class="ti ti-x"></i></button></div>`).join(''):'<p style="color:var(--mid);font-size:13px">No images yet</p>';
+  grid.innerHTML=arr.length?arr.map(g=>`
+    <div style="border-radius:8px;overflow:hidden;border:1px solid var(--bd);background:var(--card)">
+      <div class="img-thumb" style="border-radius:0">
+        <img src="${g.url}" alt="${g.caption||g.occasion||''}" style="width:100%;height:100%;object-fit:cover"/>
+        <button class="img-del" onclick="deleteGallery('${g._id||g.id}')"><i class="ti ti-x"></i></button>
+      </div>
+      <div class="img-caption" title="${g.caption||g.occasion||''}">${g.caption||g.occasion||'No occasion'}</div>
+    </div>`).join(''):'<p style="color:var(--mid);font-size:13px">No images yet</p>';
 }
-async function uploadGallery(input){
-  const alert=document.getElementById('gal-alert');
-  alert.className='alert alert-g';alert.textContent='Uploading...';alert.style.display='block';
+function openOccasionModal(){
+  document.getElementById('occ-input').value='';
+  document.getElementById('occ-overlay').classList.add('open');
+}
+function closeOccasionModal(){
+  document.getElementById('occ-overlay').classList.remove('open');
+}
+function proceedGalleryUpload(){
+  _galOccasion = document.getElementById('occ-input').value.trim();
+  if(!_galOccasion){alert('Please enter an occasion name');return}
+  closeOccasionModal();
+  document.getElementById('gal-upload').value='';
+  document.getElementById('gal-upload').click();
+}
+async function uploadGalleryFiles(input){
+  const alertEl=document.getElementById('gal-alert');
+  alertEl.className='alert alert-g';alertEl.textContent='Uploading...';alertEl.style.display='block';
   for(const file of input.files){
-    const reader=new FileReader();
-    await new Promise(resolve=>{reader.onload=async e=>{await fetch(`${API}/gallery`,{method:'POST',headers:authH(),body:JSON.stringify({url:e.target.result,caption:file.name.replace(/[_-]/g,' ').replace(/\.[^.]+$/,'')})});resolve()};reader.readAsDataURL(file)});
+    const fd=new FormData();
+    fd.append('image',file);
+    fd.append('occasion',_galOccasion);
+    fd.append('caption',_galOccasion);
+    fd.append('category','general');
+    await fetch(`${API}/gallery`,{method:'POST',headers:{'Authorization':'Bearer '+TOKEN},body:fd});
   }
-  alert.textContent='✅ Uploaded!';setTimeout(()=>{alert.style.display='none';loadGallery()},1000);
+  alertEl.textContent='✅ Uploaded! Occasion: '+_galOccasion;
+  setTimeout(()=>{alertEl.style.display='none';loadGallery()},1500);
 }
-async function deleteGallery(id){if(!confirm('Remove?'))return;await fetch(`${API}/gallery/${id}`,{method:'DELETE',headers:authH()});loadGallery()}
+async function deleteGallery(id){if(!confirm('Remove this image?'))return;await fetch(`${API}/gallery/${id}`,{method:'DELETE',headers:authH()});loadGallery()}
 
 // ── BLOG ──
 async function loadBlog(){
   const r=await fetch(`${API}/blog`,{headers:authH()});
   const data=await r.json();
   const posts=Array.isArray(data)?data:(data.posts||[]);
-  document.getElementById('blog-table').innerHTML=posts.length?posts.map(p=>`<tr><td><strong>${p.title}</strong></td><td>${p.category||'—'}</td><td>${p.author}</td><td>${p.views||0}</td><td>${new Date(p.createdAt||p.created_at).toLocaleDateString('en-IN')}</td><td><button class="btn-sm btn-red" onclick="deleteBlog('${p._id||p.id}')"><i class="ti ti-trash"></i></button></td></tr>`).join(''):'<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)">No posts yet</td></tr>';
+  document.getElementById('blog-table').innerHTML=posts.length?posts.map(p=>`<tr>
+    <td>
+      ${p.coverImage?`<img src="${p.coverImage}" style="width:40px;height:30px;object-fit:cover;border-radius:4px;margin-right:6px;vertical-align:middle"/>`:''}
+      <strong>${p.title}</strong>
+    </td>
+    <td>${p.category||'—'}</td><td>${p.author||'—'}</td><td>${p.views||0}</td>
+    <td>${new Date(p.createdAt||p.created_at).toLocaleDateString('en-IN')}</td>
+    <td><button class="btn-sm btn-red" onclick="deleteBlog('${p._id||p.id}')"><i class="ti ti-trash"></i></button></td>
+  </tr>`).join(''):'<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--mid)">No posts yet</td></tr>';
 }
-function openBlogForm(){document.getElementById('blog-form-panel').style.display='block'}
+function openBlogForm(){
+  document.getElementById('blog-form-panel').style.display='block';
+  document.getElementById('bl-cover-preview').innerHTML='';
+  document.getElementById('bl-cover').value='';
+}
+function previewBlogCover(input){
+  const preview=document.getElementById('bl-cover-preview');
+  if(input.files&&input.files[0]){
+    const url=URL.createObjectURL(input.files[0]);
+    preview.innerHTML=`<div class="img-preview-wrap"><img src="${url}"/><button class="img-preview-clear" onclick="clearBlogCover()">x</button></div>`;
+    document.getElementById('bl-cover-zone').style.display='none';
+  }
+}
+function clearBlogCover(){
+  document.getElementById('bl-cover').value='';
+  document.getElementById('bl-cover-preview').innerHTML='';
+  document.getElementById('bl-cover-zone').style.display='';
+}
 async function saveBlog(){
-  const title=document.getElementById('bl-title').value;const content=document.getElementById('bl-content').value;
-  if(!title||!content){alert('Title and content required');return}
+  const title=document.getElementById('bl-title').value;
+  const content=document.getElementById('bl-content').value;
+  const coverFile=document.getElementById('bl-cover').files[0];
+  if(!title||!content){alert('Title and content are required');return}
   const tags=document.getElementById('bl-tags').value.split(',').map(t=>t.trim()).filter(Boolean);
-  await fetch(`${API}/blog`,{method:'POST',headers:authH(),body:JSON.stringify({title,content,excerpt:document.getElementById('bl-exc').value,category:document.getElementById('bl-cat').value,author:document.getElementById('bl-author').value,tags:JSON.stringify(tags)})});
-  document.getElementById('blog-form-panel').style.display='none';loadBlog();
+  const fd=new FormData();
+  fd.append('title',title);
+  fd.append('content',content);
+  fd.append('excerpt',document.getElementById('bl-exc').value);
+  fd.append('category',document.getElementById('bl-cat').value);
+  fd.append('author',document.getElementById('bl-author').value);
+  fd.append('tags',JSON.stringify(tags));
+  if(coverFile) fd.append('coverImage',coverFile);
+  const r=await fetch(`${API}/blog`,{method:'POST',headers:{'Authorization':'Bearer '+TOKEN},body:fd});
+  if(r.ok){
+    document.getElementById('blog-form-panel').style.display='none';
+    loadBlog();
+  } else {
+    alert('Error saving blog post');
+  }
 }
 async function deleteBlog(id){if(!confirm('Delete?'))return;await fetch(`${API}/blog/${id}`,{method:'DELETE',headers:authH()});loadBlog()}
 
+// ── CONNECTIONS ──
+let allConnections = [];
+let currentConnEditId = null;
+
+async function loadConnections() {
+  try {
+    const r = await fetch(`${API}/connections`, {headers: authH()});
+    allConnections = await r.json();
+    renderConnections();
+  } catch(e) {
+    document.getElementById('conn-grid').innerHTML = '<p style="color:var(--mid);padding:1rem">Failed to load connections</p>';
+  }
+}
+
+function renderConnections() {
+  const grid = document.getElementById('conn-grid');
+  if (!allConnections.length) {
+    grid.innerHTML = '<p style="color:var(--mid);font-size:13px;padding:1rem"><span class="lang-en">No connections yet. Click "Add Connection" to get started.</span></p>';
+    return;
+  }
+  grid.innerHTML = allConnections.map(c => `
+    <div class="conn-card">
+      ${c.imageUrl
+        ? `<img class="conn-img" src="${c.imageUrl}" alt="${c.name}"/>`
+        : `<div class="conn-img-placeholder"><i class="ti ti-user-circle"></i></div>`}
+      <div class="conn-body">
+        <div class="conn-name">${c.name}</div>
+        <div class="conn-role">${c.role}</div>
+        ${c.bio ? `<div class="conn-bio">${c.bio}</div>` : ''}
+        <div class="conn-actions">
+          <button class="btn-sm btn-ghost" onclick="editConnection('${c._id||c.id}')"><i class="ti ti-edit"></i> Edit</button>
+          <button class="btn-sm btn-red" onclick="deleteConnection('${c._id||c.id}')"><i class="ti ti-trash"></i></button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function openConnForm() {
+  currentConnEditId = null;
+  document.getElementById('conn-name').value = '';
+  document.getElementById('conn-role').value = '';
+  document.getElementById('conn-bio').value = '';
+  document.getElementById('conn-order').value = '';
+  document.getElementById('conn-img-input').value = '';
+  document.getElementById('conn-img-preview').innerHTML = '';
+  document.getElementById('conn-form-title').innerHTML = '<span class="lang-en">Add Connection</span><span class="lang-hi">संपर्क जोड़ें</span>';
+  document.getElementById('conn-form-panel').style.display = 'block';
+  document.getElementById('conn-form-panel').scrollIntoView({behavior:'smooth'});
+}
+
+function closeConnForm() {
+  document.getElementById('conn-form-panel').style.display = 'none';
+  currentConnEditId = null;
+}
+
+function previewConnImg(input) {
+  const preview = document.getElementById('conn-img-preview');
+  if (input.files && input.files[0]) {
+    const url = URL.createObjectURL(input.files[0]);
+    preview.innerHTML = `<div class="img-preview-wrap" style="margin-top:.5rem"><img src="${url}" style="max-height:100px;border-radius:50%;aspect-ratio:1;object-fit:cover"/><button class="img-preview-clear" onclick="clearConnImg()">×</button></div>`;
+  }
+}
+
+function clearConnImg() {
+  document.getElementById('conn-img-input').value = '';
+  document.getElementById('conn-img-preview').innerHTML = '';
+}
+
+async function saveConnection() {
+  const name = document.getElementById('conn-name').value.trim();
+  const role = document.getElementById('conn-role').value.trim();
+  const alertEl = document.getElementById('conn-alert');
+  if (!name || !role) {
+    alertEl.className = 'alert alert-r'; alertEl.textContent = 'Name and role are required'; alertEl.style.display = 'block'; return;
+  }
+  const fd = new FormData();
+  fd.append('name', name);
+  fd.append('role', role);
+  fd.append('bio', document.getElementById('conn-bio').value);
+  fd.append('order', document.getElementById('conn-order').value || 0);
+  const imgFile = document.getElementById('conn-img-input').files[0];
+  if (imgFile) fd.append('image', imgFile);
+  try {
+    const url = currentConnEditId ? `${API}/connections/${currentConnEditId}` : `${API}/connections`;
+    const method = currentConnEditId ? 'PUT' : 'POST';
+    const r = await fetch(url, {method, headers: {'Authorization': 'Bearer '+TOKEN}, body: fd});
+    if (!r.ok) throw new Error('Save failed');
+    alertEl.className = 'alert alert-g';
+    alertEl.textContent = currentConnEditId ? '✅ Connection updated!' : '✅ Connection added! It will appear on the website.';
+    alertEl.style.display = 'block';
+    closeConnForm();
+    setTimeout(() => { alertEl.style.display='none'; loadConnections(); }, 1500);
+  } catch(e) {
+    alertEl.className = 'alert alert-r'; alertEl.textContent = 'Error: ' + e.message; alertEl.style.display = 'block';
+  }
+}
+
+function editConnection(id) {
+  const c = allConnections.find(x => (x._id||x.id) === id);
+  if (!c) return;
+  currentConnEditId = id;
+  document.getElementById('conn-name').value = c.name;
+  document.getElementById('conn-role').value = c.role;
+  document.getElementById('conn-bio').value = c.bio || '';
+  document.getElementById('conn-order').value = c.order || 0;
+  document.getElementById('conn-img-preview').innerHTML = c.imageUrl
+    ? `<div class="img-preview-wrap" style="margin-top:.5rem"><img src="${c.imageUrl}" style="max-height:100px;border-radius:50%;aspect-ratio:1;object-fit:cover"/></div>`
+    : '';
+  document.getElementById('conn-form-title').innerHTML = '<span class="lang-en">Edit Connection</span><span class="lang-hi">संपर्क संपादित करें</span>';
+  document.getElementById('conn-form-panel').style.display = 'block';
+  document.getElementById('conn-form-panel').scrollIntoView({behavior:'smooth'});
+}
+
+async function deleteConnection(id) {
+  if (!confirm('Remove this connection from the website?')) return;
+  await fetch(`${API}/connections/${id}`, {method:'DELETE', headers:authH()});
+  loadConnections();
+}
+
 // ── DONATIONS ──
+
 async function loadDonations(){
   const r=await fetch(`${API}/donations`,{headers:authH()});
   const data=await r.json();
