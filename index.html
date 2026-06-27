@@ -144,6 +144,7 @@
 
     /* ── CARDS ── */
     .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
     .card{background:var(--card);border:1px solid var(--bd);border-radius:var(--rl);padding:28px 24px;transition:box-shadow .25s,transform .25s}
     .card:hover{box-shadow:0 12px 40px rgba(27,107,58,.1);transform:translateY(-4px)}
     .icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:1.1rem}
@@ -301,7 +302,7 @@
       .about-grid,.don-wrap,.con-grid{grid-template-columns:1fr}.about-badge{right:0}
       #impact .impact-grid{grid-template-columns:repeat(2,1fr)}
       .gal-grid{grid-template-columns:repeat(2,1fr)}
-      .grid3,.inv-grid{grid-template-columns:1fr 1fr}
+      .grid3,.grid4,.inv-grid{grid-template-columns:1fr 1fr}
       .foot-grid{grid-template-columns:1fr 1fr}
       .nav-links{display:none}.ham{display:block}
       .press-grid{grid-template-columns:1fr}
@@ -377,7 +378,7 @@
 
     @media(max-width:560px){
       section{padding:56px 5vw}
-      .grid3,.inv-grid,.tiers{grid-template-columns:1fr}
+      .grid3,.grid4,.inv-grid,.tiers{grid-template-columns:1fr}
       .gal-grid{grid-template-columns:1fr 1fr;grid-auto-rows:160px}
       .foot-grid{grid-template-columns:1fr}
       .team-grid{grid-template-columns:repeat(2,1fr)}
@@ -479,13 +480,13 @@
 <section id="mission">
   <div class="center fu">
     <div class="sec-eye"><span class="lang-en">Our Mission</span><span class="lang-hi">हमारा मिशन</span></div>
-    <h2 class="sec-h"><span class="lang-en">Three pillars of change</span><span class="lang-hi">परिवर्तन के तीन स्तंभ</span></h2>
-    <p class="sec-sub"><span class="lang-en">We work across education, health, and skill development — building complete, confident children who shape a better nation.</span><span class="lang-hi">हम शिक्षा, स्वास्थ्य और कौशल विकास में काम करते हैं — आत्मविश्वासी बच्चों का निर्माण करते हैं जो एक बेहतर राष्ट्र बनाते हैं।</span></p>
+    <h2 class="sec-h"><span class="lang-en">Four pillars of change</span><span class="lang-hi">परिवर्तन के चार स्तंभ</span></h2>
+    <p class="sec-sub"><span class="lang-en">We work across education, health, language, and skill development — building complete, confident children who shape a better nation.</span><span class="lang-hi">हम शिक्षा, स्वास्थ्य, भाषा और कौशल विकास में काम करते हैं — आत्मविश्वासी बच्चों का निर्माण करते हैं जो एक बेहतर राष्ट्र बनाते हैं।</span></p>
   </div>
-  <div class="grid3 fu">
+  <div class="grid4 fu">
     <div class="card"><div class="icon ig"><i class="ti ti-book-open"></i></div>
-      <h3><span class="lang-en">Free Education</span><span class="lang-hi">मुफ्त शिक्षा</span></h3>
-      <p><span class="lang-en">Daily tutoring, reading programs, and academic support for children from low-income families who cannot afford private schooling.</span><span class="lang-hi">कम आय परिवारों के बच्चों के लिए दैनिक ट्यूशन, पठन कार्यक्रम और अकादमिक सहायता।</span></p>
+      <h3><span class="lang-en">Need-Based Free Education</span><span class="lang-hi">ज़रूरतमंदों के लिए मुफ्त शिक्षा</span></h3>
+      <p><span class="lang-en">Daily tutoring, reading programs, and academic support tailored for children from low-income families who cannot afford private schooling.</span><span class="lang-hi">कम आय वाले परिवारों के बच्चों के लिए दैनिक ट्यूशन, पठन कार्यक्रम और अकादमिक सहायता।</span></p>
     </div>
     <div class="card"><div class="icon io"><i class="ti ti-shield-check"></i></div>
       <h3><span class="lang-en">Yoga &amp; Self-Defence</span><span class="lang-hi">योग और आत्मरक्षा</span></h3>
@@ -494,6 +495,10 @@
     <div class="card"><div class="icon ig"><i class="ti ti-heart-plus"></i></div>
       <h3><span class="lang-en">Health &amp; Community</span><span class="lang-hi">स्वास्थ्य और समुदाय</span></h3>
       <p><span class="lang-en">Medical camps, health awareness drives, and women's wellbeing programs extending our reach beyond classroom walls.</span><span class="lang-hi">चिकित्सा शिविर, स्वास्थ्य जागरूकता अभियान और महिला कल्याण कार्यक्रम कक्षा की दीवारों से परे।</span></p>
+    </div>
+    <div class="card"><div class="icon io"><i class="ti ti-language"></i></div>
+      <h3><span class="lang-en">Sanskrit Speaking</span><span class="lang-hi">संस्कृत संभाषण</span></h3>
+      <p><span class="lang-en">Teaching students conversational Sanskrit skills, connecting them with ancient Indian heritage and language skills.</span><span class="lang-hi">छात्रों को व्यावहारिक संस्कृत कौशल सिखाना, उन्हें प्राचीन भारतीय विरासत और भाषा कौशल से जोड़ना।</span></p>
     </div>
   </div>
 </section>
