@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>"/>
   <title>Admin Portal — Ved Daksha Foundation</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet"/></noscript>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"/>
   <style>
     /* ── LIGHT THEME ── */
@@ -367,7 +370,7 @@
             <div class="form-g"><label for="bl-author"><span class="lang-en">Author</span><span class="lang-hi">लेखक</span></label><input type="text" id="bl-author" value="Dr. Usha Tyagi"/></div>
             <div class="form-g"><label for="bl-tags"><span class="lang-en">Tags</span><span class="lang-hi">टैग</span></label><input type="text" id="bl-tags" placeholder="education, children, ghaziabad"/></div>
             <div class="form-g full">
-              <label><span class="lang-en">Cover Image <span style="color:var(--red)">*</span></span><span class="lang-hi">कवर इमेज *</span></label>
+              <label for="bl-cover"><span class="lang-en">Cover Image <span style="color:var(--red)">*</span></span><span class="lang-hi">कवर इमेज *</span></label>
               <div class="upload-zone" onclick="document.getElementById('bl-cover').click()" id="bl-cover-zone" style="padding:14px">
                 <i class="ti ti-photo"></i>
                 <p style="font-size:12px;margin-top:4px"><span class="lang-en">Click to upload cover image</span><span class="lang-hi">कवर इमेज अपलोड करने के लिए क्लिक करें</span></p>
@@ -528,7 +531,7 @@
             <textarea id="vol-email-body" rows="6" placeholder="Write your message here..."></textarea>
           </div>
           <div class="form-g" style="margin-bottom:14px">
-            <label><span class="lang-en">Attachments</span><span class="lang-hi">संलग्नक</span></label>
+            <label for="vol-email-files"><span class="lang-en">Attachments</span><span class="lang-hi">संलग्नक</span></label>
             <div style="border:1px dashed var(--bd);border-radius:8px;padding:10px 14px;background:var(--bg);cursor:pointer;position:relative" onclick="document.getElementById('vol-email-files').click()">
               <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--mid)">
                 <i class="ti ti-paperclip" style="font-size:16px"></i>
@@ -751,7 +754,7 @@
               <input type="number" id="conn-order" placeholder="0" min="0"/>
             </div>
             <div class="form-g">
-              <label><span class="lang-en">Photo</span><span class="lang-hi">फ़ोटो</span></label>
+              <label for="conn-img-input"><span class="lang-en">Photo</span><span class="lang-hi">फ़ोटो</span></label>
               <div class="upload-zone" onclick="document.getElementById('conn-img-input').click()" style="padding:12px">
                 <i class="ti ti-user-circle"></i>
                 <p style="font-size:12px;margin-top:4px"><span class="lang-en">Click to upload photo</span><span class="lang-hi">फ़ोटो अपलोड करने के लिए क्लिक करें</span></p>
