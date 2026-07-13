@@ -66,7 +66,7 @@ async def create_event(
     descriptionHindi: Optional[str] = Form(None),
     date: str = Form(...),
     time_str: Optional[str] = Form(None, alias="time"),
-    location: Optional[str] = Form("7/56, Chiranjeev Vihar, Ghaziabad"),
+    location: Optional[str] = Form("House - 5, Sector - 6, Chiranjiv Vihar, Shastri Nagar, Ghaziabad, Uttar Pradesh"),
     category: Optional[str] = Form("other"),
     attendees: Optional[int] = Form(0),
     highlights: Optional[str] = Form(None),

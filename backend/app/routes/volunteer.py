@@ -215,7 +215,7 @@ async def send_email_to_volunteer(
             <!-- Footer -->
             <div style="background-color:#f1f5f9; padding:24px; text-align:center; font-size:12px; color:#64748b; border-top:1px solid #e2e8f0;">
               <p style="margin:0 0 8px 0; font-weight:600;">Ved Daksha Foundation</p>
-              <p style="margin:0 0 16px 0; line-height:1.4;">7/56, Chiranjeev Vihar, Ghaziabad, Uttar Pradesh, India</p>
+              <p style="margin:0 0 16px 0; line-height:1.4;">House - 5, Sector - 6, Chiranjiv Vihar, Shastri Nagar, Ghaziabad, Uttar Pradesh, India</p>
               <div style="border-top:1px solid #cbd5e1; padding-top:12px; font-size:11px; color:#94a3b8;">
                 This email was sent by the administrative portal. Please do not reply directly to this automated email.
               </div>

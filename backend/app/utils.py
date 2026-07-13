@@ -44,7 +44,7 @@ def send_confirmation_email(to_email: str, name: str, amount: float, donation_id
           <p><strong>Reference ID:</strong> {donation_id}</p>
           <p>Our team will verify your payment and send an acknowledgement within 24 hours.</p>
           <p>For any queries: <a href="tel:{Config.DONATION_PHONE}">{Config.DONATION_PHONE}</a></p>
-          <p style="color:#888;font-size:12px">Ved Daksha Foundation · 7/56, Chiranjeev Vihar, Ghaziabad</p>
+          <p style="color:#888;font-size:12px">Ved Daksha Foundation · House - 5, Sector - 6, Chiranjiv Vihar, Shastri Nagar, Ghaziabad, Uttar Pradesh</p>
         </div>"""
         
         msg.attach(MIMEText(html, "html"))
