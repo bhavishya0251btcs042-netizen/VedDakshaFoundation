@@ -119,18 +119,18 @@ echo  ============================================================
 echo   Opening website in your browser...
 echo  ============================================================
 echo.
-echo   Main Website  :  %SCRIPT_DIR%index.html
-echo   Admin Portal  :  %SCRIPT_DIR%admin\index.html
-echo   Blog Page     :  %SCRIPT_DIR%blog.html
+echo   Main Website  :  http://localhost:5000/
+echo   Admin Portal  :  http://localhost:5000/admin/
+echo   Blog Page     :  http://localhost:5000/blog/
 echo   Backend API   :  http://localhost:5000/api/health
 echo.
 
-:: Open main site
-start "" "%SCRIPT_DIR%index.html"
+:: Open main site via server URL
+start "" "http://localhost:5000/"
 timeout /t 1 /nobreak >nul
 
-:: Open admin portal
-start "" "%SCRIPT_DIR%admin\index.html"
+:: Open admin portal via server URL
+start "" "http://localhost:5000/admin/"
 timeout /t 1 /nobreak >nul
 
 echo  ============================================================
