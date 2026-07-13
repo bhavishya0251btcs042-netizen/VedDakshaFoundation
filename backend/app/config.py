@@ -17,7 +17,7 @@ class Config:
     FRONTEND_URL = os.getenv("FRONTEND_URL", "https://veddakshafoundation.org")
     
     # Donation configurations
-    DONATION_UPI_ID = os.getenv("DONATION_UPI_ID", "veddakshafoundation22@gmail.com")
+    DONATION_UPI_ID = os.getenv("DONATION_UPI_ID", "veddaksha@idfcbank")
     DONATION_PHONE = os.getenv("DONATION_PHONE", "8700785399")
     DONATION_EMAIL = os.getenv("DONATION_EMAIL", "veddakshafoundation22@gmail.com")
     DONATION_SECOND_PHONE = os.getenv("DONATION_SECOND_PHONE", "8595656658")

@@ -711,7 +711,7 @@
           <img id="upi-qr-img" src="" alt="Scan to Pay" style="width: 130px; height: 130px; display: block;" />
         </div>
         <p style="font-size:12px;color:var(--mid);margin-top:.5rem"><span class="lang-en">Scan &amp; Pay via UPI / PhonePe / Google Pay</span><span class="lang-hi">UPI / PhonePe / Google Pay से स्कैन करें और भुगतान करें</span></p>
-        <div class="upi-id" id="upi-display" style="cursor: pointer; font-weight: 600; color: var(--g);" onclick="copyUPI()" title="Click to copy / कॉपी करने के लिए क्लिक करें">veddakshafoundation22@gmail.com</div>
+        <div class="upi-id" id="upi-display" style="cursor: pointer; font-weight: 600; color: var(--g);" onclick="copyUPI()" title="Click to copy / कॉपी करने के लिए क्लिक करें">veddaksha@idfcbank</div>
         <p style="margin-top:.5rem;font-size:11px;color:var(--mid)"><span class="lang-en">After payment, WhatsApp receipt to <strong>8700785399</strong></span><span class="lang-hi">भुगतान के बाद, रसीद WhatsApp करें <strong>8700785399</strong> पर</span></p>
       </div>
     </div>
@@ -936,7 +936,7 @@ const co=new IntersectionObserver(e=>e.forEach(x=>{
 document.querySelectorAll('.impact-n[data-t]').forEach(el=>co.observe(el));
 
 // ── DONATE ──
-let dynamicUPI = 'veddakshafoundation22@gmail.com';
+let dynamicUPI = 'veddaksha@idfcbank';
 function updateQR() {
   const amt = document.getElementById('da').value || '500';
   const upiUrl = `upi://pay?pa=${encodeURIComponent(dynamicUPI)}&pn=Ved+Daksha+Foundation&cu=INR&am=${amt}`;
