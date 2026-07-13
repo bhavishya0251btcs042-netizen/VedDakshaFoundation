@@ -925,16 +925,16 @@ const co=new IntersectionObserver(e=>e.forEach(x=>{
 document.querySelectorAll('.impact-n[data-t]').forEach(el=>co.observe(el));
 
 // ── DONATE ──
+let dynamicUPI = 'veddakshafoundation22@gmail.com';
 function updateQR() {
-  const upiId = 'veddakshafoundation22@gmail.com';
   const amt = document.getElementById('da').value || '500';
-  const upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=Ved+Daksha+Foundation&cu=INR&am=${amt}`;
+  const upiUrl = `upi://pay?pa=${encodeURIComponent(dynamicUPI)}&pn=Ved+Daksha+Foundation&cu=INR&am=${amt}`;
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl)}`;
   const img = document.getElementById('upi-qr-img');
   if (img) img.src = qrUrl;
 }
 function copyUPI(){
-  navigator.clipboard.writeText('veddakshafoundation22@gmail.com').then(()=>{
+  navigator.clipboard.writeText(dynamicUPI).then(()=>{
     alert('UPI ID copied to clipboard / UPI ID कॉपी हो गया!');
   });
 }
@@ -966,11 +966,16 @@ function sendContact(){
 }
 
 // ── LOAD DONATION CONFIG FROM API ──
-fetch(`${API}/health`).then(r=>r.json()).then(d=>{
-  if(d.status==='ok'){
-    // Load dynamic donation UPI from backend if available
-  }
-}).catch(()=>{});
+fetch(`${API}/donations/config`)
+  .then(r=>r.json())
+  .then(cfg=>{
+    if(cfg && cfg.upi_id){
+      dynamicUPI = cfg.upi_id;
+      const display = document.getElementById('upi-display');
+      if(display) display.textContent = dynamicUPI;
+      updateQR();
+    }
+  }).catch(()=>{});
 
 // ── LOAD EVENTS FROM API ──
 fetch(`${API}/events?upcoming=true&limit=3`)

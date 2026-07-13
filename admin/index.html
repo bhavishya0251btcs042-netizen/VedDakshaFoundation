@@ -840,6 +840,15 @@ const API = (window.location.origin === 'null' || window.location.protocol === '
   ? 'http://localhost:5000/api'
   : window.location.origin + '/api';
 let TOKEN=localStorage.getItem('vdf_token')||'';
+
+const originalFetch = window.fetch;
+window.fetch = async function(...args) {
+  const r = await originalFetch(...args);
+  if (r.status === 401 && !args[0].includes('/auth/login')) {
+    logout();
+  }
+  return r;
+};
 let currentEditId=null;
 let allEvents=[];
 
@@ -981,11 +990,11 @@ async function saveEvent(){
   const alert=document.getElementById('ev-alert');
   if(!title||!desc||!date){alert.className='alert alert-r';alert.textContent='Title, description and date are required';alert.style.display='block';return}
   const fd=new FormData();
-  fd.append('title',title);fd.append('title_hindi',document.getElementById('ev-titlehi').value);
-  fd.append('description',desc);fd.append('event_date',date);fd.append('event_time',document.getElementById('ev-time').value);
+  fd.append('title',title);fd.append('titleHindi',document.getElementById('ev-titlehi').value);
+  fd.append('description',desc);fd.append('date',date);fd.append('time',document.getElementById('ev-time').value);
   fd.append('location',document.getElementById('ev-loc').value);fd.append('category',document.getElementById('ev-cat').value);
   fd.append('attendees',document.getElementById('ev-att').value||0);
-  fd.append('is_upcoming',document.getElementById('ev-upcoming').value);
+  fd.append('isUpcoming',document.getElementById('ev-upcoming').value);
   const imgs=document.getElementById('ev-imgs').files;
   for(let f of imgs)fd.append('images',f);
   try{

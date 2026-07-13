@@ -86,10 +86,18 @@ async def create_event(
             except Exception:
                 pass
                 
-        try:
-            event_date = datetime.fromisoformat(date.replace("Z", "+00:00"))
-        except Exception:
-            event_date = datetime.utcnow()
+        event_date = None
+        for fmt in ("%Y-%m-%d", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%dT%H:%M:%S.%fZ", "%Y-%m-%d %H:%M:%S"):
+            try:
+                event_date = datetime.strptime(date.strip(), fmt)
+                break
+            except Exception:
+                continue
+        if not event_date:
+            try:
+                event_date = datetime.fromisoformat(date.replace("Z", "+00:00"))
+            except Exception:
+                event_date = datetime.utcnow()
             
         event_doc = {
             "title": title,
@@ -154,10 +162,20 @@ async def update_event(
         if isUpcoming is not None: updates["isUpcoming"] = isUpcoming.lower() != "false"
         
         if date is not None:
-            try:
-                updates["date"] = datetime.fromisoformat(date.replace("Z", "+00:00"))
-            except Exception:
-                pass
+            parsed_date = None
+            for fmt in ("%Y-%m-%d", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%dT%H:%M:%S.%fZ", "%Y-%m-%d %H:%M:%S"):
+                try:
+                    parsed_date = datetime.strptime(date.strip(), fmt)
+                    break
+                except Exception:
+                    continue
+            if not parsed_date:
+                try:
+                    parsed_date = datetime.fromisoformat(date.replace("Z", "+00:00"))
+                except Exception:
+                    pass
+            if parsed_date:
+                updates["date"] = parsed_date
                 
         if highlights is not None:
             try:
