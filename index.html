@@ -1130,96 +1130,21 @@ async function submitVolunteer(){
 </script>
 
 <script>
-// ── DYNAMIC CONTENT LOADER ──
-(async function loadDynamicContent(){
-  const BASE = (window.location.origin === 'null' || window.location.protocol === 'file:' ||
-    window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1'))
-    ? 'http://localhost:5000' : window.location.origin;
-  const lang = document.documentElement.getAttribute('data-lang') || 'en';
-
-  // — CONNECTIONS: replace team grid if API has data —
-  try {
-    const r = await fetch(`${BASE}/api/connections`);
-    if (r.ok) {
-      const conns = await r.json();
-      if (Array.isArray(conns) && conns.length > 0) {
-        const grid = document.getElementById('team-grid');
-        if (grid) {
-          grid.innerHTML = conns.map(c => {
-            // Resolve relative URLs to absolute backend URLs
-            const imgUrl = c.imageUrl
-              ? (c.imageUrl.startsWith('/') ? `${BASE}${c.imageUrl}` : c.imageUrl)
-              : '';
-            return `
-            <div class="team-card">
-              <div class="team-img">${imgUrl
-                ? `<img src="${imgUrl}" alt="${c.name}" onerror="this.parentElement.innerHTML='<div style=\\'width:100%;height:100%;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:40px;color:var(--g)\\'><i class=\\'ti ti-user-circle\\'></i></div>'"/>`
-                : `<div style="width:100%;height:100%;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:40px;color:var(--g)"><i class="ti ti-user-circle"></i></div>`
-              }</div>
-              <div class="team-name">${c.name}</div>
-              <div class="team-role">${c.role}</div>
-              ${c.bio ? `<div class="team-bio">${c.bio}</div>` : ''}
-            </div>`;
-          }).join('');
-        }
-      }
-    }
-  } catch(e){}
-
-  // — GALLERY: prepend API images to gallery grid —
-  try {
-    const r = await fetch(`${BASE}/api/gallery`);
-    if (r.ok) {
-      const imgs = await r.json();
-      if (Array.isArray(imgs) && imgs.length > 0) {
-        const grid = document.getElementById('gallery-dynamic');
-        if (grid) {
-          const apiHtml = imgs.slice(0,12).map((g,i) => {
-            const isWide = i === 0;
-            const occ = g.caption || g.occasion || '';
-            // Resolve relative URLs (e.g. /images/...) to absolute backend URLs
-            const imgSrc = (g.url && g.url.startsWith('/')) ? `${BASE}${g.url}` : (g.url || '');
-            return `<div class="gi${isWide?' wide tall':''}"><img src="${imgSrc}" alt="${occ}" onerror="this.src='images/1000179556.jpg.jpeg'"/><div class="gov"><span>${occ}</span></div></div>`;
-          }).join('');
-          grid.innerHTML = apiHtml;
-        }
-      }
-    }
-  } catch(e){}
-
-  // — BLOG: load from API if available —
-  try {
-    const r = await fetch(`${BASE}/api/blog`);
-    if (r.ok) {
-      const blogs = await r.json();
-      const posts = Array.isArray(blogs) ? blogs : (blogs.posts || []);
-      if (posts.length > 0) {
-        const list = document.getElementById('blog-dynamic');
-        if (list) {
-          list.innerHTML = posts.slice(0,3).map(p => {
-            const img = p.coverImage || 'images/1000087433.jpg.jpeg';
-            const title = lang==='hi' && p.titleHindi ? p.titleHindi : p.title;
-            const exc = lang==='hi' && p.excerptHindi ? p.excerptHindi : (p.excerpt || '');
-            const cat = p.category || 'Blog';
-            return `<div class="blog-card"><div class="blog-img"><img src="${img}" alt="${title}"/></div><div class="blog-body"><div class="blog-cat">${cat}</div><h3>${title}</h3><p>${exc}</p><a class="blog-link" href="blog.html">Read More <i class="ti ti-arrow-right"></i></a></div></div>`;
-          }).join('');
-        }
-      }
-    }
-  } catch(e){}
-
-// Global event variables
+// Global event variables & helper functions
 let homepageEvents = [];
+window.homepageTimers = [];
 
 function resolveImgUrl(url) {
   if (!url) return '';
-  if (url.startsWith('http')) return url;
-  return BASE + (url.startsWith('/') ? '' : '/') + url;
+  if (url.startsWith('http') || url.startsWith('data:')) return url;
+  const base = API.replace('/api', '');
+  return base + (url.startsWith('/') ? '' : '/') + url;
 }
 
 function switchEventTab(tab) {
   const upBtn = document.getElementById('btn-tab-upcoming');
   const pastBtn = document.getElementById('btn-tab-past');
+  if (!upBtn || !pastBtn) return;
   if (tab === 'upcoming') {
     upBtn.style.background = 'var(--g)';
     upBtn.style.color = 'white';
@@ -1312,6 +1237,87 @@ function renderHomepageEvents(tab) {
     </div>`;
   }).join('');
 }
+
+// ── DYNAMIC CONTENT LOADER ──
+(async function loadDynamicContent(){
+  const BASE = (window.location.origin === 'null' || window.location.protocol === 'file:' ||
+    window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1'))
+    ? 'http://localhost:5000' : window.location.origin;
+  const lang = document.documentElement.getAttribute('data-lang') || 'en';
+
+  // — CONNECTIONS: replace team grid if API has data —
+  try {
+    const r = await fetch(`${BASE}/api/connections`);
+    if (r.ok) {
+      const conns = await r.json();
+      if (Array.isArray(conns) && conns.length > 0) {
+        const grid = document.getElementById('team-grid');
+        if (grid) {
+          grid.innerHTML = conns.map(c => {
+            // Resolve relative URLs to absolute backend URLs
+            const imgUrl = c.imageUrl
+              ? (c.imageUrl.startsWith('/') ? `${BASE}${c.imageUrl}` : c.imageUrl)
+              : '';
+            return `
+            <div class="team-card">
+              <div class="team-img">${imgUrl
+                ? `<img src="${imgUrl}" alt="${c.name}" onerror="this.parentElement.innerHTML='<div style=\\'width:100%;height:100%;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:40px;color:var(--g)\\'><i class=\\'ti ti-user-circle\\'></i></div>'"/>`
+                : `<div style="width:100%;height:100%;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:40px;color:var(--g)"><i class="ti ti-user-circle"></i></div>`
+              }</div>
+              <div class="team-name">${c.name}</div>
+              <div class="team-role">${c.role}</div>
+              ${c.bio ? `<div class="team-bio">${c.bio}</div>` : ''}
+            </div>`;
+          }).join('');
+        }
+      }
+    }
+  } catch(e){}
+
+  // — GALLERY: prepend API images to gallery grid —
+  try {
+    const r = await fetch(`${BASE}/api/gallery`);
+    if (r.ok) {
+      const imgs = await r.json();
+      if (Array.isArray(imgs) && imgs.length > 0) {
+        const grid = document.getElementById('gallery-dynamic');
+        if (grid) {
+          const apiHtml = imgs.slice(0,12).map((g,i) => {
+            const isWide = i === 0;
+            const occ = g.caption || g.occasion || '';
+            // Resolve relative URLs (e.g. /images/...) to absolute backend URLs
+            const imgSrc = (g.url && g.url.startsWith('/')) ? `${BASE}${g.url}` : (g.url || '');
+            return `<div class="gi${isWide?' wide tall':''}"><img src="${imgSrc}" alt="${occ}" onerror="this.src='images/1000179556.jpg.jpeg'"/><div class="gov"><span>${occ}</span></div></div>`;
+          }).join('');
+          grid.innerHTML = apiHtml;
+        }
+      }
+    }
+  } catch(e){}
+
+  // — BLOG: load from API if available —
+  try {
+    const r = await fetch(`${BASE}/api/blog`);
+    if (r.ok) {
+      const blogs = await r.json();
+      const posts = Array.isArray(blogs) ? blogs : (blogs.posts || []);
+      if (posts.length > 0) {
+        const list = document.getElementById('blog-dynamic');
+        if (list) {
+          list.innerHTML = posts.slice(0,3).map(p => {
+            const imgRaw = p.coverImage || 'images/1000087433.jpg.jpeg';
+            const img = resolveImgUrl(imgRaw);
+            const title = lang==='hi' && p.titleHindi ? p.titleHindi : p.title;
+            const exc = lang==='hi' && p.excerptHindi ? p.excerptHindi : (p.excerpt || '');
+            const cat = p.category || 'Blog';
+            return `<div class="blog-card"><div class="blog-img"><img src="${img}" alt="${title}" onerror="this.src='images/1000087433.jpg.jpeg'"/></div><div class="blog-body"><div class="blog-cat">${cat}</div><h3>${title}</h3><p>${exc}</p><a class="blog-link" href="blog.html">Read More <i class="ti ti-arrow-right"></i></a></div></div>`;
+          }).join('');
+        }
+      }
+    }
+  } catch(e){}
+
+
 
   // — EVENTS: load from API if available —
   try {
