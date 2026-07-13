@@ -18,6 +18,15 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 def get_events(upcoming: Optional[str] = None, limit: int = 20):
     events_col = get_collection("events")
     try:
+        # Self-healing: Automatically update past events status in MongoDB
+        try:
+            events_col.update_many(
+                {"date": {"$lt": datetime.utcnow()}, "isUpcoming": True},
+                {"$set": {"isUpcoming": False}}
+            )
+        except Exception:
+            pass
+            
         filter_query = {"isPublished": True}
         if upcoming == "true":
             filter_query["isUpcoming"] = True

@@ -666,10 +666,14 @@
     <h2 class="sec-h"><span class="lang-en">Past highlights &amp; upcoming</span><span class="lang-hi">पिछली झलकियाँ और आगामी</span></h2>
     <p class="sec-sub"><span class="lang-en">Stay connected with what we're doing.</span><span class="lang-hi">हम जो कर रहे हैं उससे जुड़े रहें।</span></p>
   </div>
+  <div class="center fu" style="margin-bottom: 2rem; display: flex; justify-content: center;">
+    <div style="display:inline-flex;background:var(--gl);padding:4px;border-radius:30px;border:1px solid var(--bd)">
+      <button class="ctrl-btn tab-btn" id="btn-tab-upcoming" onclick="switchEventTab('upcoming')" style="border-radius:26px;border:none;background:var(--g);color:white;padding:6px 18px;font-size:13px;font-weight:500;cursor:pointer"><span class="lang-en">Upcoming</span><span class="lang-hi">आगामी</span></button>
+      <button class="ctrl-btn tab-btn" id="btn-tab-past" onclick="switchEventTab('past')" style="border-radius:26px;border:none;background:transparent;color:var(--dark);padding:6px 18px;font-size:13px;font-weight:500;cursor:pointer;margin-left:4px"><span class="lang-en">Past Highlights</span><span class="lang-hi">पिछली झलकियाँ</span></button>
+    </div>
+  </div>
   <div class="events-grid fu" id="events-dynamic">
-    <div class="ev-card"><div class="ev-img"><img src="images/1000179556.jpg.jpeg" alt="Annual event"/></div><div class="ev-body"><div class="ev-date"><i class="ti ti-calendar"></i><span class="lang-en">Annual Event</span><span class="lang-hi">वार्षिक कार्यक्रम</span></div><h3><span class="lang-en">Annual Varshikotsav &amp; Samman Samaroh</span><span class="lang-hi">वार्षिकोत्सव और सम्मान समारोह</span></h3><p><span class="lang-en">Annual felicitation with medals, school bags, and certificates. Yoga, dance &amp; Sanskrit performances.</span><span class="lang-hi">पदक, स्कूल बैग और प्रमाण पत्र के साथ वार्षिक सम्मान। योग, नृत्य और संस्कृत प्रदर्शन।</span></p></div></div>
-    <div class="ev-card"><div class="ev-img"><img src="images/1000087433.jpg.jpeg" alt="Yoga showcase"/></div><div class="ev-body"><div class="ev-date"><i class="ti ti-music"></i><span class="lang-en">Cultural Program</span><span class="lang-hi">सांस्कृतिक कार्यक्रम</span></div><h3><span class="lang-en">Yoga &amp; Dance Showcase</span><span class="lang-hi">योग और नृत्य प्रदर्शन</span></h3><p><span class="lang-en">Children performed yoga, acrobatics, and classical dance — months of dedicated practice on full display.</span><span class="lang-hi">बच्चों ने योग, कलाबाजी और शास्त्रीय नृत्य का प्रदर्शन किया — महीनों का समर्पित अभ्यास।</span></p></div></div>
-    <div class="ev-card"><div class="ev-img"><img src="images/1000086285.jpg.jpeg" alt="Book distribution"/></div><div class="ev-body"><div class="ev-date"><i class="ti ti-book"></i><span class="lang-en">Education Drive</span><span class="lang-hi">शिक्षा अभियान</span></div><h3><span class="lang-en">Books &amp; Stationery Distribution</span><span class="lang-hi">पुस्तक और स्टेशनरी वितरण</span></h3><p><span class="lang-en">Meritorious students received books, stationery kits, and encouragement to continue their studies.</span><span class="lang-hi">मेधावी छात्रों को पुस्तकें, स्टेशनरी किट और अपनी पढ़ाई जारी रखने के लिए प्रोत्साहन मिला।</span></p></div></div>
+    <!-- Dynamically loaded -->
   </div>
 </section>
 
@@ -892,6 +896,13 @@ function toggleLang(){
   document.getElementById('lang-label').textContent=isEn?'English':'हिन्दी';
   document.getElementById('lang-btn').classList.toggle('lang-toggle-active',isEn);
   localStorage.setItem('vdf-lang',newLang);
+  
+  // Re-render dynamically to update language text instantly
+  if (typeof renderHomepageEvents === 'function') {
+    const activeBtn = document.getElementById('btn-tab-past');
+    const activeTab = activeBtn && activeBtn.style.background === 'var(--g)' ? 'past' : 'upcoming';
+    renderHomepageEvents(activeTab);
+  }
 }
 
 // Load saved preferences
@@ -977,24 +988,7 @@ fetch(`${API}/donations/config`)
     }
   }).catch(()=>{});
 
-// ── LOAD EVENTS FROM API ──
-fetch(`${API}/events?upcoming=true&limit=3`)
-  .then(r=>r.json()).then(events=>{
-    if(!events.length)return;
-    const c=document.getElementById('events-container');
-    c.innerHTML=events.map(ev=>{
-      const d=new Date(ev.date);
-      const diff=Math.ceil((d-Date.now())/(1000*60*60*24));
-      const countdown=diff>0?`<div class="countdown"><i class="ti ti-clock"></i><span>${diff} days / दिन</span></div>`:'';
-      return `<div class="ev-card">
-        ${ev.coverImage?`<div class="ev-img"><img src="${ev.coverImage}" alt="${ev.title}"/></div>`:''}
-        <div class="ev-body">
-          <div class="ev-date"><i class="ti ti-calendar"></i>${d.toLocaleDateString('hi-IN')}</div>
-          <h3>${ev.title}${ev.titleHindi?`<br><small style="font-weight:400;font-size:13px;color:var(--mid)">${ev.titleHindi}</small>`:''}</h3>
-          <p>${ev.description.substring(0,120)}...</p>${countdown}
-        </div></div>`;
-    }).join('');
-  }).catch(()=>{});
+
 
 // Initialize QR
 document.getElementById('da')?.addEventListener('input', updateQR);
@@ -1214,24 +1208,118 @@ async function submitVolunteer(){
     }
   } catch(e){}
 
+// Global event variables
+let homepageEvents = [];
+
+function resolveImgUrl(url) {
+  if (!url) return '';
+  if (url.startsWith('http')) return url;
+  return BASE + (url.startsWith('/') ? '' : '/') + url;
+}
+
+function switchEventTab(tab) {
+  const upBtn = document.getElementById('btn-tab-upcoming');
+  const pastBtn = document.getElementById('btn-tab-past');
+  if (tab === 'upcoming') {
+    upBtn.style.background = 'var(--g)';
+    upBtn.style.color = 'white';
+    pastBtn.style.background = 'transparent';
+    pastBtn.style.color = 'var(--dark)';
+  } else {
+    pastBtn.style.background = 'var(--g)';
+    pastBtn.style.color = 'white';
+    upBtn.style.background = 'transparent';
+    upBtn.style.color = 'var(--dark)';
+  }
+  renderHomepageEvents(tab);
+}
+
+function renderHomepageEvents(tab) {
+  const container = document.getElementById('events-dynamic');
+  if (!container) return;
+  const lang = document.documentElement.getAttribute('data-lang') || 'en';
+  
+  const filtered = homepageEvents.filter(e => {
+    return tab === 'upcoming' ? e.isUpcoming : !e.isUpcoming;
+  });
+  
+  if (filtered.length === 0) {
+    const noEventsMsg = tab === 'upcoming'
+      ? `<p style="text-align:center;color:var(--mid);padding:2rem;grid-column:1/-1"><span class="lang-en">No upcoming events scheduled.</span><span class="lang-hi">कोई आगामी कार्यक्रम निर्धारित नहीं है।</span></p>`
+      : `<p style="text-align:center;color:var(--mid);padding:2rem;grid-column:1/-1"><span class="lang-en">No past events found.</span><span class="lang-hi">कोई पिछला कार्यक्रम नहीं मिला।</span></p>`;
+    container.innerHTML = noEventsMsg;
+    return;
+  }
+  
+  if (window.homepageTimers) {
+    window.homepageTimers.forEach(clearInterval);
+  }
+  window.homepageTimers = [];
+  
+  container.innerHTML = filtered.slice(0, 3).map((e, idx) => {
+    const imgRaw = e.coverImage || (e.images && e.images[0]) || 'images/1000179556.jpg.jpeg';
+    const img = resolveImgUrl(imgRaw);
+    const title = lang === 'hi' && e.titleHindi ? e.titleHindi : e.title;
+    const desc = lang === 'hi' && e.descriptionHindi ? e.descriptionHindi : e.description;
+    const dateObj = new Date(e.date);
+    const dateStr = dateObj.toLocaleDateString(lang === 'hi' ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+    
+    let countdownHtml = '';
+    if (tab === 'upcoming') {
+      const timerId = `timer-${idx}`;
+      countdownHtml = `<div class="countdown" id="${timerId}"><i class="ti ti-clock"></i><span>Calculating...</span></div>`;
+      
+      const interval = setInterval(() => {
+        const timerEl = document.getElementById(timerId);
+        if (!timerEl) {
+          clearInterval(interval);
+          return;
+        }
+        const diff = dateObj - Date.now();
+        if (diff <= 0) {
+          timerEl.innerHTML = `<i class="ti ti-clock"></i><span>Started / शुरू हो गया</span>`;
+          clearInterval(interval);
+          return;
+        }
+        const days = Math.floor(diff / 86400000);
+        const hours = Math.floor((diff % 86400000) / 3600000);
+        const mins = Math.floor((diff % 3600000) / 60000);
+        const secs = Math.floor((diff % 60000) / 1000);
+        
+        let timeStr = '';
+        if (days > 0) {
+          timeStr = lang === 'hi'
+            ? `${days} दिन ${hours} घंटे`
+            : `${days}d ${hours}h remaining`;
+        } else {
+          timeStr = lang === 'hi'
+            ? `${hours} घंटे ${mins} मिनट`
+            : `${hours}h ${mins}m ${secs}s remaining`;
+        }
+        timerEl.querySelector('span').textContent = timeStr;
+      }, 1000);
+      window.homepageTimers.push(interval);
+    }
+    
+    return `<div class="ev-card">
+      <div class="ev-img"><img src="${img}" alt="${title}" onerror="this.src='images/1000179556.jpg.jpeg'"/></div>
+      <div class="ev-body">
+        <div class="ev-date"><i class="ti ti-calendar"></i>${dateStr}</div>
+        <h3>${title}</h3>
+        <p>${desc || ''}</p>
+        ${countdownHtml}
+      </div>
+    </div>`;
+  }).join('');
+}
+
   // — EVENTS: load from API if available —
   try {
     const r = await fetch(`${BASE}/api/events`);
     if (r.ok) {
       const data = await r.json();
-      const evs = Array.isArray(data) ? data : (data.events || []);
-      if (evs.length > 0) {
-        const container = document.getElementById('events-dynamic');
-        if (container) {
-          container.innerHTML = evs.slice(0,3).map(e => {
-            const img = e.coverImage || (e.images && e.images[0]) || 'images/1000179556.jpg.jpeg';
-            const title = lang==='hi' && e.titleHindi ? e.titleHindi : e.title;
-            const desc = lang==='hi' && e.descriptionHindi ? e.descriptionHindi : e.description;
-            const dateStr = e.date ? new Date(e.date).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}) : '';
-            return `<div class="ev-card"><div class="ev-img"><img src="${img}" alt="${title}"/></div><div class="ev-body"><div class="ev-date"><i class="ti ti-calendar"></i>${dateStr}</div><h3>${title}</h3><p>${desc||''}</p></div></div>`;
-          }).join('');
-        }
-      }
+      homepageEvents = Array.isArray(data) ? data : (data.events || []);
+      switchEventTab('upcoming');
     }
   } catch(e){}
 })();

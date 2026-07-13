@@ -971,15 +971,21 @@ function filterEvents(type,btn){
   else renderEvents(allEvents.filter(e=>!e.isUpcoming));
 }
 function renderEvents(events){
-  document.getElementById('events-table').innerHTML=events.length?events.map(e=>`<tr>
-    <td><strong>${e.title}</strong>${e.titleHindi?`<br><small style="color:var(--mid)">${e.titleHindi}</small>`:''}</td>
+  document.getElementById('events-table').innerHTML=events.length?events.map(e=>{
+    const coverUrl = e.coverImage ? resolveImgUrl(e.coverImage) : '';
+    return `<tr>
+    <td>
+      ${coverUrl?`<img src="${coverUrl}" style="width:40px;height:30px;object-fit:cover;border-radius:4px;margin-right:6px;vertical-align:middle" onerror="this.style.display='none'"/>`:''}
+      <strong>${e.title}</strong>${e.titleHindi?`<br><small style="color:var(--mid)">${e.titleHindi}</small>`:''}
+    </td>
     <td>${new Date(e.date||e.event_date).toLocaleDateString('en-IN')}</td>
     <td>${e.category}</td>
     <td><span class="status ${e.isUpcoming?'s-p':'s-c'}">${e.isUpcoming?'Upcoming':'Past'}</span></td>
     <td style="display:flex;gap:6px">
       <button class="btn-sm btn-ghost" onclick="editEvent('${e._id||e.id}')"><i class="ti ti-edit"></i></button>
       <button class="btn-sm btn-red" onclick="deleteEvent('${e._id||e.id}')"><i class="ti ti-trash"></i></button>
-    </td></tr>`).join(''):'<tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--mid)">No events yet</td></tr>';
+    </td></tr>`;
+  }).join(''):'<tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--mid)">No events yet</td></tr>';
 }
 function openEventForm(){document.getElementById('event-form-panel').style.display='block';currentEditId=null;document.getElementById('ev-title').value='';document.getElementById('ev-titlehi').value='';document.getElementById('ev-desc').value='';document.getElementById('ev-att').value=''}
 function closeEventForm(){document.getElementById('event-form-panel').style.display='none';currentEditId=null}
