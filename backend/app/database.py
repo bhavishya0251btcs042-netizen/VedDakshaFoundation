@@ -5,25 +5,37 @@ from app.config import Config
 client = None
 db = None
 
-# Initialize MongoDB Client lazily and catch configuration/connection issues
-try:
-    # Check if MONGODB_URI is still the placeholder template
-    if Config.MONGODB_URI and "<username>" not in Config.MONGODB_URI and "xxxxx" not in Config.MONGODB_URI:
-        client = MongoClient(Config.MONGODB_URI, serverSelectionTimeoutMS=2000)
+ATLAS_URI = "mongodb+srv://vedakshafoundation720:Vxb6KOfx6vM0edxZ@cluster0.wk8i7ov.mongodb.net/?appName=Cluster0"
+
+def init_db():
+    global client, db
+    uri = Config.MONGODB_URI
+    if not uri or "<username>" in uri or "xxxxx" in uri or "localhost" in uri:
+        uri = ATLAS_URI
+        
+    try:
+        client = MongoClient(uri, serverSelectionTimeoutMS=5000)
         try:
             db = client.get_default_database()
             if db is None:
                 db = client.get_database("veddaksha")
         except Exception:
             db = client.get_database("veddaksha")
-    else:
-        print("[WARNING] MONGODB_URI is unconfigured or using placeholder template.")
-except Exception as e:
-    print(f"[WARNING] Could not initialize MongoDB client: {e}")
-    client = None
-    db = None
+    except Exception as e:
+        print(f"[WARNING] Could not initialize MongoDB client: {e}")
+        try:
+            client = MongoClient(ATLAS_URI, serverSelectionTimeoutMS=5000)
+            db = client.get_database("veddaksha")
+        except Exception as e2:
+            print(f"[ERROR] Atlas connection fallback failed: {e2}")
+            client = None
+            db = None
+
+init_db()
 
 def get_collection(name: str):
+    if db is None:
+        init_db()
     if db is None:
         raise HTTPException(
             status_code=503,
@@ -33,11 +45,17 @@ def get_collection(name: str):
 
 def check_db_connection():
     if client is None or db is None:
+        init_db()
+    if client is None or db is None:
         return False
     try:
-        # The ismaster command is cheap and does not require auth.
         client.admin.command('ismaster')
         return True
     except Exception as e:
         print(f"Database connection check failed: {e}")
-        return False
+        init_db()
+        try:
+            client.admin.command('ismaster')
+            return True
+        except Exception:
+            return False
