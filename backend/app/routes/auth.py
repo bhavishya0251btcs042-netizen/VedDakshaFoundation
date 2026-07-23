@@ -35,7 +35,24 @@ def setup_admin():
 def login(data: AdminLogin):
     admins_col = get_collection("admins")
     try:
-        admin = admins_col.find_one({"email": data.email})
+        email_clean = data.email.strip().lower()
+        
+        # Auto-heal: If admins collection is empty, create default admin user
+        if admins_col.count_documents({}) == 0:
+            hashed = hash_password(Config.ADMIN_PASSWORD)
+            admin_doc = {
+                "email": Config.ADMIN_EMAIL.strip().lower(),
+                "password": hashed,
+                "name": "Dr. Usha Tyagi",
+                "createdAt": datetime.utcnow()
+            }
+            admins_col.insert_one(admin_doc)
+            
+        import re
+        admin = admins_col.find_one({"email": email_clean})
+        if not admin:
+            admin = admins_col.find_one({"email": {"$regex": f"^{re.escape(email_clean)}$", "$options": "i"}})
+            
         if not admin:
             raise HTTPException(status_code=401, detail="Invalid credentials")
             

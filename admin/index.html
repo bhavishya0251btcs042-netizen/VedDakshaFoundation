@@ -893,7 +893,7 @@ async function doLogin(){
     TOKEN=d.token||d.access_token;
     localStorage.setItem('vdf_token',TOKEN);
     showApp();
-  }catch(e){err.style.display='block'}
+  }catch(e){err.style.display='block';err.textContent=e.message||'Invalid credentials / अमान्य साख';}
 }
 function logout(){localStorage.removeItem('vdf_token');TOKEN='';document.getElementById('app').style.display='none';document.getElementById('login-screen').style.display='flex'}
 function authH(){return{'Content-Type':'application/json','Authorization':'Bearer '+TOKEN}}

@@ -102,6 +102,24 @@ def seed_database():
             print("[WARNING] Skipping seeding: database not connected.")
             return
 
+        # 0. Seed default admin user if missing
+        try:
+            admins_col = get_collection("admins")
+            if admins_col.count_documents({}) == 0:
+                print("Seeding default admin user...")
+                from app.utils import hash_password
+                hashed = hash_password(Config.ADMIN_PASSWORD)
+                admin_doc = {
+                    "email": Config.ADMIN_EMAIL.strip().lower(),
+                    "password": hashed,
+                    "name": "Dr. Usha Tyagi",
+                    "createdAt": datetime.utcnow()
+                }
+                admins_col.insert_one(admin_doc)
+                print(f"Default admin user created: {Config.ADMIN_EMAIL}")
+        except Exception as ae:
+            print(f"Admin seeding warning: {ae}")
+
         # 1. Seed connections
         conn_col = get_collection("connections")
         if conn_col.count_documents({}) == 0:  # seed default connections if none exist
