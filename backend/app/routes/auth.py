@@ -70,6 +70,12 @@ def login(data: AdminLogin):
     except HTTPException as he:
         raise he
     except Exception as e:
+        err_msg = str(e)
+        if "DNS query name does not exist" in err_msg or "ServerSelectionTimeoutError" in err_msg:
+            raise HTTPException(
+                status_code=503,
+                detail="MongoDB Atlas cluster is unreachable or paused. Please resume your cluster in MongoDB Atlas (cloud.mongodb.com) and check MONGODB_URI in Vercel Environment Variables."
+            )
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/change-password")

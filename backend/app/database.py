@@ -5,7 +5,7 @@ from app.config import Config
 client = None
 db = None
 
-ATLAS_URI = "mongodb+srv://vedakshafoundation720:Vxb6KOfx6vM0edxZ@cluster0.wk8i7ov.mongodb.net/?appName=Cluster0"
+ATLAS_URI = "mongodb+srv://kumarbhavishaya0_db_user:Y8E49VCMEMLf4VYg@cluster0.zl7pf18.mongodb.net/?appName=Cluster0"
 
 def init_db():
     global client, db

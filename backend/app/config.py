@@ -14,7 +14,7 @@ else:
 class Config:
     MONGODB_URI = os.getenv(
         "MONGODB_URI", 
-        "mongodb+srv://vedakshafoundation720:Vxb6KOfx6vM0edxZ@cluster0.wk8i7ov.mongodb.net/?appName=Cluster0"
+        "mongodb+srv://kumarbhavishaya0_db_user:Y8E49VCMEMLf4VYg@cluster0.zl7pf18.mongodb.net/?appName=Cluster0"
     )
     JWT_SECRET = os.getenv("JWT_SECRET", "ved_daksha_foundation_secret_jwt_token_key_2026_secure_sha256")
     ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "admin@veddakshafoundation.org")
