@@ -301,12 +301,36 @@ def seed_database():
             ]
             blogs_col.insert_many(default_blogs)
 
+        # 4. Seed events
+        events_col = get_collection("events")
+        if events_col.count_documents({}) == 0:
+            print("Seeding default events...")
+            default_events = [
+                {
+                    "title": "Annual Varshikotsav & Children Felicitation 2025",
+                    "titleHindi": "वार्षिक वार्षिकोत्सव एवं बाल सम्मान समारोह 2025",
+                    "description": "Celebrating the achievements of our underprivileged students with yoga performances, dance showcase, and distribution of educational supplies.",
+                    "descriptionHindi": "योग प्रदर्शन, नृत्य प्रदर्शन और शैक्षिक सामग्री के वितरण के साथ हमारे वंचित छात्रों की उपलब्धियों का जश्न।",
+                    "date": datetime(2025, 3, 25, 10, 0),
+                    "location": "Chiranjeev Vihar, Ghaziabad",
+                    "images": ["/images/1000179556.jpg.jpeg", "/images/1000087433.jpg.jpeg"],
+                    "isUpcoming": True,
+                    "createdAt": datetime.utcnow()
+                }
+            ]
+            events_col.insert_many(default_events)
+
     except Exception as e:
         print(f"[WARNING] Database seeding failed: {e}")
 
 @app.get("/api/health")
 def health_check():
     db_connected = check_db_connection()
+    if db_connected:
+        try:
+            seed_database()
+        except Exception:
+            pass
     return {
         "status": "ok" if db_connected else "degraded",
         "database": "connected" if db_connected else "disconnected",
