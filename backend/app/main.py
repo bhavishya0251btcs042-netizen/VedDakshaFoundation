@@ -72,24 +72,29 @@ BACKEND_DIR = os.path.dirname(os.path.dirname(__file__))
 UPLOAD_EVENTS_DIR = os.path.join(BACKEND_DIR, "uploads", "events")
 UPLOAD_BLOG_DIR = os.path.join(BACKEND_DIR, "uploads", "blog")
 IMAGES_DIR = os.path.join(os.path.dirname(BACKEND_DIR), "images")
-
-os.makedirs(UPLOAD_EVENTS_DIR, exist_ok=True)
-os.makedirs(UPLOAD_BLOG_DIR, exist_ok=True)
-os.makedirs(IMAGES_DIR, exist_ok=True)
 UPLOAD_RESUMES_DIR = os.path.join(BACKEND_DIR, "uploads", "resumes")
-os.makedirs(UPLOAD_RESUMES_DIR, exist_ok=True)
 UPLOAD_CONNECTIONS_DIR = os.path.join(BACKEND_DIR, "uploads", "connections")
-os.makedirs(UPLOAD_CONNECTIONS_DIR, exist_ok=True)
 UPLOAD_GALLERY_DIR = os.path.join(BACKEND_DIR, "uploads", "gallery")
-os.makedirs(UPLOAD_GALLERY_DIR, exist_ok=True)
+
+for _d in [UPLOAD_EVENTS_DIR, UPLOAD_BLOG_DIR, IMAGES_DIR, UPLOAD_RESUMES_DIR, UPLOAD_CONNECTIONS_DIR, UPLOAD_GALLERY_DIR]:
+    try:
+        os.makedirs(_d, exist_ok=True)
+    except OSError:
+        pass
 
 # ── Mount Static Folders ──
-app.mount("/uploads", StaticFiles(directory=IMAGES_DIR), name="uploads")
-app.mount("/event-images", StaticFiles(directory=UPLOAD_EVENTS_DIR), name="event-images")
-app.mount("/blog-images", StaticFiles(directory=UPLOAD_BLOG_DIR), name="blog-images")
-app.mount("/resumes", StaticFiles(directory=UPLOAD_RESUMES_DIR), name="resumes")
-app.mount("/connection-images", StaticFiles(directory=UPLOAD_CONNECTIONS_DIR), name="connection-images")
-app.mount("/gallery-images", StaticFiles(directory=UPLOAD_GALLERY_DIR), name="gallery-images")
+if os.path.isdir(IMAGES_DIR):
+    app.mount("/uploads", StaticFiles(directory=IMAGES_DIR), name="uploads")
+if os.path.isdir(UPLOAD_EVENTS_DIR):
+    app.mount("/event-images", StaticFiles(directory=UPLOAD_EVENTS_DIR), name="event-images")
+if os.path.isdir(UPLOAD_BLOG_DIR):
+    app.mount("/blog-images", StaticFiles(directory=UPLOAD_BLOG_DIR), name="blog-images")
+if os.path.isdir(UPLOAD_RESUMES_DIR):
+    app.mount("/resumes", StaticFiles(directory=UPLOAD_RESUMES_DIR), name="resumes")
+if os.path.isdir(UPLOAD_CONNECTIONS_DIR):
+    app.mount("/connection-images", StaticFiles(directory=UPLOAD_CONNECTIONS_DIR), name="connection-images")
+if os.path.isdir(UPLOAD_GALLERY_DIR):
+    app.mount("/gallery-images", StaticFiles(directory=UPLOAD_GALLERY_DIR), name="gallery-images")
 
 # ── Include Routers ──
 app.include_router(auth.router, prefix="/api")
@@ -328,8 +333,11 @@ def read_blog():
     return FileResponse(os.path.join(FRONTEND_DIR, "blog.html"))
 
 # Mount admin and images directories
-app.mount("/images", StaticFiles(directory=IMAGES_DIR), name="images")
-app.mount("/admin", StaticFiles(directory=os.path.join(FRONTEND_DIR, "admin"), html=True), name="admin")
+ADMIN_DIR = os.path.join(FRONTEND_DIR, "admin")
+if os.path.isdir(IMAGES_DIR):
+    app.mount("/images", StaticFiles(directory=IMAGES_DIR), name="images")
+if os.path.isdir(ADMIN_DIR):
+    app.mount("/admin", StaticFiles(directory=ADMIN_DIR, html=True), name="admin")
 
 from fastapi.responses import Response
 

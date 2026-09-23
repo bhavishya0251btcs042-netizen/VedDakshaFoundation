@@ -32,7 +32,8 @@ Thumbs.db
 db.sqlite3
 
 # Local Uploads/Temp Files
-backend/uploads/
+backend/uploads/*/*
+!backend/uploads/*/.gitkeep
 backend/app/uploads/
 *.log
 

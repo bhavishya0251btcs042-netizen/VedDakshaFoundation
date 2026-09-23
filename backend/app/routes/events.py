@@ -12,7 +12,10 @@ from app.middleware import get_current_admin
 router = APIRouter(prefix="/events", tags=["events"])
 
 UPLOAD_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "uploads", "events")
-os.makedirs(UPLOAD_DIR, exist_ok=True)
+try:
+    os.makedirs(UPLOAD_DIR, exist_ok=True)
+except OSError:
+    pass
 
 @router.get("")
 def get_events(upcoming: Optional[str] = None, limit: int = 20):
